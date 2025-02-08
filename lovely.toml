@@ -378,16 +378,12 @@ pattern = '''elseif self.ability.name == 'The Wheel of Fortune' then
 position = "after"
 payload = '''
     local spindas_upgrade = SMODS.find_card('j_poke_spinda')
-    print("SPINDAS - "..#spindas_upgrade.." = ",edition)
     for k,jkr in pairs(spindas_upgrade) do
         if edition.holo or edition == "e_holo" then
-            print("ADD HOLO TO SPINDA")
             jkr.ability.extra.mult_mod = jkr.ability.extra.mult_mod + jkr.ability.extra.mult
         elseif edition.foil or edition == "e_foil" then
-            print("ADD FOIL TO SPINDA")
             jkr.ability.extra.chips_mod = jkr.ability.extra.chips_mod + jkr.ability.extra.chips
         elseif edition.polychrome or edition == "e_polychrome" then
-            print("ADD POLYCHROME TO SPINDA")
             jkr.ability.extra.Xmult_mod = jkr.ability.extra.Xmult_mod + jkr.ability.extra.Xmult
         end
     end

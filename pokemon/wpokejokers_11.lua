@@ -175,7 +175,6 @@ local spinda = {
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
     info_queue[#info_queue+1] = {set = 'Other', key = 'holding', vars = {"Wheel of Fortune"}}
-    info_queue[#info_queue+1] = G.P_CENTERS.c_wheel_of_fortune
     return {vars = {center.ability.extra.chips,center.ability.extra.mult,center.ability.extra.Xmult,''..(G.GAME and G.GAME.probabilities.normal or 1),
                     center.ability.extra.chips_mod,center.ability.extra.mult_mod,center.ability.extra.Xmult_mod,}}
   end,
