@@ -1,7 +1,8 @@
 -- Animation logic stolen completely from https://github.com/MathIsFun0/Aura
 
 AnimatedPokemon = {
-   j_poke_ludicolo = { frames_per_row = 10, frames = 10, fps = 11.25 } --135 bpm = 2.25 beats per second / Two beats per frame cycle / 11.25 fps
+   j_poke_ludicolo = { frames_per_row = 10, frames = 10, fps = 11.25 }, --135 bpm = 2.25 beats per second / Two beats per frame cycle / 11.25 fps
+   j_poke_spinda = { frames_per_row = 12, frames = 36, fps = 10 },
 }
 AnimatedSingles = {}
 

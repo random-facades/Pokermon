@@ -168,10 +168,29 @@ local aggron = {
 -- Spoink 325
 -- Grumpig 326
 -- Spinda 327
+local spinda = {
+  name = "spinda", 
+  pos = {x = 0, y = 0},
+  config = {extra = {chips = 50, mult = 10, Xmult = 0.5, chips_mod = 0, mult_mod = 0, Xmult_mod = 1, chances = 4}},
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    return {vars = {center.ability.extra.chips,center.ability.extra.mult,center.ability.extra.Xmult,''..(G.GAME and G.GAME.probabilities.normal or 1),
+                    center.ability.extra.chips_mod,center.ability.extra.mult_mod,center.ability.extra.Xmult_mod,}}
+  end,
+  rarity = 2, 
+  cost = 10, 
+  stage = "Two", 
+  ptype = "Colorless",
+  atlas = "j_poke_spinda",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+  end,
+
+}
 -- Trapinch 328
 -- Vibrava 329
 -- Flygon 330
 return {
   name = "Pokemon Jokers 301-330",
-  list = {aron, lairon, aggron},
+  list = {aron, lairon, aggron, spinda},
 }
