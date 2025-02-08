@@ -2236,9 +2236,10 @@ return {
                 text = {
                     "{C:attention}Holding Wheel of Fortune{}",
                     "When {C:attention}Wheel of Fortune{} is successful,",
-                    "gain {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult, or {X:mult,C:white}X#3#{} Mult based on the result.",
-                    "When {C:attention}Wheel of Fortune{} fails, {C:green}#4# in 4{} chance to get another one.",
-                    "{C:inactive}(Currently {X:mult,C:white}X#1#{}{C:inactive} Mult)"
+                    "gain {C:chips}+#1#{} Chips, {C:mult}+#2#{} Mult, or {X:mult,C:white}X#3#{} Mult",
+                    "When {C:attention}Wheel of Fortune{} fails,",
+                    "{C:green}#4# in 4{} chance to create a copy",
+                    "{C:inactive}(Currently {C:chips}+#5#{}, {C:mult}+#6#{}, {X:red,C:white}X#7#{}{C:inactive})"
                 }
             },
             j_poke_feebas = {

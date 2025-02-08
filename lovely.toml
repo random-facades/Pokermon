@@ -320,4 +320,76 @@ end
 '''
 match_indent = true
 
+# Spinda Wheel of Fortune Reset Pt 1
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or pseudorandom('wheel_of_fortune') < G.GAME.probabilities.normal/self.ability.extra then"
+position = "at"
+payload = '''
+-- Capture failed Wheel of Fortune
+local wheel_fails = self.ability.name == 'The Wheel of Fortune' and pseudorandom('wheel_of_fortune') >= G.GAME.probabilities.normal/self.ability.extra
+local spindas = SMODS.find_card('j_poke_spinda')
+if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or not wheel_fails then
+'''
+match_indent = true
+overwrite = true
 
+# Spinda Wheel of Fortune Reset Pt 2
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+        used_tarot:juice_up(0.3, 0.5)
+    return true end }))
+end
+delay(0.6)
+'''
+position = "after"
+payload = '''
+        if spindas and #spindas > 0 and wheel_fails then
+            for _, jkr in pairs(spindas) do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                  if pseudorandom('spinda') < G.GAME.probabilities.normal/jkr.ability.extra.chances then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+                      local _card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, 'c_wheel_of_fortune')
+                      _card:add_to_deck()
+                      G.consumeables:emplace(_card)
+                      G.GAME.consumeable_buffer = math.max(0, G.GAME.consumeable_buffer - 1)
+                      card_eval_status_text(_card, 'extra', nil, nil, nil, {message = localize('k_again_ex'), colour = G.C.PURPLE})
+                      jkr:juice_up(0.1)
+                      return true end }))
+                  else
+                      card_eval_status_text(jkr, 'extra', nil, nil, nil, {message = localize('k_nope_ex'), colour = G.C.PURPLE})
+                  end
+                end
+            end
+        end
+'''
+match_indent = false
+
+# Spinda Wheel of Fortune Trigger
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''elseif self.ability.name == 'The Wheel of Fortune' then
+    edition = poll_edition('wheel_of_fortune', nil, true, true)'''
+position = "after"
+payload = '''
+    local spindas_upgrade = SMODS.find_card('j_poke_spinda')
+    print("SPINDAS - "..#spindas_upgrade.." = ",edition)
+    for k,jkr in pairs(spindas_upgrade) do
+        if edition.holo or edition == "e_holo" then
+            print("ADD HOLO TO SPINDA")
+            jkr.ability.extra.mult_mod = jkr.ability.extra.mult_mod + jkr.ability.extra.mult
+        elseif edition.foil or edition == "e_foil" then
+            print("ADD FOIL TO SPINDA")
+            jkr.ability.extra.chips_mod = jkr.ability.extra.chips_mod + jkr.ability.extra.chips
+        elseif edition.polychrome or edition == "e_polychrome" then
+            print("ADD POLYCHROME TO SPINDA")
+            jkr.ability.extra.Xmult_mod = jkr.ability.extra.Xmult_mod + jkr.ability.extra.Xmult
+        end
+    end
+'''
+match_indent = true

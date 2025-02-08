@@ -174,6 +174,8 @@ local spinda = {
   config = {extra = {chips = 50, mult = 10, Xmult = 0.5, chips_mod = 0, mult_mod = 0, Xmult_mod = 1, chances = 4}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'holding', vars = {"Wheel of Fortune"}}
+    info_queue[#info_queue+1] = G.P_CENTERS.c_wheel_of_fortune
     return {vars = {center.ability.extra.chips,center.ability.extra.mult,center.ability.extra.Xmult,''..(G.GAME and G.GAME.probabilities.normal or 1),
                     center.ability.extra.chips_mod,center.ability.extra.mult_mod,center.ability.extra.Xmult_mod,}}
   end,
@@ -184,8 +186,27 @@ local spinda = {
   atlas = "j_poke_spinda",
   blueprint_compat = true,
   calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main then
+        return {
+          message = "Whee!",
+          colour = G.C.BLACK,
+          mult_mod = card.ability.extra.mult_mod,
+          chip_mod = card.ability.extra.chips_mod,
+          Xmult_mod = card.ability.extra.Xmult_mod
+        }
+      end
+    end
   end,
-
+  add_to_deck = function(self, card, from_debuff)
+    if not from_debuff and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+      local _card = create_card('Item', G.consumeables, nil, nil, nil, nil, 'c_wheel_of_fortune')
+      _card:add_to_deck()
+      G.consumeables:emplace(_card)
+      card_eval_status_text(_card, 'extra', nil, nil, nil, {message = localize('poke_plus_pokeitem'), colour = G.C.FILTER})
+      return true
+    end
+  end,
 }
 -- Trapinch 328
 -- Vibrava 329
