@@ -382,7 +382,7 @@ payload = '''
         if edition.holo or edition == "e_holo" then
             jkr.ability.extra.mult_mod = jkr.ability.extra.mult_mod + jkr.ability.extra.mult
         elseif edition.foil or edition == "e_foil" then
-            jkr.ability.extra.chips_mod = jkr.ability.extra.chips_mod + jkr.ability.extra.chips
+            jkr.ability.extra.chip_mod = jkr.ability.extra.chip_mod + jkr.ability.extra.chips
         elseif edition.polychrome or edition == "e_polychrome" then
             jkr.ability.extra.Xmult_mod = jkr.ability.extra.Xmult_mod + jkr.ability.extra.Xmult
         end

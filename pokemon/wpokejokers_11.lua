@@ -171,12 +171,12 @@ local aggron = {
 local spinda = {
   name = "spinda", 
   pos = {x = 0, y = 0},
-  config = {extra = {chips = 50, mult = 10, Xmult = 0.5, chips_mod = 0, mult_mod = 0, Xmult_mod = 1, chances = 4}},
+  config = {extra = {chips = 50, mult = 10, Xmult = 0.5, chip_mod = 0, mult_mod = 0, Xmult_mod = 0, chances = 4}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
     info_queue[#info_queue+1] = {set = 'Other', key = 'holding', vars = {"Wheel of Fortune"}}
     return {vars = {center.ability.extra.chips,center.ability.extra.mult,center.ability.extra.Xmult,''..(G.GAME and G.GAME.probabilities.normal or 1),
-                    center.ability.extra.chips_mod,center.ability.extra.mult_mod,center.ability.extra.Xmult_mod,}}
+                    center.ability.extra.chip_mod,center.ability.extra.mult_mod,1+center.ability.extra.Xmult_mod,}}
   end,
   rarity = 2, 
   cost = 10, 
@@ -191,8 +191,8 @@ local spinda = {
           message = "Whee!",
           colour = G.C.BLACK,
           mult_mod = card.ability.extra.mult_mod,
-          chip_mod = card.ability.extra.chips_mod,
-          Xmult_mod = card.ability.extra.Xmult_mod
+          chip_mod = card.ability.extra.chip_mod,
+          Xmult_mod = 1+card.ability.extra.Xmult_mod
         }
       end
     end
