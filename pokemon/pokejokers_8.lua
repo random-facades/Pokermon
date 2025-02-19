@@ -265,7 +265,7 @@ local porygon2={
   end,
   rarity = "poke_safari", 
   cost = 8, 
-  item_req = "dubious_disc",
+  evo_list = {dubious_disc = "j_poke_porygonz"},
   joblacklist = true,
   stage = "One",
   ptype = "Colorless",
@@ -288,7 +288,6 @@ local porygon2={
           end)}))
       card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("poke_plus_energy"), colour = G.ARGS.LOC_COLOURS["pink"]})
     end
-    return item_evo(self, card, context, "j_poke_porygonz")
   end,
   add_to_deck = function(self, card, from_debuff)
     if not from_debuff then

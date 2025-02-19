@@ -96,7 +96,7 @@ local haunter={
   end,
   rarity = 3, 
   cost = 9,
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_gengar"},
   stage = "One", 
   ptype = "Psychic",
   atlas = "Pokedex1",
@@ -133,9 +133,6 @@ local haunter={
           message = localize("poke_lick_ex")
         }
       end
-    end
-    if not card.gone then
-      return item_evo(self, card, context, "j_poke_gengar")
     end
   end
 }
@@ -506,7 +503,7 @@ local exeggcute={
   end,
   rarity = 1, 
   cost = 4,
-  item_req = "leafstone",
+  evo_list = {leafstone = "j_poke_exeggutor"},
   stage = "Basic", 
   ptype = "Grass",
   atlas = "Pokedex1",
@@ -520,7 +517,6 @@ local exeggcute={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_exeggutor")
   end
 }
 local exeggutor={
@@ -841,7 +837,7 @@ local rhydon={
   rarity = "poke_safari", 
   cost = 8,
   enhancement_gate = 'm_stone',
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_rhyperior"},
   stage = "One", 
   ptype = "Earth",
   atlas = "Pokedex1",
@@ -876,7 +872,6 @@ local rhydon={
         end
       end
     end
-    return item_evo(self, card, context, "j_poke_rhyperior")
   end
 }
 local chansey={
@@ -1216,7 +1211,7 @@ local staryu={
   end,
   rarity = 1, 
   cost = 4,
-  item_req = "waterstone",
+  evo_list = {waterstone = "j_poke_starmie"},
   stage = "Basic",
   ptype = "Water",
   atlas = "Pokedex1", 
@@ -1232,7 +1227,6 @@ local staryu={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_starmie")
   end
 }
 

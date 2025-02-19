@@ -149,7 +149,7 @@ local electabuzz={
   end,
   rarity = 2, 
   cost = 7, 
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_electivire"},
   stage = "Basic",
   ptype = "Lightning",
   atlas = "Pokedex1",
@@ -162,7 +162,6 @@ local electabuzz={
         func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_val_up')}); return true
         end}))
     end
-    return item_evo(self, card, context, "j_poke_electivire")
   end
 }
 local magmar={
@@ -176,7 +175,7 @@ local magmar={
   end,
   rarity = 2, 
   cost = 7, 
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_magmortar"},
   stage = "Basic", 
   ptype = "Fire",
   atlas = "Pokedex1",
@@ -206,7 +205,6 @@ local magmar={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_magmortar")
   end
 }
 local pinsir={
@@ -537,7 +535,6 @@ local eevee={
   end,
   rarity = 2, 
   cost = 4,
-  item_req = {"waterstone", "thunderstone", "firestone", "sunstone", "moonstone", "leafstone", "icestone", "shinystone"},
   evo_list = {waterstone = "j_poke_vaporeon", thunderstone = "j_poke_jolteon", firestone = "j_poke_flareon", sunstone = "j_poke_espeon", moonstone = "j_poke_umbreon", 
               leafstone = "j_poke_leafeon", icestone = "j_poke_glaceon", shinystone = "j_poke_sylveon"},
   stage = "Basic",
@@ -556,7 +553,6 @@ local eevee={
     if context.ending_shop and not context.blueprint then
       card.ability.extra.limit = 0
     end
-    return item_evo(self, card, context, nil)
   end
 }
 local vaporeon={
@@ -685,7 +681,7 @@ local porygon={
   end,
   rarity = 2, 
   cost = 6, 
-  item_req = "upgrade",
+  evo_list = {upgrade = "j_poke_porygon2"},
   joblacklist = true,
   stage = "Basic",
   ptype = "Colorless",
@@ -707,7 +703,6 @@ local porygon={
           end)}))
       card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("poke_plus_energy"), colour = G.ARGS.LOC_COLOURS["pink"]})
     end
-    return item_evo(self, card, context, "j_poke_porygon2")
   end,
   add_to_deck = function(self, card, from_debuff)
     if not from_debuff then

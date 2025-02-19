@@ -52,7 +52,7 @@ local charjabug={
   pos = {x = 1, y = 1}, 
   rarity = 2, 
   cost = 5, 
-  item_req = "thunderstone",
+  evo_list = {thunderstone = "j_poke_vikavolt"},
   stage = "One", 
   ptype = "Lightning",
   atlas = "Pokedex7",
@@ -75,7 +75,6 @@ local charjabug={
         end
       end
     end
-    return item_evo(self, card, context, "j_poke_vikavolt")
   end,
 }
 -- Vikavolt 738

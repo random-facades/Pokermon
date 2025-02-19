@@ -28,7 +28,7 @@ local feebas={
   end,
   rarity = 3, 
   cost = 3, 
-  item_req = "prismscale",
+  evo_list = {prismscale = "j_poke_milotic"},
   stage = "Basic", 
   ptype = "Water",
   atlas = "Pokedex3",
@@ -43,7 +43,6 @@ local feebas={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_milotic")
   end
 }
 -- Milotic 350

@@ -9,7 +9,7 @@ local snorunt={
   end,
   rarity = 1,
   cost = 4,
-  item_req = "dawnstone",
+  evo_list = {dawnstone = "j_poke_froslass"},
   stage = "Basic",
   ptype = "Water",
   atlas = "Pokedex3",
@@ -17,19 +17,14 @@ local snorunt={
   blueprint_compat = true,
   eternal_compat = true,
   calculate = function(self, card, context)
-    local evolve = item_evo(self, card, context, "j_poke_froslass")
-    if evolve then
-      return evolve
+    local in_debt = nil
+    if (SMODS.Mods["Talisman"] or {}).can_load then
+      in_debt = to_big(G.GAME.dollars) < to_big(0)
     else
-      local in_debt = nil
-      if (SMODS.Mods["Talisman"] or {}).can_load then
-        in_debt = to_big(G.GAME.dollars) < to_big(0)
-      else
-        in_debt = G.GAME.dollars < 0
-      end
-      if in_debt then
-        return level_evo(self, card, context, "j_poke_glalie")
-      end
+      in_debt = G.GAME.dollars < 0
+    end
+    if in_debt then
+      return level_evo(self, card, context, "j_poke_glalie")
     end
   end,
   add_to_deck = function(self, card, from_debuff)

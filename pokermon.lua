@@ -107,34 +107,19 @@ for _, file in ipairs(pfiles) do
               return pokemon_in_pool(self)
             end
           end
-          if not item.config then
-            item.config = {}
-          end
+          item.config = item.config or {}
+          item.config.extra = item.config.extra or {}
+
           if item.ptype then
-            if item.config and item.config.extra then
-              item.config.extra.ptype = item.ptype
-            elseif item.config then
-              item.config.extra = {ptype = item.ptype}
-            end
-          end
-          if item.item_req then
-            if item.config and item.config.extra then
-              item.config.extra.item_req = item.item_req
-            elseif item.config then
-              item.config.extra = {item_req = item.item_req}
-            end
+            item.config.extra.ptype = item.ptype
           end
           if item.evo_list then
-            if item.config and item.config.extra then
-              item.config.extra.evo_list = item.evo_list
-            elseif item.config then
-              item.config.extra = {item_req = item.evo_list}
-            end
+            item.config.extra.evo_list = item.evo_list
           end
           if pokermon_config.jokers_only and item.rarity == "poke_safari" then
             item.rarity = 3
           end
-          item.discovered = not pokermon_config.pokemon_discovery 
+          item.discovered = not pokermon_config.pokemon_discovery
           SMODS.Joker(item)
         end
       end

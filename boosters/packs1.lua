@@ -22,32 +22,21 @@ local create_item = function(self, card)
   if evo_item_chance > .92 then
     local evo_item_keys = {}
     for k, v in pairs(G.jokers.cards) do
-      if v.config.center.item_req then
-        if type(v.config.center.item_req) == "table" then
-          item_key = "c_poke_"..pseudorandom_element(v.config.center.item_req, pseudoseed('match'))
-          if not next(SMODS.find_card(item_key)) then
-            local already_created = nil
-            for k, v in pairs(self.config.c_keys) do
-              if v == item_key then
-                already_created = true
-              end
-            end
-            if not already_created then
-              table.insert(evo_item_keys, item_key)
+      if type(v.config.center.evo_list) == "table" then
+        local evo_item_list = {}
+        for item, evo in pairs(v.config.center.evo_list) do
+          table.insert(evo_item_list, item)
+        end
+        item_key = "c_poke_"..pseudorandom_element(evo_item_list, pseudoseed('match'))
+        if not next(SMODS.find_card(item_key)) then
+          local already_created = nil
+          for k, v in pairs(self.config.c_keys) do
+            if v == item_key then
+              already_created = true
             end
           end
-        else
-          item_key = "c_poke_"..v.config.center.item_req
-          if not next(SMODS.find_card(item_key)) then
-            local already_created = nil
-            for k, v in pairs(self.config.c_keys) do
-              if v == item_key then
-                already_created = true
-              end
-            end
-            if not already_created then
-              table.insert(evo_item_keys, item_key)
-            end
+          if not already_created then
+            table.insert(evo_item_keys, item_key)
           end
         end
       end

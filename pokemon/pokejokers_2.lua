@@ -94,7 +94,7 @@ local nidorino={
   rarity = 2, 
   cost = 7, 
   stage = "One", 
-  item_req = "moonstone",
+  evo_list = {moonstone = "j_poke_nidoking"},
   ptype = "Dark",
   atlas = "Pokedex1",
   blueprint_compat = true,
@@ -113,7 +113,6 @@ local nidorino={
           }
       end
     end
-    return item_evo(self, card, context, "j_poke_nidoking")
   end
 }
 local nidoking={
@@ -164,7 +163,7 @@ local clefairy={
   end,
   rarity = 1, 
   cost = 4, 
-  item_req = "moonstone",
+  evo_list = {moonstone = "j_poke_clefable"},
   stage = "Basic", 
   ptype = "Fairy",
   atlas = "Pokedex1",
@@ -178,7 +177,6 @@ local clefairy={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_clefable")
   end
 }
 local clefable={
@@ -227,7 +225,7 @@ local vulpix={
   config = {extra = {odds = 4}},
   rarity = 1, 
   cost = 6, 
-  item_req = "firestone",
+  evo_list = {firestone = "j_poke_ninetales"},
   stage = "Basic", 
   atlas = "Pokedex1",
   ptype = "Fire",
@@ -248,7 +246,6 @@ local vulpix={
         end
       end 
     end
-    return item_evo(self, card, context, "j_poke_ninetales")
   end
 }
 local ninetales={
@@ -328,7 +325,7 @@ local jigglypuff={
   end,
   rarity = 1, 
   cost = 4, 
-  item_req = "moonstone",
+  evo_list = {moonstone = "j_poke_wigglytuff"},
   stage = "Basic", 
   ptype = "Fairy",
   atlas = "Pokedex1",
@@ -342,7 +339,6 @@ local jigglypuff={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_wigglytuff")
   end
 }
 local wigglytuff={
@@ -545,7 +541,6 @@ local gloom={
   end,
   rarity = 2, 
   cost = 6,
-  item_req = {"leafstone", "sunstone"},
   evo_list = {leafstone = "j_poke_vileplume", sunstone = "j_poke_bellossom"},
   stage = "One", 
   ptype = "Grass",
@@ -570,7 +565,6 @@ local gloom={
           }
       end
     end
-    return item_evo(self, card, context)
   end
 }
 local vileplume={
@@ -1017,7 +1011,7 @@ local growlithe={
   end,
   rarity = 1, 
   cost = 5, 
-  item_req = "firestone",
+  evo_list = {firestone = "j_poke_arcanine"},
   stage = "Basic", 
   ptype = "Fire",
   atlas = "Pokedex1",
@@ -1032,7 +1026,6 @@ local growlithe={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_arcanine")
   end,
 }
 local arcanine={

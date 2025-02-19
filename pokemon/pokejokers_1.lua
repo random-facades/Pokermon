@@ -1122,7 +1122,7 @@ local pikachu={
   end,
   rarity = 2, 
   cost = 6,
-  item_req = "thunderstone",
+  evo_list = {thunderstone = "j_poke_raichu"},
   stage = "Basic", 
   ptype = "Lightning",
   atlas = "Pokedex1",
@@ -1130,9 +1130,6 @@ local pikachu={
   calc_dollar_bonus = function(self, card)
     return ease_poke_dollars(card, "pikachu", math.min(10, #G.jokers.cards * card.ability.extra.money), true) 
 	end,
-  calculate = function(self, card, context)
-    return item_evo(self, card, context, "j_poke_raichu")
-  end
 }
 local raichu={
   name = "raichu", 
@@ -1376,7 +1373,7 @@ local nidorina={
   rarity = 2, 
   cost = 7, 
   stage = "One",
-  item_req = "moonstone",
+  evo_list = {moonstone = "j_poke_nidoqueen"},
   ptype = "Dark",
   atlas = "Pokedex1",
   blueprint_compat = true,
@@ -1409,7 +1406,6 @@ local nidorina={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_nidoqueen")
   end
 }
 

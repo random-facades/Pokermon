@@ -225,7 +225,7 @@ local lampent={
   end,
   rarity = 3,
   cost = 8,
-  item_req = "duskstone",
+  evo_list = {duskstone = "j_poke_chandelure"},
   stage = "One",
   ptype = "Fire",
   atlas = "Pokedex5",
@@ -250,7 +250,6 @@ local lampent={
         end
       end
     end
-    return item_evo(self, card, context, "j_poke_chandelure")
   end
 }
 -- Chandelure 609

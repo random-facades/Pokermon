@@ -13,7 +13,6 @@ local poliwhirl={
   end,
   rarity = 2, 
   cost = 7, 
-  item_req = {"waterstone", "kingsrock"},
   evo_list = {waterstone = "j_poke_poliwrath", kingsrock = "j_poke_politoed"},
   stage = "One", 
   ptype = "Water",
@@ -47,7 +46,6 @@ local poliwhirl={
         end
       end
     end
-    return item_evo(self, card, context)
   end,
 }
 local poliwrath={
@@ -142,7 +140,7 @@ local kadabra={
   end,
   rarity = 3, 
   cost = 8, 
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_alakazam"},
   stage = "One", 
   ptype = "Psychic",
   atlas = "Pokedex1",
@@ -165,7 +163,6 @@ local kadabra={
         end
       end
     end
-    return item_evo(self, card, context, "j_poke_alakazam")
   end,
 }
 local alakazam={
@@ -312,7 +309,7 @@ local machoke={
   end,
   rarity = 3, 
   cost = 8,
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_machamp"},
   stage = "One", 
   ptype = "Fighting",
   atlas = "Pokedex1",
@@ -327,7 +324,6 @@ local machoke={
         }
       end
     end
-    return item_evo(self, card, context, "j_poke_machamp")
   end,
   add_to_deck = function(self, card, from_debuff)
     if not from_debuff then
@@ -439,7 +435,7 @@ local weepinbell={
   end,
   rarity = 2, 
   cost = 7, 
-  item_req = "leafstone",
+  evo_list = {leafstone = "j_poke_victreebel"},
   stage = "One", 
   ptype = "Grass",
   atlas = "Pokedex1",
@@ -459,7 +455,6 @@ local weepinbell={
           }
       end
     end
-    return item_evo(self, card, context, "j_poke_victreebel")
   end
 }
 local victreebel={
@@ -606,7 +601,7 @@ local graveler={
   end,
   rarity = 3, 
   cost = 8, 
-  item_req = "linkcable",
+  evo_list = {linkcable = "j_poke_golem"},
   stage = "One", 
   ptype = "Earth",
   atlas = "Pokedex1",
@@ -620,11 +615,6 @@ local graveler={
           chip_mod = card.ability.extra.chips
         }
       end
-    end
-    if not context.repetition and not context.individual and context.end_of_round and card.ability.extra.evolve then
-      return {
-        message = evolve (self, card, context, 'j_poke_golem')
-      }
     end
   end,
   add_to_deck = function(self, card, from_debuff)
@@ -748,7 +738,7 @@ local slowpoke={
   end,
   rarity = 2, 
   cost = 6,
-  item_req = "kingsrock",
+  evo_list = {kingsrock = "j_poke_slowking"},
   stage = "Basic", 
   ptype = "Water",
   atlas = "Pokedex1", 
@@ -766,11 +756,7 @@ local slowpoke={
         }
       end
     end
-    local evo = item_evo(self, card, context, "j_poke_slowking")
-    if not evo then
-      evo = scaling_evo(self, card, context, "j_poke_slowbro", card.ability.extra.last_counter, card.ability.extra.last_goal)
-    end
-    return evo
+    return scaling_evo(self, card, context, "j_poke_slowbro", card.ability.extra.last_counter, card.ability.extra.last_goal)
   end
 }
 local slowpoke2={
@@ -784,7 +770,7 @@ local slowpoke2={
   end,
   rarity = 1, 
   cost = 6, 
-  item_req = "kingsrock",
+  evo_list = {kingsrock = "j_poke_slowking"},
   stage = "Basic", 
   ptype = "Water",
   atlas = "Pokedex1", 
@@ -806,11 +792,7 @@ local slowpoke2={
         G.consumeables:emplace(_card)
       end
     end
-    local evo = item_evo(self, card, context, "j_poke_slowking")
-    if not evo then
-      evo = level_evo(self, card, context, "j_poke_slowbro")
-    end
-    return evo
+    return level_evo(self, card, context, "j_poke_slowbro")
   end
 }
 local slowbro={
@@ -935,11 +917,11 @@ local magneton={
   end,
   rarity = "poke_safari", 
   cost = 8, 
+  evo_list = {thunderstone = "j_poke_magnezone"},
   enhancement_gate = 'm_steel',
   stage = "One", 
   ptype = "Lightning",
   atlas = "Pokedex1",
-  item_req = "thunderstone",
   blueprint_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.play and context.individual and not context.other_card.debuff and not context.end_of_round and
@@ -956,7 +938,6 @@ local magneton={
           x_mult = card.ability.extra.Xmult_multi + (adjacent * card.ability.extra.Xmult_multi2)
         }
     end
-    return item_evo(self, card, context, "j_poke_magnezone")
   end
 }
 local farfetchd={
@@ -1240,7 +1221,7 @@ local shellder={
   end,
   rarity = 2, 
   cost = 5, 
-  item_req = "waterstone",
+  evo_list = {waterstone = "j_poke_cloyster"},
   stage = "Basic",
   ptype = "Water",
   atlas = "Pokedex1",
@@ -1257,7 +1238,6 @@ local shellder={
         end
       end
     end
-    return item_evo(self, card, context, "j_poke_cloyster")
   end,
 }
 

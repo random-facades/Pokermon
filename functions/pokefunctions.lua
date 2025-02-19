@@ -409,16 +409,7 @@ level_evo = function(self, card, context, forced_key)
 end
 
 item_evo = function(self, card, context, forced_key)
-    if (card.ability.extra.evolve and ((card.ability.extra.evolve == true) or type(card.ability.extra.evolve) == "string")) then
-      if type(card.ability.extra.evolve) == "string" then
-        forced_key = card.ability.extra.evo_list[card.ability.extra.evolve]
-      end
-      if forced_key and can_evolve(self, card, context, forced_key) then
-        return {
-          message = evolve (self, card, context, forced_key)
-        }
-      end
-    end
+  print("ERROR - DEPRECATED - REVIEW POKEMON = "..card.ability.name.." / "..tostring(forced_key))
 end
 
 scaling_evo = function (self, card, context, forced_key, current, target)
@@ -643,80 +634,51 @@ pokemon_in_pool = function (self)
 end
 
 evo_item_use = function(self, card, area, copier)
-    local applied = false
-    local evolve = false
-    for k, v in pairs(G.jokers.cards) do
-      if applied ~= true then
-        if v.ability and v.ability.extra and type(v.ability.extra) == "table" and type(v.ability.extra.item_req) ~= "table" and v.ability.extra.item_req == self.name and not v.ability.extra.evolve then
-          evolve = true
-        elseif v.ability and v.ability.extra and type(v.ability.extra) == "table" and type(v.ability.extra.item_req) == "table" and not v.ability.extra.evolve then
-          for l, p in pairs(v.ability.extra.item_req) do
-            if p == self.name then
-              evolve = p
-            end
-          end
-        end
-        
-        if evolve then
-          v.ability.extra.evolve = evolve
-          applied = true
-          local eval = function(v) return not v.REMOVED end
-          juice_card_until(v, eval, true)
-        end
-      end
+  for k, v in pairs(G.jokers.cards) do
+    if pokermon_evolves_from_item(v, self.name) then
+      local evo_target = v.ability.extra.evo_list[self.name]
+      evolve(v, v, {}, evo_target)
+      return true
     end
-    return evolve
+  end
+  return false
 end
 
 highlighted_evo_item = function(self, card, area, copier)
-    local evolve = false
-    if not G.jokers.highlighted or #G.jokers.highlighted ~= 1 then return false end
-    local choice = G.jokers.highlighted[1]
-    if choice.ability and choice.ability.extra and type(choice.ability.extra) == "table" and type(choice.ability.extra.item_req) ~= "table" and choice.ability.extra.item_req == self.name and 
-       not choice.ability.extra.evolve then
-      evolve = true
-    elseif choice.ability and choice.ability.extra and type(choice.ability.extra) == "table" and type(choice.ability.extra.item_req) == "table" and not choice.ability.extra.evolve then
-      for l, p in pairs(choice.ability.extra.item_req) do
-        if p == self.name then
-          evolve = p
-        end
-      end
-    end
-    
-    if evolve then
-      choice.ability.extra.evolve = evolve
-      local eval = function(choice) return not choice.REMOVED end
-      juice_card_until(choice, eval, true)
-    end
-    return evolve
+  if not G.jokers.highlighted or #G.jokers.highlighted ~= 1 then return false end
+  local choice = G.jokers.highlighted[1]
+  if pokermon_evolves_from_item(choice, self.name) then
+    -- do the evolution
+    local evo_target = choice.ability.extra.evo_list[self.name]
+    evolve(choice, choice, {}, evo_target)
+    return true
+  end
+  return false
 end
 
 evo_item_use_total = function(self, card, area, copier)
-    local evolve = nil
-    if G.jokers.highlighted and #G.jokers.highlighted == 1 then
-      evolve = highlighted_evo_item(self, card, area, copier)
-    end
-    if not evolve then
-      evolve = evo_item_use(self, card, area, copier)
-    end
-    return evolve
+  local evolve = false
+  if G.jokers.highlighted and #G.jokers.highlighted == 1 then
+    evolve = highlighted_evo_item(self, card, area, copier)
+  end
+  if not evolve then
+    evo_item_use(self, card, area, copier)
+  end
 end
 
 evo_item_in_pool = function(self)
-    if G.jokers then
-      for k, v in pairs(G.jokers.cards) do
-        if v.ability and v.ability.extra and type(v.ability.extra) == "table" and type(v.ability.extra.item_req) ~= "table" and v.ability.extra.item_req == self.name then
-          return true
-        elseif v.ability and v.ability.extra and type(v.ability.extra) == "table" and type(v.ability.item_req) == "table" then
-          for l, p in pairs(v.ability.extra.item_req) do
-            if p == self.name then
-              return true
-            end
-          end
-        end
+  if G.jokers then
+    for k, v in pairs(G.jokers.cards) do
+      if pokermon_evolves_from_item(v, self.name) then
+        return true
       end
     end
-    return false
+  end
+  return false
+end
+
+function pokermon_evolves_from_item(card, item)
+  return type(card) == "table" and type(card.ability) == "table" and type(card.ability.extra) == "table" and type(card.ability.extra.evo_list) == "table" and card.ability.extra.evo_list[item]
 end
 
 type_tooltip = function(self, info_queue, center)
