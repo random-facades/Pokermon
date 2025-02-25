@@ -169,17 +169,26 @@ local oran_berry = {
    key = 'oran_berry',
    set = 'Berry',
    pos = { x = 6, y = 0 },
-   config = {max_highlighted = 1},
+   config = {energy_gain = 1},
    loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.energy_gain}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if can_increase_energy(joker) then
+           return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      for _, joker in pairs(G.jokers.cards) do
+         energy_increase(joker, joker.ability.extra.ptype)
+      end
    end
 }
 
@@ -189,17 +198,33 @@ local persim_berry = {
    key = 'persim_berry',
    set = 'Berry',
    pos = { x = 7, y = 0 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Bland'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 
@@ -229,17 +254,30 @@ local sitrus_berry = {
    key = 'sitrus_berry',
    set = 'Berry',
    pos = { x = 9, y = 0 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 4},
    loc_vars = function(self, info_queue, card)
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {'all', self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if can_increase_energy(joker) then
+           return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         for i = 1, energy_gain do
+            energy_increase(joker, joker.ability.extra.ptype)
+         end
+      end
    end
 }
 
@@ -249,17 +287,33 @@ local figy_berry = {
    key = 'figy_berry',
    set = 'Berry',
    pos = { x = 0, y = 1 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Spicy'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 
@@ -269,17 +323,33 @@ local wiki_berry = {
    key = 'wiki_berry',
    set = 'Berry',
    pos = { x = 1, y = 1 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Dry'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 
@@ -289,17 +359,33 @@ local mago_berry = {
    key = 'mago_berry',
    set = 'Berry',
    pos = { x = 2, y = 1 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Sweet'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 
@@ -309,17 +395,33 @@ local aguav_berry = {
    key = 'aguav_berry',
    set = 'Berry',
    pos = { x = 3, y = 1 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Bitter'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 
@@ -329,17 +431,33 @@ local iapapa_berry = {
    key = 'iapapa_berry',
    set = 'Berry',
    pos = { x = 4, y = 1 },
-   config = {max_highlighted = 1},
+   config = {energy_ratio = 2, flavor_filter = 'Sour'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = 'Other', key = self.config.flavor_filter:lower()}
+      local nrg_limit = (energy_max or 3) + (G.GAME.energy_plus or 0)
+      return {vars = {self.config.flavor_filter, self.config.energy_ratio, math.max(1, math.floor(nrg_limit / self.config.energy_ratio))}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) and can_increase_energy(joker) then
+            return true
+         end
+      end
+      return false
    end,
    use = function(self, card, area, copier)
+      local energy_gain = math.max(1, math.floor(((energy_max or 3) + (G.GAME.energy_plus or 0)) / self.config.energy_ratio))
+      for _, joker in pairs(G.jokers.cards) do
+         if is_flavor_type(joker, self.config.flavor_filter) then
+            for i = 1, energy_gain do
+               energy_increase(joker, joker.ability.extra.ptype)
+            end
+         end
+      end
    end
 }
 

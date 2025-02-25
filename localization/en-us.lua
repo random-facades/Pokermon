@@ -466,13 +466,14 @@ return {
             c_poke_oran_berry = {
                 name = 'Oran Berry',
                 text = {
-                    "Oran Berry does stuff",
+                    "Give {C:attention}+#1# {C:pink}Energy{} to all Jokers",
                 }
             },
             c_poke_persim_berry = {
                 name = 'Persim Berry',
                 text = {
-                    "Persim Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_lum_berry = {
@@ -484,37 +485,43 @@ return {
             c_poke_sitrus_berry = {
                 name = 'Sitrus Berry',
                 text = {
-                    "Sitrus Berry does stuff",
+                    "Give {C:pink}Energy{} to all Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_figy_berry = {
                 name = 'Figy Berry',
                 text = {
-                    "Figy Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_wiki_berry = {
                 name = 'Wiki Berry',
                 text = {
-                    "Wiki Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_mago_berry = {
                 name = 'Mago Berry',
                 text = {
-                    "Mago Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_aguav_berry = {
                 name = 'Aguav Berry',
                 text = {
-                    "Aguav Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_iapapa_berry = {
                 name = 'Iapapa Berry',
                 text = {
-                    "Iapapa Berry does stuff",
+                    "Give {C:pink}Energy{} to all {C:attention}#1#{} Jokers",
+                    "equal to {C:attention}1 / #2# {C:pink}Energy Limit {C:inactive}[#3#]",
                 }
             },
             c_poke_razz_berry = {
@@ -3530,6 +3537,42 @@ return {
                 text = {
                     "Not available if",
                     "{C:attention}#1#{}",
+                }
+            },
+            bland = {
+                name = "Bland",
+                text = {
+                    "{X:colorless,C:white}Colorless{} / {X:grass,C:white}Grass{} Type Jokers",
+                }
+            },
+            spicy = {
+                name = "Spicy",
+                text = {
+                    "{X:fire,C:white}Fire{} / {X:dragon,C:white}Dragon{} Type Jokers",
+                }
+            },
+            dry = {
+                name = "Dry",
+                text = {
+                    "{X:earth,C:white}Earth{} / {X:psychic,C:white}Psychic{} Type Jokers",
+                }
+            },
+            sweet = {
+                name = "Sweet",
+                text = {
+                    "{X:fairy,C:white}Fairy{} / {X:fighting,C:white}Fighting{} Type Jokers",
+                }
+            },
+            bitter = {
+                name = "Bitter",
+                text = {
+                    "{X:dark,C:white}Dark{} / {X:water,C:white}Water{} Type Jokers",
+                }
+            },
+            sour = {
+                name = "Sour",
+                text = {
+                    "{X:lightning,C:black}Lightning{} / {X:metal,C:white}Metal{} Type Jokers",
                 }
             },
             baby = {
