@@ -420,31 +420,41 @@ return {
             c_poke_cheri_berry = {
                 name = 'Cheri Berry',
                 text = {
-                    "Cheri Berry does stuff",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#",
                 }
             },
             c_poke_chesto_berry = {
                 name = 'Chesto Berry',
                 text = {
-                    "Chesto Berry does stuff",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#",
                 }
             },
             c_poke_pecha_berry = {
                 name = 'Pecha Berry',
                 text = {
-                    "Pecha Berry does stuff",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#",
                 }
             },
             c_poke_rawst_berry = {
                 name = 'Rawst Berry',
                 text = {
-                    "Rawst Berry does stuff",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#",
                 }
             },
             c_poke_aspear_berry = {
                 name = 'Aspear Berry',
                 text = {
-                    "Aspear Berry does stuff",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards to",
+                    "a single random {C:attention}suit{}",
                 }
             },
             c_poke_leppa_berry = {

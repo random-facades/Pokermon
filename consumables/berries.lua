@@ -4,17 +4,26 @@ local cheri_berry = {
    key = 'cheri_berry',
    set = 'Berry',
    pos = { x = 0, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 2, suit_conv = 'Clubs'},
+   loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.max_highlighted, localize(self.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[self.config.suit_conv]}}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
-   end
+      for i=1, #G.hand.highlighted do
+         G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.1,
+            func = function()
+               G.hand.highlighted[i]:change_suit(card.ability.consumeable.suit_conv)
+               return true
+            end
+         }))
+      end
+   end,
 }
 
 
@@ -23,17 +32,26 @@ local chesto_berry = {
    key = 'chesto_berry',
    set = 'Berry',
    pos = { x = 1, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 2, suit_conv = 'Diamonds'},
+   loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.max_highlighted, localize(self.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[self.config.suit_conv]}}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
-   end
+      for i=1, #G.hand.highlighted do
+         G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.1,
+            func = function()
+               G.hand.highlighted[i]:change_suit(card.ability.consumeable.suit_conv)
+               return true
+            end
+         }))
+      end
+   end,
 }
 
 
@@ -42,17 +60,26 @@ local pecha_berry = {
    key = 'pecha_berry',
    set = 'Berry',
    pos = { x = 2, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 2, suit_conv = 'Hearts'},
+   loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.max_highlighted, localize(self.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[self.config.suit_conv]}}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
-   end
+      for i=1, #G.hand.highlighted do
+         G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.1,
+            func = function()
+               G.hand.highlighted[i]:change_suit(card.ability.consumeable.suit_conv)
+               return true
+            end
+         }))
+      end
+   end,
 }
 
 
@@ -61,17 +88,26 @@ local rawst_berry = {
    key = 'rawst_berry',
    set = 'Berry',
    pos = { x = 3, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 2, suit_conv = 'Spades'},
+   loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.max_highlighted, localize(self.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[self.config.suit_conv]}}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
-   end
+      for i=1, #G.hand.highlighted do
+         G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.1,
+            func = function()
+               G.hand.highlighted[i]:change_suit(card.ability.consumeable.suit_conv)
+               return true
+            end
+         }))
+      end
+   end,
 }
 
 
@@ -80,17 +116,31 @@ local aspear_berry = {
    key = 'aspear_berry',
    set = 'Berry',
    pos = { x = 4, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 3},
+   loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.max_highlighted}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
-   end
+      local suit_list = {}
+      for name, _ in pairs(SMODS.Suits) do
+         table.insert(suit_list, name)
+      end
+      local new_suit = pseudorandom_element(suit_list, pseudoseed('aspear'))
+      for i=1, #G.hand.highlighted do
+         G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.1,
+            func = function()
+               G.hand.highlighted[i]:change_suit(new_suit)
+               return true
+            end
+         }))
+      end
+   end,
 }
 
 
@@ -99,7 +149,8 @@ local leppa_berry = {
    key = 'leppa_berry',
    set = 'Berry',
    pos = { x = 5, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -118,7 +169,8 @@ local oran_berry = {
    key = 'oran_berry',
    set = 'Berry',
    pos = { x = 6, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -137,7 +189,8 @@ local persim_berry = {
    key = 'persim_berry',
    set = 'Berry',
    pos = { x = 7, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -156,7 +209,8 @@ local lum_berry = {
    key = 'lum_berry',
    set = 'Berry',
    pos = { x = 8, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -175,7 +229,8 @@ local sitrus_berry = {
    key = 'sitrus_berry',
    set = 'Berry',
    pos = { x = 9, y = 0 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -194,7 +249,8 @@ local figy_berry = {
    key = 'figy_berry',
    set = 'Berry',
    pos = { x = 0, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -213,7 +269,8 @@ local wiki_berry = {
    key = 'wiki_berry',
    set = 'Berry',
    pos = { x = 1, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -232,7 +289,8 @@ local mago_berry = {
    key = 'mago_berry',
    set = 'Berry',
    pos = { x = 2, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -251,7 +309,8 @@ local aguav_berry = {
    key = 'aguav_berry',
    set = 'Berry',
    pos = { x = 3, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -270,7 +329,8 @@ local iapapa_berry = {
    key = 'iapapa_berry',
    set = 'Berry',
    pos = { x = 4, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -289,7 +349,8 @@ local razz_berry = {
    key = 'razz_berry',
    set = 'Berry',
    pos = { x = 5, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -308,7 +369,8 @@ local bluk_berry = {
    key = 'bluk_berry',
    set = 'Berry',
    pos = { x = 6, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -327,7 +389,8 @@ local nanab_berry = {
    key = 'nanab_berry',
    set = 'Berry',
    pos = { x = 7, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -346,7 +409,8 @@ local wepear_berry = {
    key = 'wepear_berry',
    set = 'Berry',
    pos = { x = 8, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -365,7 +429,8 @@ local pinap_berry = {
    key = 'pinap_berry',
    set = 'Berry',
    pos = { x = 9, y = 1 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -384,7 +449,8 @@ local pomeg_berry = {
    key = 'pomeg_berry',
    set = 'Berry',
    pos = { x = 0, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -403,7 +469,8 @@ local kelpsy_berry = {
    key = 'kelpsy_berry',
    set = 'Berry',
    pos = { x = 1, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -422,7 +489,8 @@ local qualot_berry = {
    key = 'qualot_berry',
    set = 'Berry',
    pos = { x = 2, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -441,7 +509,8 @@ local hondew_berry = {
    key = 'hondew_berry',
    set = 'Berry',
    pos = { x = 3, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -460,7 +529,8 @@ local grepa_berry = {
    key = 'grepa_berry',
    set = 'Berry',
    pos = { x = 4, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -479,7 +549,8 @@ local tamato_berry = {
    key = 'tamato_berry',
    set = 'Berry',
    pos = { x = 5, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -498,7 +569,8 @@ local cornn_berry = {
    key = 'cornn_berry',
    set = 'Berry',
    pos = { x = 6, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -517,7 +589,8 @@ local magost_berry = {
    key = 'magost_berry',
    set = 'Berry',
    pos = { x = 7, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -536,7 +609,8 @@ local rabuta_berry = {
    key = 'rabuta_berry',
    set = 'Berry',
    pos = { x = 8, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -555,7 +629,8 @@ local nomel_berry = {
    key = 'nomel_berry',
    set = 'Berry',
    pos = { x = 9, y = 2 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -574,7 +649,8 @@ local spelon_berry = {
    key = 'spelon_berry',
    set = 'Berry',
    pos = { x = 0, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -593,7 +669,8 @@ local pamtre_berry = {
    key = 'pamtre_berry',
    set = 'Berry',
    pos = { x = 1, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -612,7 +689,8 @@ local watmel_berry = {
    key = 'watmel_berry',
    set = 'Berry',
    pos = { x = 2, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -631,7 +709,8 @@ local durin_berry = {
    key = 'durin_berry',
    set = 'Berry',
    pos = { x = 3, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -650,7 +729,8 @@ local belue_berry = {
    key = 'belue_berry',
    set = 'Berry',
    pos = { x = 4, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -669,7 +749,8 @@ local occa_berry = {
    key = 'occa_berry',
    set = 'Berry',
    pos = { x = 5, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -688,7 +769,8 @@ local passho_berry = {
    key = 'passho_berry',
    set = 'Berry',
    pos = { x = 6, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -707,7 +789,8 @@ local wacan_berry = {
    key = 'wacan_berry',
    set = 'Berry',
    pos = { x = 7, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -726,7 +809,8 @@ local rindo_berry = {
    key = 'rindo_berry',
    set = 'Berry',
    pos = { x = 8, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -745,7 +829,8 @@ local yache_berry = {
    key = 'yache_berry',
    set = 'Berry',
    pos = { x = 9, y = 3 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -764,7 +849,8 @@ local chople_berry = {
    key = 'chople_berry',
    set = 'Berry',
    pos = { x = 0, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -783,7 +869,8 @@ local kebia_berry = {
    key = 'kebia_berry',
    set = 'Berry',
    pos = { x = 1, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -802,7 +889,8 @@ local shuca_berry = {
    key = 'shuca_berry',
    set = 'Berry',
    pos = { x = 2, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -821,7 +909,8 @@ local coba_berry = {
    key = 'coba_berry',
    set = 'Berry',
    pos = { x = 3, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -840,7 +929,8 @@ local payapa_berry = {
    key = 'payapa_berry',
    set = 'Berry',
    pos = { x = 4, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -859,7 +949,8 @@ local tanga_berry = {
    key = 'tanga_berry',
    set = 'Berry',
    pos = { x = 5, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -878,7 +969,8 @@ local charti_berry = {
    key = 'charti_berry',
    set = 'Berry',
    pos = { x = 6, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -897,7 +989,8 @@ local kasib_berry = {
    key = 'kasib_berry',
    set = 'Berry',
    pos = { x = 7, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -916,7 +1009,8 @@ local haban_berry = {
    key = 'haban_berry',
    set = 'Berry',
    pos = { x = 8, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -935,7 +1029,8 @@ local colbur_berry = {
    key = 'colbur_berry',
    set = 'Berry',
    pos = { x = 9, y = 4 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -954,7 +1049,8 @@ local babiri_berry = {
    key = 'babiri_berry',
    set = 'Berry',
    pos = { x = 0, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -973,7 +1069,8 @@ local chilan_berry = {
    key = 'chilan_berry',
    set = 'Berry',
    pos = { x = 1, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -992,7 +1089,8 @@ local liechi_berry = {
    key = 'liechi_berry',
    set = 'Berry',
    pos = { x = 2, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1011,7 +1109,8 @@ local ganlon_berry = {
    key = 'ganlon_berry',
    set = 'Berry',
    pos = { x = 3, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1030,7 +1129,8 @@ local salac_berry = {
    key = 'salac_berry',
    set = 'Berry',
    pos = { x = 4, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1049,7 +1149,8 @@ local petaya_berry = {
    key = 'petaya_berry',
    set = 'Berry',
    pos = { x = 5, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1068,7 +1169,8 @@ local apicot_berry = {
    key = 'apicot_berry',
    set = 'Berry',
    pos = { x = 6, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1087,7 +1189,8 @@ local lansat_berry = {
    key = 'lansat_berry',
    set = 'Berry',
    pos = { x = 7, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1106,7 +1209,8 @@ local starf_berry = {
    key = 'starf_berry',
    set = 'Berry',
    pos = { x = 8, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1125,7 +1229,8 @@ local enigma_berry = {
    key = 'enigma_berry',
    set = 'Berry',
    pos = { x = 9, y = 5 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1144,7 +1249,8 @@ local micle_berry = {
    key = 'micle_berry',
    set = 'Berry',
    pos = { x = 0, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1163,7 +1269,8 @@ local custap_berry = {
    key = 'custap_berry',
    set = 'Berry',
    pos = { x = 1, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1182,7 +1289,8 @@ local jaboca_berry = {
    key = 'jaboca_berry',
    set = 'Berry',
    pos = { x = 2, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1201,7 +1309,8 @@ local rowap_berry = {
    key = 'rowap_berry',
    set = 'Berry',
    pos = { x = 3, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1220,7 +1329,8 @@ local roseli_berry = {
    key = 'roseli_berry',
    set = 'Berry',
    pos = { x = 4, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1239,7 +1349,8 @@ local hopo_berry = {
    key = 'hopo_berry',
    set = 'Berry',
    pos = { x = 5, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1258,7 +1369,8 @@ local kee_berry = {
    key = 'kee_berry',
    set = 'Berry',
    pos = { x = 6, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
@@ -1277,7 +1389,8 @@ local maranga_berry = {
    key = 'maranga_berry',
    set = 'Berry',
    pos = { x = 7, y = 6 },
-   loc_vars = function(self, info_queue, center)
+   config = {max_highlighted = 1},
+   loc_vars = function(self, info_queue, card)
    end,
    atlas = 'berries',
    cost = 3,
