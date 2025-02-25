@@ -144,6 +144,13 @@ SMODS.Atlas({
 }):register()
 
 SMODS.Atlas({
+    key = "berries",
+    path = "berries.png",
+    px = 71,
+    py = 95
+}):register()
+
+SMODS.Atlas({
     key = "pokepack",
     path = "pokepacks.png",
     px = 71,

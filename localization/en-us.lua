@@ -416,6 +416,416 @@ return {
                 },
             },
         },
+        Berry = {
+            c_poke_cheri_berry = {
+                name = 'Cheri Berry',
+                text = {
+                    "Cheri Berry does stuff",
+                }
+            },
+            c_poke_chesto_berry = {
+                name = 'Chesto Berry',
+                text = {
+                    "Chesto Berry does stuff",
+                }
+            },
+            c_poke_pecha_berry = {
+                name = 'Pecha Berry',
+                text = {
+                    "Pecha Berry does stuff",
+                }
+            },
+            c_poke_rawst_berry = {
+                name = 'Rawst Berry',
+                text = {
+                    "Rawst Berry does stuff",
+                }
+            },
+            c_poke_aspear_berry = {
+                name = 'Aspear Berry',
+                text = {
+                    "Aspear Berry does stuff",
+                }
+            },
+            c_poke_leppa_berry = {
+                name = 'Leppa Berry',
+                text = {
+                    "Leppa Berry does stuff",
+                }
+            },
+            c_poke_oran_berry = {
+                name = 'Oran Berry',
+                text = {
+                    "Oran Berry does stuff",
+                }
+            },
+            c_poke_persim_berry = {
+                name = 'Persim Berry',
+                text = {
+                    "Persim Berry does stuff",
+                }
+            },
+            c_poke_lum_berry = {
+                name = 'Lum Berry',
+                text = {
+                    "Lum Berry does stuff",
+                }
+            },
+            c_poke_sitrus_berry = {
+                name = 'Sitrus Berry',
+                text = {
+                    "Sitrus Berry does stuff",
+                }
+            },
+            c_poke_figy_berry = {
+                name = 'Figy Berry',
+                text = {
+                    "Figy Berry does stuff",
+                }
+            },
+            c_poke_wiki_berry = {
+                name = 'Wiki Berry',
+                text = {
+                    "Wiki Berry does stuff",
+                }
+            },
+            c_poke_mago_berry = {
+                name = 'Mago Berry',
+                text = {
+                    "Mago Berry does stuff",
+                }
+            },
+            c_poke_aguav_berry = {
+                name = 'Aguav Berry',
+                text = {
+                    "Aguav Berry does stuff",
+                }
+            },
+            c_poke_iapapa_berry = {
+                name = 'Iapapa Berry',
+                text = {
+                    "Iapapa Berry does stuff",
+                }
+            },
+            c_poke_razz_berry = {
+                name = 'Razz Berry',
+                text = {
+                    "Razz Berry does stuff",
+                }
+            },
+            c_poke_bluk_berry = {
+                name = 'Bluk Berry',
+                text = {
+                    "Bluk Berry does stuff",
+                }
+            },
+            c_poke_nanab_berry = {
+                name = 'Nanab Berry',
+                text = {
+                    "Nanab Berry does stuff",
+                }
+            },
+            c_poke_wepear_berry = {
+                name = 'Wepear Berry',
+                text = {
+                    "Wepear Berry does stuff",
+                }
+            },
+            c_poke_pinap_berry = {
+                name = 'Pinap Berry',
+                text = {
+                    "Pinap Berry does stuff",
+                }
+            },
+            c_poke_pomeg_berry = {
+                name = 'Pomeg Berry',
+                text = {
+                    "Pomeg Berry does stuff",
+                }
+            },
+            c_poke_kelpsy_berry = {
+                name = 'Kelpsy Berry',
+                text = {
+                    "Kelpsy Berry does stuff",
+                }
+            },
+            c_poke_qualot_berry = {
+                name = 'Qualot Berry',
+                text = {
+                    "Qualot Berry does stuff",
+                }
+            },
+            c_poke_hondew_berry = {
+                name = 'Hondew Berry',
+                text = {
+                    "Hondew Berry does stuff",
+                }
+            },
+            c_poke_grepa_berry = {
+                name = 'Grepa Berry',
+                text = {
+                    "Grepa Berry does stuff",
+                }
+            },
+            c_poke_tamato_berry = {
+                name = 'Tamato Berry',
+                text = {
+                    "Tamato Berry does stuff",
+                }
+            },
+            c_poke_cornn_berry = {
+                name = 'Cornn Berry',
+                text = {
+                    "Cornn Berry does stuff",
+                }
+            },
+            c_poke_magost_berry = {
+                name = 'Magost Berry',
+                text = {
+                    "Magost Berry does stuff",
+                }
+            },
+            c_poke_rabuta_berry = {
+                name = 'Rabuta Berry',
+                text = {
+                    "Rabuta Berry does stuff",
+                }
+            },
+            c_poke_nomel_berry = {
+                name = 'Nomel Berry',
+                text = {
+                    "Nomel Berry does stuff",
+                }
+            },
+            c_poke_spelon_berry = {
+                name = 'Spelon Berry',
+                text = {
+                    "Spelon Berry does stuff",
+                }
+            },
+            c_poke_pamtre_berry = {
+                name = 'Pamtre Berry',
+                text = {
+                    "Pamtre Berry does stuff",
+                }
+            },
+            c_poke_watmel_berry = {
+                name = 'Watmel Berry',
+                text = {
+                    "Watmel Berry does stuff",
+                }
+            },
+            c_poke_durin_berry = {
+                name = 'Durin Berry',
+                text = {
+                    "Durin Berry does stuff",
+                }
+            },
+            c_poke_belue_berry = {
+                name = 'Belue Berry',
+                text = {
+                    "Belue Berry does stuff",
+                }
+            },
+            c_poke_occa_berry = {
+                name = 'Occa Berry',
+                text = {
+                    "Occa Berry does stuff",
+                }
+            },
+            c_poke_passho_berry = {
+                name = 'Passho Berry',
+                text = {
+                    "Passho Berry does stuff",
+                }
+            },
+            c_poke_wacan_berry = {
+                name = 'Wacan Berry',
+                text = {
+                    "Wacan Berry does stuff",
+                }
+            },
+            c_poke_rindo_berry = {
+                name = 'Rindo Berry',
+                text = {
+                    "Rindo Berry does stuff",
+                }
+            },
+            c_poke_yache_berry = {
+                name = 'Yache Berry',
+                text = {
+                    "Yache Berry does stuff",
+                }
+            },
+            c_poke_chople_berry = {
+                name = 'Chople Berry',
+                text = {
+                    "Chople Berry does stuff",
+                }
+            },
+            c_poke_kebia_berry = {
+                name = 'Kebia Berry',
+                text = {
+                    "Kebia Berry does stuff",
+                }
+            },
+            c_poke_shuca_berry = {
+                name = 'Shuca Berry',
+                text = {
+                    "Shuca Berry does stuff",
+                }
+            },
+            c_poke_coba_berry = {
+                name = 'Coba Berry',
+                text = {
+                    "Coba Berry does stuff",
+                }
+            },
+            c_poke_payapa_berry = {
+                name = 'Payapa Berry',
+                text = {
+                    "Payapa Berry does stuff",
+                }
+            },
+            c_poke_tanga_berry = {
+                name = 'Tanga Berry',
+                text = {
+                    "Tanga Berry does stuff",
+                }
+            },
+            c_poke_charti_berry = {
+                name = 'Charti Berry',
+                text = {
+                    "Charti Berry does stuff",
+                }
+            },
+            c_poke_kasib_berry = {
+                name = 'Kasib Berry',
+                text = {
+                    "Kasib Berry does stuff",
+                }
+            },
+            c_poke_haban_berry = {
+                name = 'Haban Berry',
+                text = {
+                    "Haban Berry does stuff",
+                }
+            },
+            c_poke_colbur_berry = {
+                name = 'Colbur Berry',
+                text = {
+                    "Colbur Berry does stuff",
+                }
+            },
+            c_poke_babiri_berry = {
+                name = 'Babiri Berry',
+                text = {
+                    "Babiri Berry does stuff",
+                }
+            },
+            c_poke_chilan_berry = {
+                name = 'Chilan Berry',
+                text = {
+                    "Chilan Berry does stuff",
+                }
+            },
+            c_poke_liechi_berry = {
+                name = 'Liechi Berry',
+                text = {
+                    "Liechi Berry does stuff",
+                }
+            },
+            c_poke_ganlon_berry = {
+                name = 'Ganlon Berry',
+                text = {
+                    "Ganlon Berry does stuff",
+                }
+            },
+            c_poke_salac_berry = {
+                name = 'Salac Berry',
+                text = {
+                    "Salac Berry does stuff",
+                }
+            },
+            c_poke_petaya_berry = {
+                name = 'Petaya Berry',
+                text = {
+                    "Petaya Berry does stuff",
+                }
+            },
+            c_poke_apicot_berry = {
+                name = 'Apicot Berry',
+                text = {
+                    "Apicot Berry does stuff",
+                }
+            },
+            c_poke_lansat_berry = {
+                name = 'Lansat Berry',
+                text = {
+                    "Lansat Berry does stuff",
+                }
+            },
+            c_poke_starf_berry = {
+                name = 'Starf Berry',
+                text = {
+                    "Starf Berry does stuff",
+                }
+            },
+            c_poke_enigma_berry = {
+                name = 'Enigma Berry',
+                text = {
+                    "Enigma Berry does stuff",
+                }
+            },
+            c_poke_micle_berry = {
+                name = 'Micle Berry',
+                text = {
+                    "Micle Berry does stuff",
+                }
+            },
+            c_poke_custap_berry = {
+                name = 'Custap Berry',
+                text = {
+                    "Custap Berry does stuff",
+                }
+            },
+            c_poke_jaboca_berry = {
+                name = 'Jaboca Berry',
+                text = {
+                    "Jaboca Berry does stuff",
+                }
+            },
+            c_poke_rowap_berry = {
+                name = 'Rowap Berry',
+                text = {
+                    "Rowap Berry does stuff",
+                }
+            },
+            c_poke_roseli_berry = {
+                name = 'Roseli Berry',
+                text = {
+                    "Roseli Berry does stuff",
+                }
+            },
+            c_poke_hopo_berry = {
+                name = 'Hopo Berry',
+                text = {
+                    "Hopo Berry does stuff",
+                }
+            },
+            c_poke_kee_berry = {
+                name = 'Kee Berry',
+                text = {
+                    "Kee Berry does stuff",
+                }
+            },
+            c_poke_maranga_berry = {
+                name = 'Maranga Berry',
+                text = {
+                    "Maranga Berry does stuff",
+                }
+            },
+        },
         Edition = {
             e_poke_shiny = {
                 name = "Shiny",
@@ -642,7 +1052,7 @@ return {
                 name = "Fearow",
                 text = {
                     "After playing {C:attention}#1#{} {C:inactive}[#2#]{} scoring cards",
-                    "upgrade level of next played {C:attention}poker hand{}{C:inactive}#3#{}",
+                    "upgrade level of next played {C:attention}poker hand{}",
                 }
             },
             j_poke_ekans = {
@@ -1818,9 +2228,9 @@ return {
             j_poke_moltres = {
                 name = 'Moltres',
                 text = {
-                    "Upgrade the first {C:attention}discarded{}",
-                    "poker hand each round",
-                    "by {C:attention}3{} levels"
+                    "Upgrade level of the",
+                    "first {C:attention}3 discarded{}",
+                    "poker hands each round"
                 } 
             },
             j_poke_dratini = {
