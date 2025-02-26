@@ -144,17 +144,24 @@ local leppa_berry = {
    key = 'leppa_berry',
    set = 'Berry',
    pos = { x = 5, y = 0 },
-   config = {max_highlighted = 1},
+   config = {money_mod = 5},
    loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.money_mod}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      return G.jokers.highlighted and #G.jokers.highlighted == 1
    end,
    use = function(self, card, area, copier)
+      local target = G.jokers.highlighted[1]
+      target.ability.extra_value = target.ability.extra_value + card.ability.extra.money_mod
+      target:set_cost()
+      G.E_MANAGER:add_event(Event({
+        func = function() card_eval_status_text(target, 'extra', nil, nil, nil, {message = localize('k_val_up')}); return true
+      end}))
    end
 }
 
@@ -521,10 +528,8 @@ local nanab_berry = {
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      poke_remove_card(G.hand.highlighted[1], card)
    end
 }
 
@@ -533,17 +538,31 @@ local wepear_berry = {
    key = 'wepear_berry',
    set = 'Berry',
    pos = { x = 4, y = 2 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, money_mod = 5},
    loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.money_mod}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      if not G.hand.highlighted or #G.hand.highlighted ~= 1 then
+         return false
+      end
+      local target = G.hand.highlighted[1]
+      return target.config.center ~= G.P_CENTERS.c_base and not target.vampired
    end,
    use = function(self, card, area, copier)
+      local target = G.hand.highlighted[1]
+      target:set_ability(G.P_CENTERS.c_base, nil, true)
+      G.E_MANAGER:add_event(Event({
+         func = function()
+            target:juice_up()
+            return true
+         end
+      }))
+      ease_dollars(self.config.money_mod)
    end
 }
 
@@ -894,10 +913,25 @@ local watmel_berry = {
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            local card = G.hand.highlighted[1]
+            local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+            local rank_suffix = math.floor(pseudoseed('watmel') * 13) + 2
+            if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+            elseif rank_suffix == 10 then rank_suffix = 'T'
+            elseif rank_suffix == 11 then rank_suffix = 'J'
+            elseif rank_suffix == 12 then rank_suffix = 'Q'
+            elseif rank_suffix == 13 then rank_suffix = 'K'
+            elseif rank_suffix == 14 then rank_suffix = 'A'
+            end
+            card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+            return true 
+         end 
+      }))
    end
 }
 
@@ -913,10 +947,25 @@ local durin_berry = {
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            local card = G.hand.highlighted[1]
+            local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+            local rank_suffix = card.base.id == 2 and 14 or (card.base.id-1)
+            if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+            elseif rank_suffix == 10 then rank_suffix = 'T'
+            elseif rank_suffix == 11 then rank_suffix = 'J'
+            elseif rank_suffix == 12 then rank_suffix = 'Q'
+            elseif rank_suffix == 13 then rank_suffix = 'K'
+            elseif rank_suffix == 14 then rank_suffix = 'A'
+            end
+            card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+            return true 
+         end 
+      }))
    end
 }
 
@@ -932,10 +981,25 @@ local belue_berry = {
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            local card = G.hand.highlighted[1]
+            local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+            local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+            if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+            elseif rank_suffix == 10 then rank_suffix = 'T'
+            elseif rank_suffix == 11 then rank_suffix = 'J'
+            elseif rank_suffix == 12 then rank_suffix = 'Q'
+            elseif rank_suffix == 13 then rank_suffix = 'K'
+            elseif rank_suffix == 14 then rank_suffix = 'A'
+            end
+            card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+            return true 
+         end 
+      }))
    end
 }
 
@@ -1020,17 +1084,23 @@ local yache_berry = {
    key = 'yache_berry',
    set = 'Berry',
    pos = { x = 4, y = 5 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'Blue'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_SEALS['blue_seal'] or G.P_SEALS[SMODS.Seal.badge_to_key['blue_seal'] or '']
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1058,17 +1128,23 @@ local kebia_berry = {
    key = 'kebia_berry',
    set = 'Berry',
    pos = { x = 6, y = 5 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'Red'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_SEALS['red_seal'] or G.P_SEALS[SMODS.Seal.badge_to_key['red_seal'] or '']
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1096,17 +1172,23 @@ local coba_berry = {
    key = 'coba_berry',
    set = 'Berry',
    pos = { x = 1, y = 6 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'poke_silver'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {key = 'poke_silver_seal', set = 'Other'}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1134,17 +1216,23 @@ local tanga_berry = {
    key = 'tanga_berry',
    set = 'Berry',
    pos = { x = 3, y = 6 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'poke_pink_seal'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {key = 'poke_pink_seal_seal', set = 'Other'}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1153,17 +1241,23 @@ local charti_berry = {
    key = 'charti_berry',
    set = 'Berry',
    pos = { x = 4, y = 6 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'Gold'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_SEALS['gold_seal'] or G.P_SEALS[SMODS.Seal.badge_to_key['gold_seal'] or '']
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1172,17 +1266,23 @@ local kasib_berry = {
    key = 'kasib_berry',
    set = 'Berry',
    pos = { x = 5, y = 6 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, seal = 'Purple'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_SEALS['purple_seal'] or G.P_SEALS[SMODS.Seal.badge_to_key['purple_seal'] or '']
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_seal(self.config.seal, nil, true)
+            return true
+         end
+      }))
    end
 }
 
@@ -1267,17 +1367,23 @@ local liechi_berry = {
    key = 'liechi_berry',
    set = 'Berry',
    pos = { x = 3, y = 7 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_mult'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1286,17 +1392,23 @@ local ganlon_berry = {
    key = 'ganlon_berry',
    set = 'Berry',
    pos = { x = 4, y = 7 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_stone'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1305,17 +1417,23 @@ local salac_berry = {
    key = 'salac_berry',
    set = 'Berry',
    pos = { x = 5, y = 7 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_steel'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1324,17 +1442,23 @@ local petaya_berry = {
    key = 'petaya_berry',
    set = 'Berry',
    pos = { x = 6, y = 7 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_bonus'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1343,17 +1467,23 @@ local apicot_berry = {
    key = 'apicot_berry',
    set = 'Berry',
    pos = { x = 0, y = 8 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_gold'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1362,17 +1492,23 @@ local lansat_berry = {
    key = 'lansat_berry',
    set = 'Berry',
    pos = { x = 1, y = 8 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_lucky'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1381,17 +1517,23 @@ local starf_berry = {
    key = 'starf_berry',
    set = 'Berry',
    pos = { x = 2, y = 8 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_wild'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1419,17 +1561,23 @@ local micle_berry = {
    key = 'micle_berry',
    set = 'Berry',
    pos = { x = 4, y = 8 },
-   config = {max_highlighted = 1},
+   config = {max_highlighted = 1, mod_conv = 'm_glass'},
    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS[self.config.mod_conv]
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
-   can_use = function(self, card)
-      return true
-   end,
    use = function(self, card, area, copier)
+      G.E_MANAGER:add_event(Event({
+         trigger = 'after',
+         delay = 0.1,
+         func = function()
+            G.hand.highlighted[1]:set_ability(G.P_CENTERS[self.config.mod_conv])
+            return true
+         end
+      }))
    end
 }
 
@@ -1476,17 +1624,26 @@ local rowap_berry = {
    key = 'rowap_berry',
    set = 'Berry',
    pos = { x = 0, y = 9 },
-   config = {max_highlighted = 1},
+   config = {money_mod = 2},
    loc_vars = function(self, info_queue, card)
+      return {vars = {self.config.money_mod}}
    end,
    atlas = 'berries',
    cost = 3,
    unlocked = true,
    discovered = true,
    can_use = function(self, card)
-      return true
+      return #G.jokers.cards > 0
    end,
    use = function(self, card, area, copier)
+      for _, joker in pairs(G.jokers.cards) do
+         local target = joker
+         target.ability.extra_value = target.ability.extra_value + card.ability.extra.money_mod
+         target:set_cost()
+         G.E_MANAGER:add_event(Event({
+           func = function() card_eval_status_text(target, 'extra', nil, nil, nil, {message = localize('k_val_up')}); return true
+         end}))
+      end
    end
 }
 
