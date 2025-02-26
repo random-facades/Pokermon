@@ -26,8 +26,8 @@ local item = {
 
 local berry = {
   key = "Berry",
-  primary_colour = HEX("EA8559"),
-  secondary_colour = HEX("EA8559"),
+  primary_colour = HEX("DE8294"),
+  secondary_colour = HEX("DE8294"),
   loc_txt =  	{
  		name = 'Berry', -- used on card type badges
  		collection = 'Berries', -- label for the button to access the collection
