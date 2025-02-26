@@ -549,7 +549,8 @@ return {
             c_poke_wepear_berry = {
                 name = 'Wepear Berry',
                 text = {
-                    "Remove {C:attention}Enhancement{} from {C:attention}1{} selected card",
+                    "Remove {C:attention}Enhancement{}",
+                    "from {C:attention}1{} selected card",
                     "and earn {C:money}$#1#{}",
                 }
             },
@@ -604,37 +605,46 @@ return {
             c_poke_cornn_berry = {
                 name = 'Cornn Berry',
                 text = {
-                    "Cornn Berry does stuff",
+                    "Create a {C:tarot}Tarot{} card",
                 }
             },
             c_poke_magost_berry = {
                 name = 'Magost Berry',
                 text = {
-                    "Magost Berry does stuff",
+                    "Create a {C:planet}Planet{} card",
                 }
             },
             c_poke_rabuta_berry = {
                 name = 'Rabuta Berry',
                 text = {
-                    "Rabuta Berry does stuff",
+                    "Create an {C:item}Item{} card",
                 }
             },
             c_poke_nomel_berry = {
                 name = 'Nomel Berry',
                 text = {
-                    "Nomel Berry does stuff",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to {C:attention}1{} selected {C:attention}Joker",
                 }
             },
             c_poke_spelon_berry = {
                 name = 'Spelon Berry',
                 text = {
-                    "Spelon Berry does stuff",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to {C:attention}1{} selected card",
                 }
             },
             c_poke_pamtre_berry = {
                 name = 'Pamtre Berry',
                 text = {
-                    "Pamtre Berry does stuff",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to a random {C:attention}Consumable",
                 }
             },
             c_poke_watmel_berry = {
@@ -658,25 +668,33 @@ return {
             c_poke_occa_berry = {
                 name = 'Occa Berry',
                 text = {
-                    "Occa Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:fire,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:fire,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_passho_berry = {
                 name = 'Passho Berry',
                 text = {
-                    "Passho Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:water,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:water,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_wacan_berry = {
                 name = 'Wacan Berry',
                 text = {
-                    "Wacan Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:lightning,C:black}#3#{} Jokers",
+                    "{C:attention}Applies a {X:lightning,C:black}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_rindo_berry = {
                 name = 'Rindo Berry',
                 text = {
-                    "Rindo Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:grass,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:grass,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_yache_berry = {
@@ -688,7 +706,9 @@ return {
             c_poke_chople_berry = {
                 name = 'Chople Berry',
                 text = {
-                    "Chople Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:fighting,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:fighting,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_kebia_berry = {
@@ -700,7 +720,9 @@ return {
             c_poke_shuca_berry = {
                 name = 'Shuca Berry',
                 text = {
-                    "Shuca Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:earth,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:earth,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_coba_berry = {
@@ -712,7 +734,9 @@ return {
             c_poke_payapa_berry = {
                 name = 'Payapa Berry',
                 text = {
-                    "Payapa Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:psychic,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:psychic,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_tanga_berry = {
@@ -736,79 +760,97 @@ return {
             c_poke_haban_berry = {
                 name = 'Haban Berry',
                 text = {
-                    "Haban Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:dragon,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:dragon,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_colbur_berry = {
                 name = 'Colbur Berry',
                 text = {
-                    "Colbur Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:dark,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:dark,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_babiri_berry = {
                 name = 'Babiri Berry',
                 text = {
-                    "Babiri Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:metal,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:metal,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_chilan_berry = {
                 name = 'Chilan Berry',
                 text = {
-                    "Chilan Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:colorless,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:colorless,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_liechi_berry = {
                 name = 'Liechi Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Mult Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Mult Card{}",
                 }
             },
             c_poke_ganlon_berry = {
                 name = 'Ganlon Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Stone Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Stone Card{}",
                 }
             },
             c_poke_salac_berry = {
                 name = 'Salac Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Steel Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Steel Card{}",
                 }
             },
             c_poke_petaya_berry = {
                 name = 'Petaya Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Bonus Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Bonus Card{}",
                 }
             },
             c_poke_apicot_berry = {
                 name = 'Apicot Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Gold Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Gold Card{}",
                 }
             },
             c_poke_lansat_berry = {
                 name = 'Lansat Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Lucky Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Lucky Card{}",
                 }
             },
             c_poke_starf_berry = {
                 name = 'Starf Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Wild Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Wild Card{}",
                 }
             },
             c_poke_enigma_berry = {
                 name = 'Enigma Berry',
                 text = {
-                    "Enigma Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every unique {C:pink}Type{} you have {C:inactive}[#1#]{}",
+                    "{C:attention}Applies a {C:dark_edition}random{C:attention} Type Sticker",
                 }
             },
             c_poke_micle_berry = {
                 name = 'Micle Berry',
                 text = {
-                    "Enhances {C:attention}1{} selected card to {C:attention}Glass Card{}",
+                    "Enhances {C:attention}1{} selected card",
+                    "to {C:attention}Glass Card{}",
                 }
             },
             c_poke_custap_berry = {
@@ -833,7 +875,9 @@ return {
             c_poke_roseli_berry = {
                 name = 'Roseli Berry',
                 text = {
-                    "Roseli Berry does stuff",
+                    "Gives {C:attention}+1 {C:pink}Energy{}",
+                    "for every {C:attention}#1# {C:inactive}[#2#] {X:fairy,C:white}#3#{} Jokers",
+                    "{C:attention}Applies a {X:fairy,C:white}#3#{C:attention} Type Sticker",
                 }
             },
             c_poke_kee_berry = {
@@ -3793,7 +3837,7 @@ return {
             lightning_sticker = {
                 name = "Type",
                 text = {
-                    "{X:lightning,C:white}Lightning{}"
+                    "{X:lightning,C:black}Lightning{}"
                 } 
             },
             psychic_sticker = {
