@@ -460,7 +460,8 @@ return {
             c_poke_leppa_berry = {
                 name = 'Leppa Berry',
                 text = {
-                    "Leppa Berry does stuff",
+                    "Adds {C:money}$#1#{} of sell value",
+                    "to selected Joker",
                 }
             },
             c_poke_oran_berry = {
@@ -542,13 +543,14 @@ return {
             c_poke_nanab_berry = {
                 name = 'Nanab Berry',
                 text = {
-                    "Nanab Berry does stuff",
+                    "Destroy {C:attention}1{} selected card",
                 }
             },
             c_poke_wepear_berry = {
                 name = 'Wepear Berry',
                 text = {
-                    "Wepear Berry does stuff",
+                    "Remove {C:attention}Enhancement{} from {C:attention}1{} selected card",
+                    "and earn {C:money}$#1#{}",
                 }
             },
             c_poke_pinap_berry = {
@@ -638,19 +640,19 @@ return {
             c_poke_watmel_berry = {
                 name = 'Watmel Berry',
                 text = {
-                    "Watmel Berry does stuff",
+                    "Randomize rank of {C:attention}1{} selected card",
                 }
             },
             c_poke_durin_berry = {
                 name = 'Durin Berry',
                 text = {
-                    "Durin Berry does stuff",
+                    "Decrease rank of {C:attention}1{} selected card by {C:attention}1{}",
                 }
             },
             c_poke_belue_berry = {
                 name = 'Belue Berry',
                 text = {
-                    "Belue Berry does stuff",
+                    "Increase rank of {C:attention}1{} selected card by {C:attention}1{}",
                 }
             },
             c_poke_occa_berry = {
@@ -680,7 +682,7 @@ return {
             c_poke_yache_berry = {
                 name = 'Yache Berry',
                 text = {
-                    "Yache Berry does stuff",
+                    "Add a {C:attention}Blue Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_chople_berry = {
@@ -692,7 +694,7 @@ return {
             c_poke_kebia_berry = {
                 name = 'Kebia Berry',
                 text = {
-                    "Kebia Berry does stuff",
+                    "Add a {C:attention}Red Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_shuca_berry = {
@@ -704,7 +706,7 @@ return {
             c_poke_coba_berry = {
                 name = 'Coba Berry',
                 text = {
-                    "Coba Berry does stuff",
+                    "Add a {C:attention}Silver Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_payapa_berry = {
@@ -716,19 +718,19 @@ return {
             c_poke_tanga_berry = {
                 name = 'Tanga Berry',
                 text = {
-                    "Tanga Berry does stuff",
+                    "Add a {C:attention}Pink Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_charti_berry = {
                 name = 'Charti Berry',
                 text = {
-                    "Charti Berry does stuff",
+                    "Add a {C:attention}Gold Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_kasib_berry = {
                 name = 'Kasib Berry',
                 text = {
-                    "Kasib Berry does stuff",
+                    "Add a {C:attention}Purple Seal{} to {C:attention}1{} selected card",
                 }
             },
             c_poke_haban_berry = {
@@ -758,43 +760,43 @@ return {
             c_poke_liechi_berry = {
                 name = 'Liechi Berry',
                 text = {
-                    "Liechi Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Mult Card{}",
                 }
             },
             c_poke_ganlon_berry = {
                 name = 'Ganlon Berry',
                 text = {
-                    "Ganlon Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Stone Card{}",
                 }
             },
             c_poke_salac_berry = {
                 name = 'Salac Berry',
                 text = {
-                    "Salac Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Steel Card{}",
                 }
             },
             c_poke_petaya_berry = {
                 name = 'Petaya Berry',
                 text = {
-                    "Petaya Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Bonus Card{}",
                 }
             },
             c_poke_apicot_berry = {
                 name = 'Apicot Berry',
                 text = {
-                    "Apicot Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Gold Card{}",
                 }
             },
             c_poke_lansat_berry = {
                 name = 'Lansat Berry',
                 text = {
-                    "Lansat Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Lucky Card{}",
                 }
             },
             c_poke_starf_berry = {
                 name = 'Starf Berry',
                 text = {
-                    "Starf Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Wild Card{}",
                 }
             },
             c_poke_enigma_berry = {
@@ -806,7 +808,7 @@ return {
             c_poke_micle_berry = {
                 name = 'Micle Berry',
                 text = {
-                    "Micle Berry does stuff",
+                    "Enhances {C:attention}1{} selected card to {C:attention}Glass Card{}",
                 }
             },
             c_poke_custap_berry = {
@@ -824,7 +826,8 @@ return {
             c_poke_rowap_berry = {
                 name = 'Rowap Berry',
                 text = {
-                    "Rowap Berry does stuff",
+                    "Adds {C:money}$#1#{} of sell value",
+                    "to all Jokers",
                 }
             },
             c_poke_roseli_berry = {
