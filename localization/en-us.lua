@@ -527,13 +527,16 @@ return {
             c_poke_razz_berry = {
                 name = 'Razz Berry',
                 text = {
-                    "Razz Berry does stuff",
+                    "Drain {C:money}$#1#{} from all Jokers",
+                    "earn {C:money}cash{} equal to the amount drained",
                 }
             },
             c_poke_bluk_berry = {
                 name = 'Bluk Berry',
                 text = {
-                    "Bluk Berry does stuff",
+                    "Create a random",
+                    "{C:attention}Baby Joker{} card",
+                    "{C:inactive}(Must have room)"
                 }
             },
             c_poke_nanab_berry = {
@@ -551,43 +554,49 @@ return {
             c_poke_pinap_berry = {
                 name = 'Pinap Berry',
                 text = {
-                    "Pinap Berry does stuff",
+                    "A very expensive Berry",
                 }
             },
             c_poke_pomeg_berry = {
                 name = 'Pomeg Berry',
                 text = {
-                    "Pomeg Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_kelpsy_berry = {
                 name = 'Kelpsy Berry',
                 text = {
-                    "Kelpsy Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_qualot_berry = {
                 name = 'Qualot Berry',
                 text = {
-                    "Qualot Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_hondew_berry = {
                 name = 'Hondew Berry',
                 text = {
-                    "Hondew Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_grepa_berry = {
                 name = 'Grepa Berry',
                 text = {
-                    "Grepa Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_tamato_berry = {
                 name = 'Tamato Berry',
                 text = {
-                    "Tamato Berry does stuff",
+                    "Drain {C:money}$#1#{} from all {C:attention}#2#{} Jokers",
+                    "earn {C:money}cash{} equal to {X:money,C:white}X#3#{} the amount drained",
                 }
             },
             c_poke_cornn_berry = {
@@ -822,12 +831,6 @@ return {
                 name = 'Roseli Berry',
                 text = {
                     "Roseli Berry does stuff",
-                }
-            },
-            c_poke_hopo_berry = {
-                name = 'Hopo Berry',
-                text = {
-                    "Hopo Berry does stuff",
                 }
             },
             c_poke_kee_berry = {
