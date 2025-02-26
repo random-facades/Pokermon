@@ -3363,6 +3363,30 @@ return {
                     "{C:safari}Safari{} Joker",
                 }, 
             },
+            tag_poke_mult_tag = {
+                name = "Mult Tag",
+                text = {
+                    "{C:mult}+#1#{} Mult for next hand",
+                },
+            },
+            tag_poke_chips_tag = {
+                name = "Chips Tag",
+                text = {
+                    "{C:chips}+#1#{} Chips for next hand",
+                },
+            },
+            tag_poke_xmult_tag = {
+                name = "XMult Tag",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult for next hand",
+                },
+            },
+            tag_poke_xchips_tag = {
+                name = "XChips Tag",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chips for next hand",
+                },
+            },
         },
         Tarot = {
             c_poke_pokeball = {

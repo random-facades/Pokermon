@@ -146,6 +146,86 @@ local safari_tag = {
 	end,
 }
 
+local mult_tag = {
+	object_type = "Tag",
+	atlas = "poketag",
+	name = "mult_tag",
+	order = 27,
+	pos = { x = 0, y = 1 },
+	config = { type = "nil", mult = 10 },
+	key = "mult_tag",
+	min_ante = 999,
+   discovered = true,
+	loc_vars = function(self, info_queue)
+		return { vars = {self.config.mult} }
+	end,
+	apply = function(self, tag, context)
+	end,
+	in_pool = function(self)
+	  return false
+	end,
+}
+
+local chips_tag = {
+	object_type = "Tag",
+	atlas = "poketag",
+	name = "chips_tag",
+	order = 27,
+	pos = { x = 1, y = 1 },
+	config = { type = "nil", chips = 50 },
+	key = "chips_tag",
+	min_ante = 999,
+   discovered = true,
+	loc_vars = function(self, info_queue)
+		return { vars = {self.config.chips} }
+	end,
+	apply = function(self, tag, context)
+	end,
+	in_pool = function(self)
+	  return false
+	end,
+}
+
+local xmult_tag = {
+	object_type = "Tag",
+	atlas = "poketag",
+	name = "xmult_tag",
+	order = 27,
+	pos = { x = 2, y = 1 },
+	config = { type = "nil", Xmult = 1.5 },
+	key = "xmult_tag",
+	min_ante = 999,
+   discovered = true,
+	loc_vars = function(self, info_queue)
+		return { vars = {self.config.Xmult} }
+	end,
+	apply = function(self, tag, context)
+	end,
+	in_pool = function(self)
+	  return false
+	end,
+}
+
+local xchips_tag = {
+	object_type = "Tag",
+	atlas = "poketag",
+	name = "xchips_tag",
+	order = 27,
+	pos = { x = 3, y = 1 },
+	config = { type = "nil", xchips = 1.5 },
+	key = "xchips_tag",
+	min_ante = 999,
+   discovered = true,
+	loc_vars = function(self, info_queue)
+		return { vars = {self.config.xchips} }
+	end,
+	apply = function(self, tag, context)
+	end,
+	in_pool = function(self)
+	  return false
+	end,
+}
+
 return {name = "Tags",
-        list = {pocket_tag, shiny_tag, stage_one_tag, safari_tag}
+        list = {pocket_tag, shiny_tag, stage_one_tag, safari_tag, mult_tag, chips_tag, xmult_tag, xchips_tag}
 }
