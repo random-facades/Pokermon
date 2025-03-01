@@ -801,6 +801,7 @@ local pidgeot={
   config = {extra = {odds = 2, mult = 40}},
   loc_vars = function(self, info_queue, card)
     type_tooltip(self, info_queue, card)
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'mega_poke'}
     return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult}}
   end,
   rarity = "poke_safari", 
