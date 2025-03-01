@@ -904,10 +904,10 @@ local raticate={
 local spearow={
   name = "spearow", 
   pos = {x = 7, y = 1},
-  config = {extra = {rounds = 4, card_threshold = 20, cards_scored = 0, upgrade = false}},
+  config = {extra = {rounds = 4, mult = 4}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.rounds, center.ability.extra.card_threshold, center.ability.extra.cards_scored, center.ability.extra.upgrade and "("..localize('k_active_ex')..")" or ''}}
+    return {vars = {center.ability.extra.rounds, center.ability.extra.mult}}
   end,
   rarity = 1, 
   cost = 4, 
@@ -916,27 +916,24 @@ local spearow={
   ptype = "Colorless",
   blueprint_compat = true,
   calculate = function(self, card, context)
-    if context.first_hand_drawn then
-      local eval = function() return (card.ability.extra.upgrade == true) and not G.RESET_JIGGLES end
-      juice_card_until(card, eval, true)
-    end
-    if context.cardarea == G.jokers and context.scoring_hand then
-      if context.before and card.ability.extra.upgrade then
-        card.ability.extra.upgrade = false
-        card.ability.extra.cards_scored = card.ability.extra.cards_scored - card.ability.extra.card_threshold
-        return {
-          card = card,
-          level_up = true,
-          message = localize('k_level_up_ex')
-        }
+    if context.cardarea == G.jokers and context.scoring_hand and context.joker_main then
+      local mult_to_add = 0
+      if next(context.poker_hands['Pair']) then
+        mult_to_add = card.ability.extra.mult
       end
-      if context.joker_main and not context.blueprint then
-        card.ability.extra.cards_scored = card.ability.extra.cards_scored + #context.scoring_hand
-        if card.ability.extra.cards_scored >= card.ability.extra.card_threshold and not card.ability.extra.upgrade then
-          card.ability.extra.upgrade = true
-          local eval = function() return (card.ability.extra.upgrade == true) and not G.RESET_JIGGLES end
-          juice_card_until(card, eval, true)
+      for k,v in pairs(context.scoring_hand) do
+        if v.config.center == G.P_CENTERS.m_stone then
+          mult_to_add = mult_to_add + card.ability.extra.mult
+          break
         end
+      end
+
+      if mult_to_add > 0 then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {mult_to_add}}, 
+          colour = G.C.MULT,
+          mult_mod = mult_to_add
+        }
       end
     end
     return level_evo(self, card, context, "j_poke_fearow")
@@ -945,10 +942,10 @@ local spearow={
 local fearow={
   name = "fearow", 
   pos = {x = 8, y = 1}, 
-  config = {extra = {card_threshold = 15, cards_scored = 0, upgrade = false}},
+  config = {extra = {mult = 20}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.card_threshold, center.ability.extra.cards_scored, center.ability.extra.upgrade and "("..localize('k_active_ex')..")" or ''}}
+    return {vars = {center.ability.extra.mult}}
   end,
   rarity = 2, 
   cost = 5, 
@@ -957,28 +954,16 @@ local fearow={
   ptype = "Colorless",
   blueprint_compat = true,
   calculate = function(self, card, context)
-    if context.first_hand_drawn then
-      local eval = function() return (card.ability.extra.upgrade == true) and not G.RESET_JIGGLES end
-      juice_card_until(card, eval, true)
-    end
     if context.cardarea == G.jokers and context.scoring_hand then
-      if context.before and card.ability.extra.upgrade then
-        if card.ability.extra.cards_scored >= card.ability.extra.card_threshold then
-          card.ability.extra.cards_scored = card.ability.extra.cards_scored - card.ability.extra.card_threshold
-        end
-        card.ability.extra.upgrade = false
-        return {
-          card = card,
-          level_up = true,
-          message = localize('k_level_up_ex')
-        }
-      end
-      if context.joker_main and not context.blueprint then
-        card.ability.extra.cards_scored = card.ability.extra.cards_scored + #context.scoring_hand
-        if card.ability.extra.cards_scored >= card.ability.extra.card_threshold and not card.ability.extra.upgrade then
-          card.ability.extra.upgrade = true
-          local eval = function() return (card.ability.extra.upgrade == true) and not G.RESET_JIGGLES end
-          juice_card_until(card, eval, true)
+      if context.joker_main and next(context.poker_hands['Pair']) then
+        for k,v in pairs(context.scoring_hand) do
+          if SMODS.has_enhancement(v, 'm_stone') then
+            return {
+              message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}, 
+              colour = G.C.MULT,
+              mult_mod = card.ability.extra.mult
+            }
+          end
         end
       end
     end

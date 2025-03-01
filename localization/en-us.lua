@@ -629,16 +629,19 @@ return {
             j_poke_spearow = {
                 name = "Spearow",
                 text = {
-                    "After playing {C:attention}#2#{} {C:inactive}[#3#]{} scoring cards",
-                    "upgrade level of next played {C:attention}poker hand{}",
+                    "{C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Pair{}",
+                    "{br:2}text needs to be here to work",
+                    "{C:mult}+#2#{} Mult if played hand",
+                    "contains a {C:attention}Stone Card{}",
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)"
                 } 
             },
             j_poke_fearow = {
                 name = "Fearow",
                 text = {
-                    "After playing {C:attention}#1#{} {C:inactive}[#2#]{} scoring cards",
-                    "upgrade level of next played {C:attention}poker hand{}{C:inactive}#3#{}",
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "contains a {C:attention}Pair{} and a {C:attention}Stone Card{}",
                 }
             },
             j_poke_ekans = {
