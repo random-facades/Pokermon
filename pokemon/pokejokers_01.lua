@@ -745,10 +745,10 @@ local mega_beedrill = {
 local pidgey={
   name = "pidgey", 
   pos = {x = 2, y = 1},
-  config = {extra = {rounds = 4}},
-  loc_vars = function(self, info_queue, center)
-    type_tooltip(self, info_queue, center)
-		return {vars = {center.ability.extra.rounds}}
+  config = {extra = {odds = 2, mult = 10, rounds = 4}},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult, card.ability.extra.rounds}}
   end,
   rarity = 1, 
   cost = 5, 
@@ -757,31 +757,25 @@ local pidgey={
   atlas = "Pokedex1",
   blueprint_compat = false,
   calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and (pseudorandom('pidgey') < G.GAME.probabilities.normal/card.ability.extra.odds) then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}, 
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult
+        }
+      end
+    end
     return level_evo(self, card, context, "j_poke_pidgeotto")
   end,
-  add_to_deck = function(self, card, from_debuff)
-      G.E_MANAGER:add_event(Event({func = function()
-        for k, v in pairs(G.I.CARD) do
-            if v.set_cost then v:set_cost() end
-        end
-        return true end }))
-  end,
-  remove_from_deck = function(self, card, from_debuff)
-    G.E_MANAGER:add_event(Event({func = function()
-      for k, v in pairs(G.I.CARD) do
-          if v.set_cost then v:set_cost() end
-      end
-      return true end }))
-  end
 }
 local pidgeotto={
   name = "pidgeotto", 
   pos = {x = 3, y = 1},
-  config = {extra = {rounds = 4}},
-  blueprint_compat = false,
-  loc_vars = function(self, info_queue, center)
-    type_tooltip(self, info_queue, center)
-		return {vars = {center.ability.extra.rounds}}
+  config = {extra = {odds = 2, mult = 20, rounds = 4}},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult, card.ability.extra.rounds}}
   end,
   rarity = 2, 
   cost = 8, 
@@ -789,31 +783,25 @@ local pidgeotto={
   ptype = "Colorless",
   atlas = "Pokedex1",
   calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and (pseudorandom('pidgeotto') < G.GAME.probabilities.normal/card.ability.extra.odds) then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}, 
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult
+        }
+      end
+    end
     return level_evo(self, card, context, "j_poke_pidgeot")
   end,
-  add_to_deck = function(self, card, from_debuff)
-      G.E_MANAGER:add_event(Event({func = function()
-        for k, v in pairs(G.I.CARD) do
-            if v.set_cost then v:set_cost() end
-        end
-        return true end }))
-  end,
-  remove_from_deck = function(self, card, from_debuff)
-    G.E_MANAGER:add_event(Event({func = function()
-      for k, v in pairs(G.I.CARD) do
-          if v.set_cost then v:set_cost() end
-      end
-      return true end }))
-  end
 }
 local pidgeot={
   name = "pidgeot", 
   pos = {x = 4, y = 1},
-  config = {extra = {money = 2}}, 
-  loc_vars = function(self, info_queue, center)
-    type_tooltip(self, info_queue, center)
-    info_queue[#info_queue+1] = {set = 'Other', key = 'mega_poke'}
-		return {vars = {center.ability.extra.money}}
+  config = {extra = {odds = 2, mult = 40}},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult}}
   end,
   rarity = "poke_safari", 
   cost = 10, 
@@ -822,40 +810,27 @@ local pidgeot={
   ptype = "Colorless",
   blueprint_compat = true,
   calculate = function(self, card, context)
-    if context.using_consumeable and context.consumeable.ability.set == 'Planet' then
-      ease_poke_dollars(card, "pidgeot", card.ability.extra.money)
-    end
-  end,
-  add_to_deck = function(self, card, from_debuff)
-      G.E_MANAGER:add_event(Event({func = function()
-        for k, v in pairs(G.I.CARD) do
-            if v.set_cost then v:set_cost() end
-        end
-        return true end }))
-  end,
-  remove_from_deck = function(self, card, from_debuff)
-    G.E_MANAGER:add_event(Event({func = function()
-      for k, v in pairs(G.I.CARD) do
-          if v.set_cost then v:set_cost() end
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and (pseudorandom('pidgeot') < G.GAME.probabilities.normal/card.ability.extra.odds) then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}, 
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult
+        }
       end
-      return true end }))
+    end
   end,
   megas = {"mega_pidgeot"}
 }
+
 local mega_pidgeot = {
   name = "mega_pidgeot", 
   pos = { x = 10, y = 0 },
   soul_pos = { x = 11, y = 0 },
-  config = {extra = {plus_levels = 2}},
+  config = {extra = {plus_odds = 20}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    local total_levels = 0
-    for _, hand in pairs(G.GAME.hands) do
-      if hand.visible then
-        total_levels = total_levels + hand.level
-      end
-    end
-		return {vars = {center.ability.extra.plus_levels}}
+		return {vars = {center.ability.extra.plus_odds}}
   end,
   rarity = "poke_mega",
   cost = 12,
@@ -863,16 +838,11 @@ local mega_pidgeot = {
   ptype = "Colorless",
   atlas = "Megas",
   blueprint_compat = false,
-  calculate = function(self, card, context)
-    if context.using_consumeable and context.consumeable.ability.set == 'Planet' and not context.blueprint then
-      local text = context.consumeable.ability.hand_type
-      if type(text) == "string" then
-        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(text, 'poker_hands'),chips = G.GAME.hands[text].chips, mult = G.GAME.hands[text].mult, 
-                          level = G.GAME.hands[text].level})
-        level_up_hand(card, text, nil, card.ability.extra.plus_levels)
-        update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
-      end
-    end
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.probabilities.normal = G.GAME.probabilities.normal + card.ability.extra.plus_odds * math.max(1, (2 ^ #find_joker('Oops! All 6s')))
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.probabilities.normal = G.GAME.probabilities.normal - card.ability.extra.plus_odds * math.max(1, (2 ^ #find_joker('Oops! All 6s')))
   end
 }
 local rattata={

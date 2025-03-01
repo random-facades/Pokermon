@@ -586,33 +586,29 @@ return {
             j_poke_pidgey = {
                 name = "Pidgey",
                 text = {
-                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
-                    "in the shop cost {C:money}$2{} less",
-                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)"
+                    "{C:green}#1# in #2#{} chance for {C:mult}+#3#{} Mult",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#4#{C:inactive,s:0.8} rounds)"
                 } 
             },
             j_poke_pidgeotto = {
                 name = "Pidgeotto",
                 text = {
-                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
-                    "in the shop cost {C:money}$3{} less",
-                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)"
+                    "{C:green}#1# in #2#{} chance for {C:mult}+#3#{} Mult",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#4#{C:inactive,s:0.8} rounds)"
                 } 
             },
             j_poke_pidgeot = {
                 name = "Pidgeot",
                 text = {
-                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
-                    "in the shop are {C:attention}free{}",
-                    "{br:2}text needs to be here to work",
-                    "Earn {C:money}$#1#{} when a {C:planet}Planet{} card is used"
+                    "{C:green}#1# in #2#{} chance for {C:mult}+#3#{} Mult",
                 } 
             },
             j_poke_mega_pidgeot = {
                 name = "Mega Pidgeot",
                 text = {
-                    "{C:planet}Planet{} cards grant",
-                    "{C:attention}#1#{} additional levels",
+                    "Adds {C:attention}#1#{} to all {C:attention}listed",
+                    "{C:green,E:1,S:1.1}probabilities",
+                    "{C:inactive}(ex: {C:green}1 in 20{C:inactive} -> {C:green}21 in 20{C:inactive})"
                 } 
             },
             j_poke_rattata = {
