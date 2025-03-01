@@ -52,6 +52,56 @@ local mew ={
 -- Quilava 156
 -- Typhlosion 157
 -- Totodile 158
+local totodile = {
+  name = "totodile", 
+  pos = {x = 3, y = 0}, 
+  config = {extra = {chips = 0, chip_mod = 1, hands = 1, h_size = 0}, evo_rqmt = 32},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.hands, card.ability.extra.h_size, card.ability.extra.chip_mod, card.ability.extra.chips}}
+  end,
+  rarity = 2, 
+  cost = 5, 
+  stage = "Basic",
+  ptype = "Water",
+  atlas = "Pokedex1",
+  perishable_compat = false,
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.before and not context.blueprint then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+        if card.ability.extra.chips == self.config.evo_rqmt then
+          local eval = function(_card) return not _card.REMOVED end
+          juice_card_until(card, eval, true)
+        end
+        return {
+          message = localize('k_upgrade_ex'),
+          colour = G.C.MULT
+        }
+      elseif context.joker_main then
+        return {
+          message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}},
+          colour = G.C.CHIPS,
+          chip_mod = card.ability.extra.chips
+        }
+      end
+    end
+    return scaling_evo(self, card, context, "j_poke_croconaw", card.ability.extra.mult, self.config.evo_rqmt)
+  end,
+  add_to_deck = function(self, card, from_debuff)
+    if not from_debuff then
+      G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+      ease_hands_played(card.ability.extra.hands)
+    end
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    if not from_debuff then
+      G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+      ease_hands_played(card.ability.extra.hands)
+    end
+  end
+}
 -- Croconaw 159
 -- Feraligatr 160
 -- Sentret 161
