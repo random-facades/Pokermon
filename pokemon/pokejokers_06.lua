@@ -49,12 +49,60 @@ local mew ={
 -- Bayleef 153
 -- Meganium 154
 -- Cyndaquil 155
+local cyndaquil = {
+  name = "cyndaquil",
+  pos = {x = 3, y = 0},
+  config = {extra = {mult = 0, mult_mod = 2, hands = 1, d_size = 1}, evo_rqmt = 16},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.d_size, card.ability.extra.hands, card.ability.extra.mult_mod, card.ability.extra.mult}}
+  end,
+  rarity = 2,
+  cost = 5,
+  stage = "Basic",
+  ptype = "Fire",
+  atlas = "Pokedex2",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and card.ability.extra.mult > 0 then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+          colour = G.C.CHIPS,
+          mult_mod = card.ability.extra.mult
+        }
+      end
+    end
+    if context.end_of_round and not context.repetition and not context.individual and not context.blueprint and G.GAME.current_round.discards_left > 0 then
+      card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_mod * G.GAME.current_round.discards_left)
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_upgrade_ex")})
+    end
+    return scaling_evo(self, card, context, "j_poke_quilava", card.ability.extra.mult, self.config.evo_rqmt)
+  end,
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.d_size
+    ease_discard(card.ability.extra.d_size)
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+    local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+    if to_decrease > 0 then
+      ease_hands_played(-to_decrease)
+    end
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.d_size
+    ease_discard(-card.ability.extra.d_size)
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+    if not from_debuff then
+      ease_hands_played(card.ability.extra.hands)
+    end
+  end,
+}
 -- Quilava 156
 -- Typhlosion 157
 -- Totodile 158
 local totodile = {
   name = "totodile",
-  pos = {x = 3, y = 0},
+  pos = {x = 6, y = 0},
   config = {extra = {chips = 0, chip_mod = 1, hands = 1, h_size = 1}, evo_rqmt = 32},
   loc_vars = function(self, info_queue, card)
     type_tooltip(self, info_queue, card)
@@ -65,7 +113,6 @@ local totodile = {
   stage = "Basic",
   ptype = "Water",
   atlas = "Pokedex2",
-  perishable_compat = false,
   blueprint_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
@@ -86,24 +133,23 @@ local totodile = {
     return scaling_evo(self, card, context, "j_poke_croconaw", card.ability.extra.chips, self.config.evo_rqmt)
   end,
   add_to_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-      ease_hands_played(card.ability.extra.hands)
-      G.hand:change_size(-card.ability.extra.h_size)
-    end
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+    ease_hands_played(card.ability.extra.hands)
+    G.hand:change_size(-card.ability.extra.h_size)
   end,
   remove_from_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
-      ease_hands_played(-card.ability.extra.hands)
-      G.hand:change_size(card.ability.extra.h_size)
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+    local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+    if to_decrease > 0 then
+      ease_hands_played(-to_decrease)
     end
+    G.hand:change_size(card.ability.extra.h_size)
   end
 }
 -- Croconaw 159
 local croconaw = {
   name = "croconaw",
-  pos = {x = 3, y = 0},
+  pos = {x = 7, y = 0},
   config = {extra = {chips = 0, chip_mod = 2, hands = 1, h_size = 1}, evo_rqmt = 72},
   loc_vars = function(self, info_queue, card)
     type_tooltip(self, info_queue, card)
@@ -114,7 +160,6 @@ local croconaw = {
   stage = "One",
   ptype = "Water",
   atlas = "Pokedex2",
-  perishable_compat = false,
   blueprint_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
@@ -135,24 +180,23 @@ local croconaw = {
     return scaling_evo(self, card, context, "j_poke_feraligatr", card.ability.extra.chips, self.config.evo_rqmt)
   end,
   add_to_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-      ease_hands_played(card.ability.extra.hands)
-      G.hand:change_size(-card.ability.extra.h_size)
-    end
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+    ease_hands_played(card.ability.extra.hands)
+    G.hand:change_size(-card.ability.extra.h_size)
   end,
   remove_from_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
-      ease_hands_played(-card.ability.extra.hands)
-      G.hand:change_size(card.ability.extra.h_size)
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+    local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+    if to_decrease > 0 then
+      ease_hands_played(-to_decrease)
     end
+    G.hand:change_size(card.ability.extra.h_size)
   end
 }
 -- Feraligatr 160
 local feraligatr = {
   name = "feraligatr",
-  pos = {x = 3, y = 0},
+  pos = {x = 8, y = 0},
   config = {extra = {chips = 0, chip_mod = 3, hands = 1, h_size = 1}},
   loc_vars = function(self, info_queue, card)
     type_tooltip(self, info_queue, card)
@@ -163,7 +207,6 @@ local feraligatr = {
   stage = "Two",
   ptype = "Water",
   atlas = "Pokedex2",
-  perishable_compat = false,
   blueprint_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
@@ -183,18 +226,17 @@ local feraligatr = {
     end
   end,
   add_to_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-      ease_hands_played(card.ability.extra.hands)
-      G.hand:change_size(-card.ability.extra.h_size)
-    end
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+    ease_hands_played(card.ability.extra.hands)
+    G.hand:change_size(-card.ability.extra.h_size)
   end,
   remove_from_deck = function(self, card, from_debuff)
-    if not from_debuff then
-      G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
-      ease_hands_played(-card.ability.extra.hands)
-      G.hand:change_size(card.ability.extra.h_size)
+    G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+    local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+    if to_decrease > 0 then
+      ease_hands_played(-to_decrease)
     end
+    G.hand:change_size(card.ability.extra.h_size)
   end
 }
 -- Sentret 161
@@ -498,5 +540,5 @@ local igglybuff={
 -- Flaaffy 180
 
 return {name = "Pokemon Jokers 151-180", 
-        list = { mew, sentret, furret, crobat, pichu, cleffa, igglybuff},
+        list = { mew, totodile, croconaw, feraligatr, sentret, furret, crobat, pichu, cleffa, igglybuff},
 }
