@@ -481,7 +481,7 @@ return {
                     "{C:chips}+#1#{} Chips",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "Pidgey",
                 text = {
                     "All {C:planet}Planet{} cards and",
@@ -490,7 +490,7 @@ return {
                     "{C:inactive}(Evolves after {C:attention}#1#{}{C:inactive} round)"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "Pidgeotto",
                 text = {
                     "All {C:planet}Planet{} cards and",
@@ -499,7 +499,7 @@ return {
                     "{C:inactive}(Evolves after {C:attention}#1#{}{C:inactive} round)"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "Pidgeotto",
                 text = {
                     "All {C:planet}Planet{} cards and",

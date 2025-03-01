@@ -580,7 +580,7 @@ return {
                     "{C:chips}+#1#{} Chip",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "Pidgey",
                 text = {
                     "Mọi lá {C:planet}Hành Tinh{} và {C:planet}Gói Thiên Thể{}",
@@ -588,7 +588,7 @@ return {
                     "{C:inactive,s:0.8}(Tiến hoá sau {C:attention,s:0.8}#1#{C:inactive,s:0.8} ván)"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "Pidgeotto",
                 text = {
                     "Mọi lá {C:planet}Hành Tinh{} và {C:planet}Gói Thiên Thể{}",
@@ -596,7 +596,7 @@ return {
                     "{C:inactive,s:0.8}(Tiến hoá sau {C:attention,s:0.8}#1#{C:inactive,s:0.8} ván)"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "Pidgeot",
                 text = {
                     "Mọi lá {C:planet}Hành Tinh{} và {C:planet}Gói Thiên Thể{}",

@@ -2660,6 +2660,31 @@ return {
                   "{C:inactive}(#3#){}"
                 }
             },
+            j_poke_blipbug = {
+                name = "Blipbug",
+                text = {
+                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
+                    "in the shop cost {C:money}$2{} less",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)"
+                } 
+            },
+            j_poke_dottler = {
+                name = "Dottler",
+                text = {
+                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
+                    "in the shop cost {C:money}$3{} less",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)"
+                } 
+            },
+            j_poke_orbeetle = {
+                name = "Orbeetle",
+                text = {
+                    "All {C:planet}Planet{} cards and {C:planet}Celestial Packs{}",
+                    "in the shop are {C:attention}free{}",
+                    "{br:2}text needs to be here to work",
+                    "Earn {C:money}$#1#{} when a {C:planet}Planet{} card is used"
+                } 
+            },
             j_poke_yamper = {
                 name = 'Yamper',
                 text = {

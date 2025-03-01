@@ -12,8 +12,106 @@
 -- Corvisquire 822
 -- Corviknight 823
 -- Blipbug 824
+local blipbug={
+  name = "blipbug", 
+  pos = {x = 0, y = 1},
+  config = {extra = {rounds = 4}},
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+		return {vars = {center.ability.extra.rounds}}
+  end,
+  rarity = 1,
+  cost = 5,
+  stage = "Basic",
+  ptype = "Grass",
+  atlas = "Pokedex8",
+  blueprint_compat = false,
+  calculate = function(self, card, context)
+    return level_evo(self, card, context, "j_poke_dottler")
+  end,
+  add_to_deck = function(self, card, from_debuff)
+      G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    G.E_MANAGER:add_event(Event({func = function()
+      for k, v in pairs(G.I.CARD) do
+          if v.set_cost then v:set_cost() end
+      end
+      return true end }))
+  end
+}
 -- Dottler 825
+local dottler={
+  name = "dottler", 
+  pos = {x = 1, y = 1},
+  config = {extra = {rounds = 4}},
+  blueprint_compat = false,
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+		return {vars = {center.ability.extra.rounds}}
+  end,
+  rarity = 2,
+  cost = 8,
+  stage = "One",
+  ptype = "Psychic",
+  atlas = "Pokedex8",
+  calculate = function(self, card, context)
+    return level_evo(self, card, context, "j_poke_orbeetle")
+  end,
+  add_to_deck = function(self, card, from_debuff)
+      G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    G.E_MANAGER:add_event(Event({func = function()
+      for k, v in pairs(G.I.CARD) do
+          if v.set_cost then v:set_cost() end
+      end
+      return true end }))
+  end
+}
 -- Orbeetle 826
+local orbeetle={
+  name = "orbeetle", 
+  pos = {x = 2, y = 1},
+  config = {extra = {money = 2}}, 
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+		return {vars = {center.ability.extra.money}}
+  end,
+  rarity = "poke_safari",
+  cost = 10,
+  stage = "Two",
+  ptype = "Psychic",
+  atlas = "Pokedex8",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.using_consumeable and context.consumeable.ability.set == 'Planet' then
+      ease_poke_dollars(card, "orbeetle", card.ability.extra.money)
+    end
+  end,
+  add_to_deck = function(self, card, from_debuff)
+      G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
+  end,
+  remove_from_deck = function(self, card, from_debuff)
+    G.E_MANAGER:add_event(Event({func = function()
+      for k, v in pairs(G.I.CARD) do
+          if v.set_cost then v:set_cost() end
+      end
+      return true end }))
+  end,
+}
 -- Nickit 827
 -- Thievul 828
 -- Gossifleur 829
@@ -84,5 +182,5 @@ local boltund={
 -- Coalossal 839
 -- Applin 840
 return {name = "Pokemon Jokers 811-840", 
-        list = {yamper, boltund},
+        list = {blipbug, dottler, orbeetle, yamper, boltund},
 }

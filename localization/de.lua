@@ -584,7 +584,7 @@ return {
                     "{C:chips}+#1#{} Chips",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "Taubsi",
                 text = {
                     "Alle {C:planet}Planeten{} Karten und",
@@ -593,7 +593,7 @@ return {
                     "{C:inactive}(Entwicklung nach {C:attention}#1#{}{C:inactive} Runden)"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "Tauboga",
                 text = {
                     "Alle {C:planet}Planeten{} Karten und",
@@ -602,7 +602,7 @@ return {
                     "{C:inactive}(Entwicklung nach {C:attention}#1#{}{C:inactive} Runden)"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "Tauboss",
                 text = {
                     "Alle {C:planet}Planeten{} Karten und",

@@ -502,7 +502,7 @@ return {
                     "チップ {C:chips}+#1#{}",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "ポッポ",
                 text = {
                     "ショップの {C:planet}惑星{} カードと",
@@ -511,7 +511,7 @@ return {
                     "{C:inactive}({C:attention}#1#{}{C:inactive} ラウンド後に進化)"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "ピジョン",
                 text = {
                     "ショップの {C:planet}惑星{} カードと",
@@ -520,7 +520,7 @@ return {
                     "{C:inactive}({C:attention}#1#{}{C:inactive} ラウンド後に進化)"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "ピジョット",
                 text = {
                     "ショップの {C:planet}惑星{} カードと",

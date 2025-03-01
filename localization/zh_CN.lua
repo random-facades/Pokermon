@@ -1716,7 +1716,7 @@ return {
 					"{C:inactive}（在{C:attention}#3#{}{C:inactive}个回合后进化）"
 				}
 			},
-			j_poke_pidgeot = {
+			j_poke_orbeetle = {
 				name = "大比鸟",
 				text = {
 					"商店里的{C:planet}行星牌{}以及",
@@ -1724,7 +1724,7 @@ return {
 					"使用{C:planet}行星牌{}时获得{C:money}$#1#{}"
 				}
 			},
-			j_poke_pidgeotto = {
+			j_poke_dottler = {
 				name = "比比鸟",
 				text = {
 					"商店里的{C:planet}行星牌{}以及",
@@ -1733,7 +1733,7 @@ return {
 					"{C:inactive}（在{C:attention}#1#{}{C:inactive}个回合后进化）"
 				}
 			},
-			j_poke_pidgey = {
+			j_poke_blipbug = {
 				name = "波波",
 				text = {
 					"商店里的{C:planet}行星牌{}以及",

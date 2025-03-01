@@ -499,7 +499,7 @@ return {
                     "{C:chips}+#1#{} шт. фишек",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "Пиджи",
                 text = {
                     "Все карты {C:planet}Планет{} и",
@@ -508,7 +508,7 @@ return {
                     "{C:inactive}(Эволюционирует после {C:attention}#1#{}{C:inactive} раундов)"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "Пиджеотто",
                 text = {
                     "Все карты {C:planet}Планет{} и",
@@ -517,7 +517,7 @@ return {
                     "{C:inactive}(Эволюционирует после {C:attention}#1#{}{C:inactive} раундов)"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "Пиджеот",
                 text = {
                     "Все карты {C:planet}Планет{} и",

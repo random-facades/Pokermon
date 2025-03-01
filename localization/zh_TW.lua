@@ -476,7 +476,7 @@ return {
                     "{C:chips}+#1#{}籌碼",
                 } 
             },
-            j_poke_pidgey = {
+            j_poke_blipbug = {
                 name = "波波",
                 text = {
                     "商店裏的{C:planet}行星牌{}以及",
@@ -485,7 +485,7 @@ return {
                     "{C:inactive}（在{C:attention}#1#{}{C:inactive}個回合後進化）"
                 } 
             },
-            j_poke_pidgeotto = {
+            j_poke_dottler = {
                 name = "比比鳥",
                 text = {
                     "商店裏的{C:planet}行星牌{}以及",
@@ -494,7 +494,7 @@ return {
                     "{C:inactive}（在{C:attention}#1#{}{C:inactive}個回合後進化）"
                 } 
             },
-            j_poke_pidgeot = {
+            j_poke_orbeetle = {
                 name = "大比鳥",
                 text = {
                     "商店裏的{C:planet}行星牌{}以及",
