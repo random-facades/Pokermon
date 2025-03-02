@@ -808,6 +808,7 @@ type_tooltip = function(self, info_queue, center)
 end
 
 apply_type_sticker = function(card, sticker_type)
+  if card.config.center.name == 'chinchou' or card.config.center.name == 'lanturn' then return nil end
   local poketype_list = {"Grass", "Fire", "Water", "Lightning", "Psychic", "Fighting", "Colorless", "Dark", "Metal", "Fairy", "Dragon", "Earth"}
   local apply_type = nil
   
