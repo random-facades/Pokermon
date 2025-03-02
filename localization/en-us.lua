@@ -2015,6 +2015,21 @@ return {
                     "{C:chips}+#2#{} Chips",
                 }
             },
+            j_poke_ledyba = {
+                name = 'Ledyba',
+                text = {
+                    "{C:chips}+#1#{} Chips if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_ledian = {
+                name = 'Ledian',
+                text = {
+                    "{C:chips}+#1#{} Chips if played hand",
+                    "contains a {C:attention}Two Pair",
+                }
+            },
             j_poke_crobat = {
                 name = 'Crobat',
                 text = {
