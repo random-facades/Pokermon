@@ -26,10 +26,11 @@ cards_dont_match = function(card1, card2)
 end
 
 update_scry_cardarea = function(scry_view)
+   scry_view.states.visible = true
    if scry_view.children.area_uibox then
       scry_view.children.area_uibox.states.visible = false
    end
-   if scry_view.adjusting_cards or G.GAME.scry_amount == 0 then return end
+   if scry_view.adjusting_cards then return end
    scry_view.adjusting_cards = true
 
    local deck = {}
@@ -37,24 +38,22 @@ update_scry_cardarea = function(scry_view)
       if #G.deck.cards + 1 <= i then break end
       deck[i] = G.deck.cards[#G.deck.cards + 1 - i]
    end
+   -- blank card that will cause the removal of any extra cards
+   deck[G.GAME.scry_amount + 1] = true
 
    local i = 1
    for k, card in pairs(deck) do
       while i <= #scry_view.cards and cards_dont_match(card,scry_view.cards[i]) do
-         scry_view.cards[i]:start_dissolve()
+         scry_view.cards[i]:start_dissolve({G.C.PURPLE})
          i = i + 1
       end
-      if cards_dont_match(card, scry_view.cards[i]) then
+      if k <= G.GAME.scry_amount and cards_dont_match(card, scry_view.cards[i]) then
          local temp_card = copy_card(card, nil, 0.7)
          temp_card.states.drag.can = false
          temp_card.states.hover.can = false
          scry_view:emplace(temp_card)
-         temp_card:start_materialize()
+         temp_card:start_materialize({G.C.PURPLE})
       end
-      i = i + 1
-   end
-   while i <= #scry_view.cards do
-      scry_view.cards[i]:start_dissolve()
       i = i + 1
    end
    G.E_MANAGER:add_event(Event({

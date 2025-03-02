@@ -429,4 +429,15 @@ payload = "if self.config.type == 'scry' or self.config.type == 'hand' and not (
 match_indent = true
 overwrite = true
 
+# Scry Functionality 4
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "function Game:update_round_eval(dt)"
+position = "after"
+payload = '''
+    if G.scry_view then G.scry_view.states.visible = false end
+'''
+match_indent = true
+
 
