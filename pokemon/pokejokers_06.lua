@@ -604,9 +604,9 @@ local ledyba={
   name = "ledyba",
   pos = {x = 3, y = 1},
   config = {extra = {chips = 80, rounds = 4}},
-  loc_vars = function(self, info_queue, center)
-    type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.chips, center.ability.extra.rounds}}
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.chips, card.ability.extra.rounds}}
   end,
   rarity = 1,
   cost = 3,
@@ -617,7 +617,7 @@ local ledyba={
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main and next(context.poker_hands['Two Pair']) then
-        return{
+        return {
           message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}},
           colour = G.C.CHIPS,
           chip_mod = card.ability.extra.chips
@@ -632,9 +632,9 @@ local ledian={
   name = "ledian",
   pos = {x = 4, y = 1},
   config = {extra = {chips = 120}},
-  loc_vars = function(self, info_queue, center)
-    type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.chips}}
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.chips}}
   end,
   rarity = 2,
   cost = 6,
@@ -645,7 +645,7 @@ local ledian={
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main and next(context.poker_hands['Two Pair']) then
-        return{
+        return {
           message = localize{type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}},
           colour = G.C.CHIPS,
           chip_mod = card.ability.extra.chips
@@ -655,7 +655,70 @@ local ledian={
   end,
 }
 -- Spinarak 167
+local spinarak={
+  name = "spinarak",
+  pos = {x = 5, y = 1},
+  config = {extra = {mult = 10, rounds = 4}},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.mult, card.ability.extra.rounds}}
+  end,
+  rarity = 1,
+  cost = 4,
+  stage = "Basic",
+  ptype = "Grass",
+  atlas = "Pokedex2",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and next(context.poker_hands['Two Pair']) then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult,
+        }
+      end
+    end
+    return level_evo(self, card, context, "j_poke_ariados")
+  end,
+}
 -- Ariados 168
+local ariados={
+  name = "ariados",
+  pos = {x = 6, y = 1},
+  config = {extra = {mult = 15, mult1 = 20}},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.mult, card.ability.extra.mult1}}
+  end,
+  rarity = 2,
+  cost = 6,
+  stage = "One",
+  ptype = "Grass",
+  atlas = "Pokedex2",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main and next(context.poker_hands['Two Pair']) then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult,
+        }
+      end
+    end
+    if context.individual and context.cardarea == G.play then
+      if context.other_card and context.other_card.lucky_trigger then
+        return {
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+          colour = G.C.MULT,
+          mult_mod = card.ability.extra.mult,
+          card = context.other_card,
+        }
+      end
+    end
+  end,
+}
 -- Crobat 169
 local crobat={
   name = "crobat", 
@@ -870,5 +933,5 @@ local igglybuff={
 -- Flaaffy 180
 
 return {name = "Pokemon Jokers 151-180", 
-        list = { mew, chikorita, bayleef, meganium, cyndaquil, quilava, typhlosion, totodile, croconaw, feraligatr, sentret, furret, hoothoot, noctowl, ledyba, ledian, crobat, pichu, cleffa, igglybuff},
+        list = { mew, chikorita, bayleef, meganium, cyndaquil, quilava, typhlosion, totodile, croconaw, feraligatr, sentret, furret, hoothoot, noctowl, ledyba, ledian, spinarak, ariados, crobat, pichu, cleffa, igglybuff},
 }

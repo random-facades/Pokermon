@@ -2030,6 +2030,24 @@ return {
                     "contains a {C:attention}Two Pair",
                 }
             },
+            j_poke_spinarak = {
+                name = 'Spinarak',
+                text = {
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_ariados = {
+                name = 'Ariados',
+                text = {
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{br:2}text needs to be here to work",
+                    "{C:mult}+#2#{} Mult when a {C:attention}Lucky{} card",
+                    "{C:green}successfully{} triggers",
+                }
+            },
             j_poke_crobat = {
                 name = 'Crobat',
                 text = {
