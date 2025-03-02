@@ -710,10 +710,10 @@ local ariados={
     if context.individual and context.cardarea == G.play then
       if context.other_card and context.other_card.lucky_trigger then
         return {
-          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}},
+          message = localize{type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult1}},
           colour = G.C.MULT,
-          mult_mod = card.ability.extra.mult,
-          card = context.other_card,
+          mult_mod = card.ability.extra.mult1,
+          card = card,
         }
       end
     end

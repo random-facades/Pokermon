@@ -26,7 +26,13 @@ cards_dont_match = function(card1, card2)
 end
 
 update_scry_cardarea = function(scry_view)
-   scry_view.states.visible = true
+   if not scry_view.states.visible then
+      local to_kill = #scry_view.cards
+      for i = 1, to_kill do
+         scry_view.cards[i] = nil
+      end
+     scry_view.states.visible = true
+   end
    if scry_view.children.area_uibox then
       scry_view.children.area_uibox.states.visible = false
    end
