@@ -1894,7 +1894,96 @@ return {
                     "{C:spectral}Spectral{} or {C:item}Item{} card",
                     "Sometimes creates a random",
                     "{C:dark_edition}Negative{} Joker {C:attention}instead{}",
-                } 
+                }
+            },
+            j_poke_chikorita = {
+                name = 'Chikorita',
+                text = {
+                    "{C:attention}+#1#{} hand size",
+                    "{C:red}-#2#{} discard",
+                    "Every card {C:attention}held in hand{}",
+                    "earns {C:money}$#3#{} at end of round",
+                    "{C:inactive,s:0.8}(Evolves at $#4# / {C:money,s:0.8}$#5#{C:inactive,s:0.8} earned)",
+                }
+            },
+            j_poke_bayleef = {
+                name = 'Bayleef',
+                text = {
+                    "{C:attention}+#1#{} hand size",
+                    "{C:red}-#2#{} discard",
+                    "Every card {C:attention}held in hand{}",
+                    "earns {C:money}$#3#{} at end of round",
+                    "{C:inactive,s:0.8}(Evolves at $#4# / {C:money,s:0.8}$#5#{C:inactive,s:0.8} earned)",
+                }
+            },
+            j_poke_meganium = {
+                name = 'Meganium',
+                text = {
+                    "{C:attention}+#1#{} hand size",
+                    "{C:red}-#2#{} discard",
+                    "Every card {C:attention}held in hand{}",
+                    "earns {C:money}$#3#{} at end of round",
+                }
+            },
+            j_poke_cyndaquil = {
+                name = 'Cyndaquil',
+                text = {
+                    "{C:red}+#1#{} discard",
+                    "{C:blue}-#2#{} hand",
+                    "Gains {C:mult}+#3#{} Mult per discard",
+                    "remaining after hand is scored",
+                    "{C:inactive}(Evolves at {C:mult}+#4#{C:inactive} / +#5# Mult)",
+                }
+            },
+            j_poke_quilava = {
+                name = 'Quilava',
+                text = {
+                    "{C:red}+#1#{} discard",
+                    "{C:blue}-#2#{} hand",
+                    "Gains {C:mult}+#3#{} Mult per discard",
+                    "remaining after hand is scored",
+                    "{C:inactive}(Evolves at {C:mult}+#4#{C:inactive} / +#5# Mult)",
+                }
+            },
+            j_poke_typhlosion = {
+                name = 'Typhlosion',
+                text = {
+                    "{C:red}+#1#{} discard",
+                    "{C:blue}-#2#{} hand",
+                    "Gains {C:mult}+#3#{} Mult per discard",
+                    "remaining after hand is scored",
+                    "{C:inactive}(Currently {C:mult}+#4#{C:inactive} Mult)",
+                }
+            },
+            j_poke_totodile = {
+                name = 'Totodile',
+                text = {
+                    "{C:blue}+#1#{} hand",
+                    "{C:attention}-#2#{} hand size",
+                    "Gains {C:chips}+#3#{} Chips",
+                    "for every hand played",
+                    "{C:inactive}(Evolves at {C:chips}+#4#{C:inactive} / +#5# Chips)",
+                }
+            },
+            j_poke_croconaw = {
+                name = 'Croconaw',
+                text = {
+                    "{C:blue}+#1#{} hand",
+                    "{C:attention}-#2#{} hand size",
+                    "Gains {C:chips}+#3#{} Chips",
+                    "for every hand played",
+                    "{C:inactive}(Evolves at {C:chips}+#4#{C:inactive} / +#5# Chips)",
+                }
+            },
+            j_poke_feraligatr = {
+                name = 'Feraligatr',
+                text = {
+                    "{C:blue}+#1#{} hand",
+                    "{C:attention}-#2#{} hand size",
+                    "Gains {C:chips}+#3#{} Chips",
+                    "for every hand played",
+                    "{C:inactive}(Currently {C:chips}+#4#{C:inactive} Chips)",
+                }
             },
             j_poke_sentret = {
                 name = 'Sentret',
@@ -1914,7 +2003,55 @@ return {
                     "isn't the last played hand",
                     "{C:inactive}(Last hand: {C:attention}#3#{C:inactive})",
                     "{C:inactive}(Currently {C:mult}+#1#{} {C:inactive}Mult)",
-                }  
+                }
+            },
+            j_poke_hoothoot = {
+                name = 'Hoothoot',
+                text = {
+                    "{C:purple}Scry #1#",
+                    "{C:chips}+#2#{} Chips",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#3#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_noctowl = {
+                name = 'Noctowl',
+                text = {
+                    "{C:purple}Scry #1#",
+                    "{C:chips}+#2#{} Chips",
+                }
+            },
+            j_poke_ledyba = {
+                name = 'Ledyba',
+                text = {
+                    "{C:chips}+#1#{} Chips if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_ledian = {
+                name = 'Ledian',
+                text = {
+                    "{C:chips}+#1#{} Chips if played hand",
+                    "contains a {C:attention}Two Pair",
+                }
+            },
+            j_poke_spinarak = {
+                name = 'Spinarak',
+                text = {
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_ariados = {
+                name = 'Ariados',
+                text = {
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "contains a {C:attention}Two Pair",
+                    "{br:2}text needs to be here to work",
+                    "{C:mult}+#2#{} Mult when a {C:attention}Lucky{} card",
+                    "{C:green}successfully{} triggers",
+                }
             },
             j_poke_crobat = {
                 name = 'Crobat',
@@ -1952,6 +2089,24 @@ return {
                     "Create a {C:attention}World{} card with",
                     "{C:dark_edition}Negative{} at end of round",
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_togepi = {
+                name = 'Togepi',
+                text = {
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_togetic = {
+                name = 'Togetic',
+                text = {
+                    "{C:inactive,s:0.8}(Evolves with a {C:attention,s:0.8}Shiny Stone{C:inactive,s:0.8} card)"
+                }
+            },
+            j_poke_togekiss = {
+                name = 'Togekiss',
+                text = {
+                    "",
                 }
             },
             j_poke_bellossom = {
@@ -3319,6 +3474,12 @@ return {
                     "Desired {C:attention}#1#{} are",
                     "set at random upon",
                     "Joker creation"
+                }
+            },
+            scry_cards = {
+                name = "Scry",
+                text = {
+                    "View the top cards of your deck"
                 }
             },
             mega_rule = {
