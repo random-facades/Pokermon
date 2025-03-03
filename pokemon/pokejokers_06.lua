@@ -929,11 +929,11 @@ local igglybuff={
 local togepi={
   name = "togepi",
   pos = {x = 3, y = 2},
-  config = {extra = {Xmult_minus = 0.5, Xmult_max = 1.5, rounds = 2,}},
+  config = {extra = {Xmult1 = 0.5, Xmult2 = 1.5, rounds = 2,}},
   rarity = 1,
   cost = 4,
   stage = "Baby",
-  ptype = "Colorless",
+  ptype = "Fairy",
   atlas = "Pokedex2",
   perishable_compat = true,
   blueprint_compat = true,
@@ -942,7 +942,7 @@ local togepi={
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main then
         faint_baby_poke(self, card, context)
-        local xmult = 10 * (card.ability.extra.Xmult_minus + pseudorandom('togepi') * (card.ability.extra.Xmult_max - card.ability.extra.Xmult_minus))
+        local xmult = 10 * (card.ability.extra.Xmult1 + pseudorandom('togepi') * (card.ability.extra.Xmult2 - card.ability.extra.Xmult1))
         xmult = math.floor(xmult + 0.5) / 10
         return {
           message = localize{type = 'variable', key = 'a_xmult', vars = {xmult}},
@@ -963,7 +963,7 @@ local togepi={
     type_tooltip(_c, info_queue, card)
 
     local r_mults = {}
-    for i = _c.config.extra.Xmult_minus * 10, _c.config.extra.Xmult_max * 10 do
+    for i = card.ability.extra.Xmult1 * 10, card.ability.extra.Xmult2 * 10 do
       r_mults[#r_mults+1] = string.format("%.1f", i/10)
     end
 
@@ -979,11 +979,11 @@ local togepi={
 local togetic={
   name = "togetic",
   pos = {x = 4, y = 2},
-  config = {extra = {Xmult_minus = 1.5, Xmult_max = 3}},
+  config = {extra = {Xmult1 = 1.5, Xmult2 = 3}},
   rarity = 1,
   cost = 6,
   stage = "One",
-  ptype = "Colorless",
+  ptype = "Fairy",
   atlas = "Pokedex2",
   item_req = "shinystone",
   perishable_compat = true,
@@ -992,7 +992,7 @@ local togetic={
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main then
-        local xmult = 10 * (card.ability.extra.Xmult_minus + pseudorandom('togetic') * (card.ability.extra.Xmult_max - card.ability.extra.Xmult_minus))
+        local xmult = 10 * (card.ability.extra.Xmult1 + pseudorandom('togetic') * (card.ability.extra.Xmult2 - card.ability.extra.Xmult1))
         xmult = math.floor(xmult + 0.5) / 10
         return {
           message = localize{type = 'variable', key = 'a_xmult', vars = {xmult}},
@@ -1012,7 +1012,7 @@ local togetic={
     type_tooltip(_c, info_queue, card)
 
     local r_mults = {}
-    for i = _c.config.extra.Xmult_minus * 10, _c.config.extra.Xmult_max * 10 do
+    for i = card.ability.extra.Xmult1 * 10, card.ability.extra.Xmult2 * 10 do
       r_mults[#r_mults+1] = string.format("%.1f", i/10)
     end
 

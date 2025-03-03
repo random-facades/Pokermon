@@ -341,11 +341,11 @@ local magmortar={
 local togekiss={
   name = "togekiss",
   pos = {x = 11, y = 5},
-  config = {extra = {Xmult_minus = 1.5, Xmult_max = 5}},
+  config = {extra = {Xmult1 = 1.5, Xmult2 = 4.5}},
   rarity = "poke_safari",
   cost = 10,
   stage = "Two",
-  ptype = "Colorless",
+  ptype = "Fairy",
   atlas = "Pokedex4",
   perishable_compat = true,
   blueprint_compat = true,
@@ -353,7 +353,7 @@ local togekiss={
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main then
-        local xmult = 10 * (card.ability.extra.Xmult_minus + pseudorandom('togekiss') * (card.ability.extra.Xmult_max - card.ability.extra.Xmult_minus))
+        local xmult = 10 * (card.ability.extra.Xmult1 + pseudorandom('togekiss') * (card.ability.extra.Xmult2 - card.ability.extra.Xmult1))
         xmult = math.floor(xmult + 0.5) / 10
         return {
           message = localize{type = 'variable', key = 'a_xmult', vars = {xmult}},
@@ -372,7 +372,7 @@ local togekiss={
     type_tooltip(_c, info_queue, card)
 
     local r_mults = {}
-    for i = _c.config.extra.Xmult_minus * 10, _c.config.extra.Xmult_max * 10 do
+    for i = card.ability.extra.Xmult1 * 10, card.ability.extra.Xmult2 * 10 do
       r_mults[#r_mults+1] = string.format("%.1f", i/10)
     end
 

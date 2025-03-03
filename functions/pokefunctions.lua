@@ -82,6 +82,7 @@ family = {
     {"hoothoot", "noctowl"},
     {"ledyba", "ledian"},
     {"spinarak", "ariados"},
+    {"togepi", "togetic", "togekiss"},
     {"mantyke", "mantine"},
     {"treecko", "grovyle", "sceptile"},
     {"torchic", "combusken", "blaziken"},
