@@ -2086,6 +2086,24 @@ return {
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
                 }
             },
+            j_poke_togepi = {
+                name = 'Togepi',
+                text = {
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_togetic = {
+                name = 'Togetic',
+                text = {
+                    "{C:inactive,s:0.8}(Evolves with a {C:attention,s:0.8}Shiny Stone{C:inactive,s:0.8} card)"
+                }
+            },
+            j_poke_togekiss = {
+                name = 'Togekiss',
+                text = {
+                    "",
+                }
+            },
             j_poke_bellossom = {
                 name = 'Bellossom',
                 text = {
