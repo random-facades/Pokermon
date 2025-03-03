@@ -78,7 +78,8 @@ family = {
     {"nosepass", "probopass"},
     {"beldum", "metang", "metagross"},
     {"jirachi", "jirachi_banker", "jirachi_booster", "jirachi_power", "jirachi_copy", "jirachi_fixer"},
-    {"sentret", "furret"},
+    {"sentret", "furret"},\
+    {"hoppip", "skiploom", "jumpluff"},
     {"hoothoot", "noctowl"},
     {"ledyba", "ledian"},
     {"spinarak", "ariados"},
@@ -90,6 +91,7 @@ family = {
     {"shroomish", "breloom"},
     {"aron","lairon","aggron"},
     {"buizel", "floatzel"},
+    {"vanillite", "vanillish", "vanilluxe"},
     {"elgyem", "beheeyem"},
     {"litwick", "lampent", "chandelure"},
     {"grubbin", "charjabug", "vikavolt"},
@@ -394,13 +396,10 @@ can_evolve = function(self, card, context, forced_key, ignore_step, allow_level)
 end
 
 level_evo = function(self, card, context, forced_key)
-    if can_evolve(self, card, context, forced_key) and card.ability.extra.rounds then
+    if not card.ability.extra.rounds then return end
+    if can_evolve(self, card, context, forced_key) then
       if card.ability.extra.rounds > 0 then
         card.ability.extra.rounds = card.ability.extra.rounds - 1
-      end
-      if card.ability.extra.rounds == 1 then
-        local eval = function(card) return not card.REMOVED end
-        juice_card_until(card, eval, true)
       end
       if card.ability.extra.rounds <= 0 then
         return {
@@ -409,11 +408,16 @@ level_evo = function(self, card, context, forced_key)
       elseif card.ability.extra.rounds > 0 then
         card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
       end
-    elseif can_evolve(self, card, context, forced_key, nil, true) and card.ability.extra.rounds then
+    elseif can_evolve(self, card, context, forced_key, nil, true) then
       if card.ability.extra.rounds > 0 then
         card.ability.extra.rounds = card.ability.extra.rounds - 1
         card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
       end
+    end
+    if can_evolve(self, card, context, forced_key, true) and card.ability.extra.rounds <= 1 and not card.ability.extra.juiced then
+      card.ability.extra.juiced = true
+      local eval = function(card) return card.ability.extra.rounds <= 1 and not next(find_joker("everstone")) and not card.REMOVED end
+      juice_card_until(card, eval, true)
     end
 end
 
@@ -427,19 +431,34 @@ item_evo = function(self, card, context, forced_key)
           message = evolve (self, card, context, forced_key)
         }
       end
+
+      if can_evolve(self, card, context, forced_key, true) then
+        if not card.ability.extra.juiced then
+          card.ability.extra.juiced = true
+          local eval = function(card) return card.ability.extra.evolve and not card.REMOVED and not G.RESET_JIGGLES end
+          juice_card_until(card, eval, true)
+        end
+      end
+      
     end
 end
 
 scaling_evo = function (self, card, context, forced_key, current, target)
+  if (SMODS.Mods["Talisman"] or {}).can_load then
+    current = to_big(current)
+    target = to_big(target)
+  end
   if can_evolve(self, card, context, forced_key) and current >= target then
     return {
       message = evolve (self, card, context, forced_key)
     }
   end
-  if can_evolve(self, card, context, forced_key, true) and current >= target and not card.ability.extra.juiced then
-    card.ability.extra.juiced = true
-    local eval = function(card) return current >= target and not card.REMOVED and not G.RESET_JIGGLES end
-    juice_card_until(card, eval, true)
+  if can_evolve(self, card, context, forced_key, true) and current >= target then
+    if not card.ability.extra.juiced then
+      card.ability.extra.juiced = true
+      local eval = function(card) return current >= target and not card.REMOVED and not G.RESET_JIGGLES end
+      juice_card_until(card, eval, true)
+    end
   end
 end
 
@@ -448,10 +467,12 @@ type_evo = function (self, card, context, forced_key, type_req)
     return {
       message = evolve (self, card, context, forced_key)
     }
-  elseif can_evolve(self, card, context, forced_key, true) and card.ability[type_req.."_sticker"] and not card.ability.extra.juiced then
-    card.ability.extra.juiced = true
-    local eval = function(card) return not card.REMOVED end
-    juice_card_until(card, eval, true)
+  elseif can_evolve(self, card, context, forced_key, true) and card.ability[type_req.."_sticker"] then
+    if not card.ability.extra.juiced then
+      card.ability.extra.juiced = true
+      local eval = function(card) return card.ability[type_req.."_sticker"] and not card.REMOVED and not G.RESET_JIGGLES end
+      juice_card_until(card, eval, true)
+    end
   end
 end
 
@@ -1005,6 +1026,30 @@ faint_baby_poke = function(self, card, context)
   end
 end
 
+volatile_active = function(self, card, direction)
+  local active = true
+  local first_pos = nil
+  local self_pos = 0
+  local normal_pos = 0
+  for i = 1, #G.jokers.cards do
+    local volatile = G.jokers.cards[i].config.center.volatile
+    if G.jokers.cards[i] == card then
+      self_pos = i
+    end
+    if not volatile then
+      normal_pos = i
+      if not first_pos then first_pos = i end
+    end
+  end
+  if direction == 'left' and first_pos and first_pos < self_pos then 
+    active = false
+  end
+  if direction == 'right' and normal_pos > self_pos then
+    active = false
+  end
+  return active
+end
+
 poke_total_chips = function(card)
   local total_chips = (card.base.nominal) + (card.ability.bonus) + (card.ability.perma_bonus or 0) 
   if card.edition then
@@ -1078,16 +1123,5 @@ fossil_generate_ui = function(self, info_queue, card, desc_nodes, specific_vars,
   desc_nodes[#desc_nodes+1] = {{n=G.UIT.C, config = {align = "tl", scale = 1.0, colour = G.C.UI.TEXT_LIGHT, padding = 0.05}, nodes = to_replace}}
   if evolution_node then
     desc_nodes[#desc_nodes+1] = evolution_node
-  end
-end
-
-update_pokemon_form_sprites = function(card)
-  -- filter out any playing cards, consumables, and non-pokermon jokers
-  if string.sub(card.config.center_key,1,7) == "j_poke_" then
-    -- Oricorio (Hearts, Clubs, Diamonds, Spades) == (5,6,7,8)
-    if card.config.center_key == "j_poke_oricorio" then
-      local form = (type(card.ability.extra) == "table" and card.ability.extra.suit or 0)
-      card.children.center:set_sprite_pos({x = 5 + form, y = 1})
-    end
   end
 end

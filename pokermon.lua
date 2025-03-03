@@ -158,7 +158,22 @@ for _, file in ipairs(pfiles) do
           if pokermon_config.jokers_only and item.rarity == "poke_safari" then
             item.rarity = 3
           end
-          item.discovered = not pokermon_config.pokemon_discovery 
+          item.discovered = not pokermon_config.pokemon_discovery
+          local prev_load = item.load
+          item.load = function(self, card, card_table, other_card)
+            card_table.ability.extra.juiced = nil
+            if type(self.calculate) == "function" then
+              G.E_MANAGER:add_event(Event({
+                func = function()
+                  self.calculate(self, card, {poke_load = true})
+                  return true
+                end
+              }))
+            end
+            if prev_load then
+              prev_load(self, card, card_table, other_card)
+            end
+          end
           SMODS.Joker(item)
         end
       end
@@ -446,4 +461,13 @@ end
 local previous_poly_get_weight = G.P_CENTERS.e_polychrome.get_weight
 G.P_CENTERS.e_polychrome.get_weight = function(self)
   return math.max(G.P_CENTERS.e_polychrome.weight, previous_poly_get_weight(self) - ((G.GAME.negative_edition_rate or 1) - 1) * G.P_CENTERS.e_negative.weight)
+end
+
+--To remove the booster slot from shinies
+local removed = Card.remove
+function Card:remove()
+  if self.edition and self.edition.poke_shiny and self.area and (self.area == G.jokers or self.area == G.hand or self.area == G.play) then
+    SMODS.change_booster_limit(-1)
+  end
+  return removed(self)
 end

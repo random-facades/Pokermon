@@ -291,12 +291,6 @@ local drowzee={
           if v.set == 'Planet' then planets_used = planets_used + 1 end
       end
       card.ability.extra.mult = planets_used * card.ability.extra.mult_mod
-      
-      if card.ability.extra.mult >= 28 and not card.ability.extra.juiced then
-        card.ability.extra.juiced = true
-        local eval = function(card) return not card.REMOVED and not G.RESET_JIGGLES end
-        juice_card_until(card, eval, true)
-      end
     end
   end
 }
@@ -431,20 +425,22 @@ local kingler={
 local voltorb={
   name = "voltorb", 
   pos = {x = 8, y = 7}, 
-  config = {extra = {mult = 10, rounds = 3}},
+  config = {extra = {Xmult = 2, rounds = 3}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.mult, center.ability.extra.rounds}}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'poke_volatile_right'}
+    return {vars = {center.ability.extra.Xmult, center.ability.extra.rounds}}
   end,
   rarity = 1, 
   cost = 3, 
   stage = "Basic", 
   ptype = "Lightning",
   atlas = "Pokedex1",
+  volatile = true,
   blueprint_compat = false,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand and not context.blueprint then
-      if context.joker_main and G.jokers.cards[1] == card then
+      if context.joker_main and volatile_active(self, card, 'right') then
         G.E_MANAGER:add_event(Event({
           func = function()
               card.debuff = true
@@ -453,8 +449,8 @@ local voltorb={
         })) 
         return {
           message = localize("poke_explosion_ex"),
-          colour = G.C.MULT,
-          mult_mod = card.ability.extra.mult
+          colour = G.C.XMULT,
+          Xmult_mod = card.ability.extra.Xmult
         }
       end
     end
@@ -464,20 +460,22 @@ local voltorb={
 local electrode={
   name = "electrode", 
   pos = {x = 9, y = 7}, 
-  config = {extra = {mult = 20, money = 5}},
+  config = {extra = {Xmult = 3, money = 5}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    return {vars = {center.ability.extra.mult, center.ability.extra.money}}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'poke_volatile_right'}
+    return {vars = {center.ability.extra.Xmult, center.ability.extra.money}}
   end,
   rarity = 3, 
   cost = 6, 
   stage = "One", 
   ptype = "Lightning",
   atlas = "Pokedex1", 
+  volatile = true,
   blueprint_compat = false,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand and not context.blueprint then
-      if context.joker_main and G.jokers.cards[1] == card then
+      if context.joker_main and volatile_active(self, card, 'right') then
         ease_poke_dollars(card, "electrode", card.ability.extra.money)
         G.E_MANAGER:add_event(Event({
           func = function()
@@ -488,8 +486,8 @@ local electrode={
         
         return {
           message = localize("poke_explosion_ex"),
-          colour = G.C.MULT,
-          mult_mod = card.ability.extra.mult,
+          colour = G.C.XMULT,
+          Xmult_mod = card.ability.extra.Xmult,
         }
       end
     end
@@ -1007,14 +1005,19 @@ local kangaskhan={
       G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra.card_limit
       return true end }))
     G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
-    ease_hands_played(-card.ability.extra.hands)
+    local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+    if to_decrease > 0 then
+      ease_hands_played(-to_decrease)
+    end
   end,
   remove_from_deck = function(self, card, from_debuff)
     G.E_MANAGER:add_event(Event({func = function()
       G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra.card_limit
       return true end }))
     G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-    ease_hands_played(card.ability.extra.hands)
+    if not from_debuff then
+      ease_hands_played(card.ability.extra.hands)
+    end
   end, 
   megas = {"mega_kangaskhan"}
 }
