@@ -20,6 +20,24 @@
 -- Necrozma 800
 -- Magearna 801
 -- Marshadow 802
+local marshadow = {
+  name = "marshadow",
+  pos = { x = 5, y = 8 },
+  soul_pos = { x = 6, y = 8 },
+  config = { extra = {beaten_blinds = {}} },
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    return { vars = {  } }
+  end,
+  rarity = 4,
+  cost = 20,
+  stage = "Legendary",
+  ptype = "Fighting",
+  atlas = "Pokedex7",
+  blueprint_compat = true,
+  calculate = function(self, card, context)
+  end,
+}
 -- Poipole 803
 -- Naganadel 804
 -- Stakataka 805
@@ -28,6 +46,7 @@
 -- Meltan 808
 -- Melmetal 809
 -- Grookey 810
-return {name = "Pokemon Jokers 781-810", 
-        list = {},
+return {
+  name = "Pokemon Jokers 781-810",
+  list = {marshadow},
 }
