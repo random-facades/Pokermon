@@ -761,9 +761,9 @@ return {
             j_poke_clefable = {
                 name = "Clefable",
                 text = {
-                    "When scored, played {C:clubs}#2#{} cards",
-                    "give {C:mult}+#1#{} Mult for each {C:clubs}#2#{} card",
-                    "scored this round",
+                    "When scored, {C:clubs}#2#{} cards",
+                    "give {C:mult}+#1#{} Mult for each",
+                    "{C:clubs}#2#{} card played this round",
                     "{C:inactive,s:0.8}(If you play 5 clubs, each gives {C:mult,s:0.8}+5{C:inactive,s:0.8} Mult)",
                     "{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)"
                 } 
@@ -1005,16 +1005,16 @@ return {
             j_poke_abra = {
                 name = "Abra",
                 text = {
-                    "{C:green}#1# in #2#{} chance to create a {C:attention}Fool{}",
-                    "card if played {C:attention}poker hand{} has",
-                    "already been played this round",
+                    "{C:green}#1# in #2#{} chance to create an {C:item}Item",
+                    "or {C:tarot}Tarot{} card if played {C:attention}poker hand{}",
+                    "has already been played this round",
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#3#{C:inactive,s:0.8} rounds)",
                 } 
             },
             j_poke_kadabra = {
                 name = "Kadabra",
                 text = {
-                    "{C:green}#1# in #2#{} chance to create a {C:attention}Fool{} or",
+                    "{C:green}#1# in #2#{} chance to create a {C:tarot}Tarot{} or",
                     "{C:item}Twisted Spoon{} card if played {C:attention}poker hand{}",
                     "has already been played this round",
                     "{C:inactive,s:0.8}(Evolves with a {C:attention,s:0.8}Linking Cord{C:inactive,s:0.8})"
@@ -1727,22 +1727,22 @@ return {
                 name = 'Omanyte',
                 text = {
                     "{C:attention}Ancient #1#s{}",
-                    "{X:attention,C:white}1+{} : Gain {C:money}$#2#{} of sell value",
-                    "{X:attention,C:white}2+{} : Earn {C:money}$#3#{}",
-                    "{X:attention,C:white}3+{} : Create a random {C:attention}Tarot{} card",
+                    "{X:attention,C:white}1+{} : Create a {C:tarot}Tarot{} card",
+                    "{X:attention,C:white}2+{} : Each played {C:attention}#1#{} earns {C:money}$#2#{} when scored",
+                    "{X:attention,C:white}3+{} : Create a {C:item}Item{} card",
                     "{C:inactive,s:0.8}(Must have room)",
-                    "{C:inactive,s:0.8}(Evolves after triggering third level {C:attention,s:0.8}#4#{C:inactive,s:0.8} times)"
+                    "{C:inactive,s:0.8}(Evolves after triggering third level {C:attention,s:0.8}#3#{C:inactive,s:0.8} times)"
                 } 
             },
             j_poke_omastar = {
                 name = 'Omastar',
                 text = {
                     "{C:attention}Ancient #1#s{}",
-                    "{X:attention,C:white}1+{} : {}Gain {C:money}$#2#{} of sell value",
-                    "{X:attention,C:white}2+{} : {}Earn {C:money}$#3#{}",
-                    "{X:attention,C:white}3+{} : {}Create a random {C:attention}Tarot{} card",
-                    "{X:attention,C:white}4+{} : {}Create a random {C:item}Item{} card",
+                    "{X:attention,C:white}1+{} : Create a {C:tarot}Tarot{} card",
+                    "{X:attention,C:white}2+{} : Each played {C:attention}#1#{} earns {C:money}$#2#{} when scored",
+                    "{X:attention,C:white}3+{} : Create a {C:item}Item{} card",
                     "{C:inactive,s:0.8}(Must have room)",
+                    "{X:attention,C:white}4+{} : Create a {C:attention}tag{} once per round{C:inactive}#3#{}",
                 } 
             },
             j_poke_kabuto = {
@@ -1770,11 +1770,12 @@ return {
                 name = 'Aerodactyl',
                 text = {
                     "{C:attention}Ancient #1#s{}",
-                    "{X:attention,C:white}1+{} : {C:mult}+#2#{} Mult",
-                    "{X:attention,C:white}2+{} : {C:mult}+#3#{} Mult and {C:chips}+#4#{} Chips",
-                    "{X:attention,C:white}3+{} : {X:red,C:white}X#5#{} Mult",
-                    "{X:attention,C:white}4+{} : {}This Joker scores {C:attention}double{}",
-                    "its scoring values",
+                    "{X:attention,C:white}1+{} : {X:red,C:white}X#2#{} Mult",
+                    "{X:attention,C:white}2+{} : Gains {X:red,C:white}X#3#{} Mult",
+                    "{X:attention,C:white}3+{} : The first scoring unenhanced {C:attention}#1#{}",
+                    "becomes a {C:attention}Glass{} card",
+                    "{X:attention,C:white}4+{} : {C:attention}Double{} this Joker's {X:red,C:white}X{} Mult",
+                    "{C:inactive}(Resets at end of round){}",
                 } 
             },
             j_poke_mega_aerodactyl = {
@@ -1904,6 +1905,23 @@ return {
                     "{C:inactive}(Last hand: {C:attention}#3#{C:inactive})",
                     "{C:inactive}(Currently {C:mult}+#1#{} {C:inactive}Mult)",
                 }  
+            },
+            j_poke_hoothoot = {
+                name = 'Hoothoot',
+                text = {
+                    "{C:purple}+#1# Foresight ",
+                    "Each {C:attention}Foreseen{} card",
+                    "gives their total chips",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
+                }
+            },
+            j_poke_noctowl = {
+                name = 'Noctowl',
+                text = {
+                    "{C:purple}+#1# Foresight",
+                    "Each {C:attention}Foreseen{} card",
+                    "gives their total chips",
+                }
             },
             j_poke_crobat = {
                 name = 'Crobat',
@@ -2344,18 +2362,20 @@ return {
             j_poke_beldum = {
                 name = 'Beldum',
                 text = {
-                    "If played hand contains at least",
-                    "one scoring {C:attention}Ace{}, gain {C:chips}+#2#{} Chips",
-                    "{C:attention}Double{} gains if hand is a {C:attention}Four of a Kind{}",
+                    "Gains {C:chips}+#2#{} Chips if played hand",
+                    "is a {C:attention}Four of a Kind{}",
+                    "Gains {C:chips}+#2#{} Chips if played hand",
+                    "contains a scoring {C:attention}Ace",
                     "{C:inactive}(Evolves at {C:chips}+#1#{C:inactive} / +64 Chips)",
                 } 
             },
             j_poke_metang = {
                 name = 'Metang',
                 text = {
-                    "If played hand contains at least",
-                    "two scoring {C:attention}Aces{}, gain {C:chips}+#2#{} Chips",
-                    "{C:attention}Quadruple{} gains if hand is a {C:attention}Four of a Kind{}",
+                    "Gains {C:chips}+#2#{} Chips if played hand",
+                    "is a {C:attention}Four of a Kind{}",
+                    "Gains {C:chips}+#2#{} Chips if played hand",
+                    "contains {C:attention}2+{} scoring {C:attention}Aces",
                     "{C:inactive}(Evolves at {C:chips}+#1#{C:inactive} / +256 Chips)",
                 } 
             },
@@ -3395,6 +3415,13 @@ return {
                     "Joker creation"
                 }
             },
+            scry_cards = {
+                name = "Foresight",
+                text = {
+                    "View top cards",
+                    "of your deck"
+                }
+            },
             mega_rule = {
                 name = "Restriction",
                 text = {
@@ -3552,6 +3579,16 @@ return {
                 "{C:attention}#1#",
                 "{C:tarot}#2#",
                 "{C:attention}#3#",
+              }
+            },
+            omastar_tag_pool = {
+              name = "Tag Pool",
+              text = {
+                "{C:money}#1#",
+                "{C:money}#2#",
+                "{C:money}#3#",
+                "{C:money}#4#",
+                "{C:money}#5#",
               }
             },
             safaridesc = {
