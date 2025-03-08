@@ -76,6 +76,7 @@ family = {
     {"beldum", "metang", "metagross"},
     {"jirachi", "jirachi_banker", "jirachi_booster", "jirachi_power", "jirachi_copy", "jirachi_fixer"},
     {"sentret", "furret"},
+    {"swinub", "piloswine", "mamoswine"},
     {"hoothoot", "noctowl"},
     {"hoppip", "skiploom", "jumpluff"},
     {"dunsparce", {key = "dudunsparce", form = 0}, {key = "dudunsparce", form = 1}},
@@ -1146,3 +1147,21 @@ fossil_generate_ui = function(self, info_queue, card, desc_nodes, specific_vars,
     desc_nodes[#desc_nodes+1] = evolution_node
   end
 end
+
+_prev_straight_func = get_straight
+poke_get_straight = function(hand)
+  local prev_values = {}
+  local mamoswines = find_joker('mamoswine')
+  for i,card in ipairs(hand) do
+    prev_values[i] = card.base.value
+    if #mamoswines > 0 and card.ability.effect == 'Stone Card' then
+        card.base.value = mamoswines[1].ability.extra.card.value
+    end
+  end
+  local ret = {_prev_straight_func(hand)}
+  for i,card in ipairs(hand) do
+    card.base.value = prev_values[i]
+  end
+  return unpack(ret)
+end
+get_straight = poke_get_straight
