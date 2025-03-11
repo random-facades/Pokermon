@@ -423,6 +423,43 @@ local igglybuff={
 -- Natu 177
 -- Xatu 178
 -- Mareep 179
+local mareep = {
+  name = "mareep",
+  pos = {x = 7, y = 2},
+  config = {extra = {sell_bonus = 2, sell_minus = 1, sell_ratio = 2, earned = 0}, evo_rqmt = 20},
+  loc_vars = function(self, info_queue, card)
+    type_tooltip(self, info_queue, card)
+    return {vars = {card.ability.extra.sell_bonus, card.ability.extra.sell_minus, card.ability.extra.sell_ratio, card.ability.extra.earned, self.config.evo_rqmt, }}
+  end,
+  rarity = 1,
+  cost = 3,
+  stage = "Baby",
+  ptype = "Colorless",
+  atlas = "Pokedex2",
+  perishable_compat = true,
+  blueprint_compat = true,
+  eternal_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main then
+        faint_baby_poke(self, card, context) 
+        return {
+          message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult_minus}}, 
+          colour = G.C.XMULT,
+          Xmult_mod = card.ability.extra.Xmult_minus
+        }
+      end
+    end
+    if context.end_of_round and not context.individual and not context.repetition then
+      local _card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, 'c_world')
+      local edition = {negative = true}
+      _card:set_edition(edition, true)
+      _card:add_to_deck()
+      G.consumeables:emplace(_card)
+    end
+    return level_evo(self, card, context, "j_poke_jigglypuff")
+  end,
+}
 -- Flaaffy 180
 
 return {name = "Pokemon Jokers 151-180", 

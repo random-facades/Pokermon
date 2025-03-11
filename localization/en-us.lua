@@ -1969,6 +1969,13 @@ return {
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
                 }
             },
+            j_poke_mareep = {
+                name = 'Mareep',
+                text = {
+                    "When {C:attention}Blind{} is selected, gain {C:money}$#1#{} of sell value",
+                    "{C:inactive,s:0.8}(Evolves after earning {C:attention,s:0.8}#2#{C:inactive,s:0.8})",
+                }
+            },
             j_poke_bellossom = {
                 name = 'Bellossom',
                 text = {
