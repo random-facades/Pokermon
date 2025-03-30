@@ -1,7 +1,7 @@
 family = {
-    {"bulbasaur","ivysaur","venusaur","mega_venusaur"},
-    {"charmander","charmeleon","charizard","mega_charizard_x","mega_charizard_y",},
-    {"squirtle","wartortle","blastoise","mega_blastoise"},
+    {"bulbasaur","ivysaur","venusaur","mega_venusaur","gmax_venusaur"},
+    {"charmander","charmeleon","charizard","mega_charizard_x","mega_charizard_y","gmax_charizard"},
+    {"squirtle","wartortle","blastoise","mega_blastoise","gmax_blastoise"},
     {"caterpie","metapod","butterfree"},
     {"weedle","kakuna","beedrill","mega_beedrill"},
     {"pidgey","pidgeotto","pidgeot","mega_pidgeot"},
@@ -610,7 +610,7 @@ get_highest_evo = function(card)
   -- Check for max evo in family list, ignoring megas and aux pokermons
   local max = #found_family
   local max_evo_name = (type(found_family[max]) == "table" and found_family[max].key) or found_family[max]
-  while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or G.P_CENTERS["j_poke_"..max_evo_name].aux_poke) do
+  while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or string.sub(max_evo_name,1,5) == "gmax_" or G.P_CENTERS["j_poke_"..max_evo_name].aux_poke) do
     max = max - 1
     max_evo_name = (type(found_family[max]) == "table" and found_family[max].key) or found_family[max]
   end
@@ -656,7 +656,7 @@ get_previous_evo = function(card, full_key)
         local max_evo_name = (type(v[max]) == "table" and v[max].key) or v[max]
 
         if x > 1 then
-          while max > 0 and string.sub(max_evo_name,1,5) == "mega_" or max_evo_name == "slowking" do
+          while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or string.sub(max_evo_name,1,5) == "gmax_" or max_evo_name == "slowking") do
             max = max - 1
             if max > 0 then
               max_evo_name = (type(v[max]) == "table" and v[max].key) or v[max]

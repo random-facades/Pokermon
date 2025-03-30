@@ -73,6 +73,16 @@ SMODS.Rarity{
         return weight
     end,
 }
+SMODS.Rarity{
+    key = "giga",
+    default_weight = 0,
+     -- color from bulbapedia (the middle cloud color from the Giga Forms)
+    badge_colour = HEX("C91C45"),
+    pools = {["Joker"] = true},
+    get_weight = function(self, weight, object_type)
+        return weight
+    end,
+}
 
 --Load helper function files
 local helper, load_error = SMODS.load_file("functions/pokeutils.lua")

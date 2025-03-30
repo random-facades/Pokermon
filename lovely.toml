@@ -734,3 +734,25 @@ if self.ability and old_center and old_center.config.card_limit and not self.deb
 end
 '''
 match_indent = true
+
+# Add pre_draw options for DrawSteps
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/card_draw.lua"]'
+pattern = '''
+for _, k in ipairs(SMODS.DrawStep.obj_buffer) do
+    if SMODS.DrawSteps[k]:check_conditions(self, layer) then SMODS.DrawSteps[k].func(self, layer) end
+'''
+position = "at"
+payload = '''
+for _, k in ipairs(SMODS.DrawStep.obj_buffer) do
+    if SMODS.DrawSteps[k]:check_conditions(self, layer) then 
+        local center = self.config.center
+        if center.pre_draw and type(center.pre_draw) == 'function' then
+            center:pre_draw(self, SMODS.DrawSteps[k])
+        end
+        SMODS.DrawSteps[k].func(self, layer) 
+    end
+'''
+match_indent = true
+overwrite = true

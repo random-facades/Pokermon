@@ -3542,6 +3542,176 @@ return {
                     "Not to be put on a sandwich.",
                 }
             },--]]
+            j_poke_gmax_venusaur = {
+                name = "Venusaur",
+                text = {
+                },
+            },
+            j_poke_gmax_charizard = {
+                name = "Charizard",
+                text = {
+                },
+            },
+            j_poke_gmax_blastoise = {
+                name = "Blastoise",
+                text = {
+                },
+            },
+            j_poke_gmax_butterfree = {
+                name = "Butterfree",
+                text = {
+                },
+            },
+            j_poke_gmax_pikachu = {
+                name = "Pikachu",
+                text = {
+                },
+            },
+            j_poke_gmax_meowth = {
+                name = "Meowth",
+                text = {
+                },
+            },
+            j_poke_gmax_machamp = {
+                name = "Machamp",
+                text = {
+                },
+            },
+            j_poke_gmax_gengar = {
+                name = "Gengar",
+                text = {
+                },
+            },
+            j_poke_gmax_kingler = {
+                name = "Kingler",
+                text = {
+                },
+            },
+            j_poke_gmax_lapras = {
+                name = "Lapras",
+                text = {
+                },
+            },
+            j_poke_gmax_eevee = {
+                name = "Eevee",
+                text = {
+                },
+            },
+            j_poke_gmax_snorlax = {
+                name = "Snorlax",
+                text = {
+                },
+            },
+            j_poke_gmax_garbodor = {
+                name = "Garbodor",
+                text = {
+                },
+            },
+            j_poke_gmax_melmetal = {
+                name = "Melmetal",
+                text = {
+                },
+            },
+            j_poke_gmax_rillaboom = {
+                name = "Rillaboom",
+                text = {
+                },
+            },
+            j_poke_gmax_cinderace = {
+                name = "Cinderace",
+                text = {
+                },
+            },
+            j_poke_gmax_inteleon = {
+                name = "Inteleon",
+                text = {
+                },
+            },
+            j_poke_gmax_corviknight = {
+                name = "Corviknight",
+                text = {
+                },
+            },
+            j_poke_gmax_orbeetle = {
+                name = "Orbeetle",
+                text = {
+                },
+            },
+            j_poke_gmax_drednaw = {
+                name = "Drednaw",
+                text = {
+                },
+            },
+            j_poke_gmax_coalossal = {
+                name = "Coalossal",
+                text = {
+                },
+            },
+            j_poke_gmax_flapple = {
+                name = "Flapple",
+                text = {
+                },
+            },
+            j_poke_gmax_appletun = {
+                name = "Appletun",
+                text = {
+                },
+            },
+            j_poke_gmax_sandaconda = {
+                name = "Sandaconda",
+                text = {
+                },
+            },
+            j_poke_gmax_toxtricity = {
+                name = "Toxtricity",
+                text = {
+                },
+            },
+            j_poke_gmax_centiskorch = {
+                name = "Centiskorch",
+                text = {
+                },
+            },
+            j_poke_gmax_hatterene = {
+                name = "Hatterene",
+                text = {
+                },
+            },
+            j_poke_gmax_grimmsnarl = {
+                name = "Grimmsnarl",
+                text = {
+                },
+            },
+            j_poke_gmax_alcremie = {
+                name = "Alcremie",
+                text = {
+                },
+            },
+            j_poke_gmax_copperajah = {
+                name = "Copperajah",
+                text = {
+                },
+            },
+            j_poke_gmax_duraludon = {
+                name = "Duraludon",
+                text = {
+                },
+            },
+            j_poke_gmax_eternatus = {
+                name = "Eternatus",
+                text = {
+                },
+            },
+            j_poke_gmax_urshifu_dark = {
+                name = "Urshifu",
+                text = {
+                },
+            },
+            j_poke_gmax_urshifu_water = {
+                name = "Urshifu",
+                text = {
+                },
+            },
         },
         Planet = {
            --I wonder what a Pokémon planet would do?
@@ -4372,6 +4542,7 @@ return {
 
             k_poke_safari = "Safari",
             k_poke_mega = "Mega",
+            k_poke_giga = "Gigantamax",
 
             b_save = "SAVE",
             b_energy_cards = "Energy Cards",
