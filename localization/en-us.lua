@@ -3545,61 +3545,93 @@ return {
             j_poke_gmax_venusaur = {
                 name = "Venusaur",
                 text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "{C:attention}+#2#{} hand size",
                 },
             },
             j_poke_gmax_charizard = {
                 name = "Charizard",
                 text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "{C:red}+#2#{} discards",
                 },
             },
             j_poke_gmax_blastoise = {
                 name = "Blastoise",
                 text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "{C:blue}+#2#{} hands",
                 },
             },
             j_poke_gmax_butterfree = {
                 name = "Butterfree",
                 text = {
+                    "At end of round,",
+                    "{C:attention}Pokemon{} level up twice",
                 },
             },
             j_poke_gmax_pikachu = {
                 name = "Pikachu",
                 text = {
+                    "After scoring,",
+                    "a card in your {C:attention}hand",
+                    "becomes a {C:money}Gold{} Card",
                 },
             },
             j_poke_gmax_meowth = {
                 name = "Meowth",
                 text = {
+                    "Your first {C:attention}2{} hands will not",
+                    "count towards {C:attention}Blind Requirement",
+                    "Earn {C:money}$10{} instead"
                 },
             },
             j_poke_gmax_machamp = {
                 name = "Machamp",
                 text = {
+                    "{C:blue}+8{} Hands",
+                    "{X:attention,C:white}X10{} Blind requirement"
                 },
             },
             j_poke_gmax_gengar = {
                 name = "Gengar",
                 text = {
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "At end of round,",
+                    "consume {C:attention}Joker{} to the left",
+                    "and create a {C:dark_edition}Negative{} Tag",
                 },
             },
             j_poke_gmax_kingler = {
                 name = "Kingler",
                 text = {
+                    "All played cards become",
+                    "{C:chips}Bonus {C:attention}Kings{} after scoring",
+                    "{br:3.5}ERROR - CONTACT STEAK",
+                    "Debuff all cards except {C:chips}Bonus {C:attention}Kings{}",
                 },
             },
             j_poke_gmax_lapras = {
                 name = "Lapras",
                 text = {
+                    "At end of round, gain a Tag",
+                    "and trigger all {C:attention}Blind Skip{} effects",
+                    "{C:inactive}(Will increase Lapras's chips)",
                 },
             },
             j_poke_gmax_eevee = {
                 name = "Eevee",
                 text = {
+                    "Gain {C:attention}10{} Evolution {C:gray}Items{}",
+                    "{C:inactive}(Must have room)",
                 },
             },
             j_poke_gmax_snorlax = {
                 name = "Snorlax",
                 text = {
+                    "Gain a {C:attention}Leftovers",
+                    "{C:green}1 in 4{} chance to be {C:dark_edition}Negative",
+                    "{C:inactive}(Must have room, unless Negative)",
                 },
             },
             j_poke_gmax_garbodor = {

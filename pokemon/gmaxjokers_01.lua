@@ -27,45 +27,70 @@ local gmax_list = {
       name = "gmax_venusaur",
       pos = { x = 0, y = 0 },
       soul_pos = { x = 0, y = 3 },
-      config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
-         return { vars = {} }
+      config = { extra = { Xmult_no_energy = 0.5, h_size = 5, } },
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
+         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.h_size } }
       end,
       ptype = "Grass",
-      blueprint_compat = true,
+      blueprint_compat = false,
+      add_to_deck = function(self, card, from_debuff)
+         G.hand:change_size(card.ability.extra.h_size)
+      end,
+      remove_from_deck = function(self, card, from_debuff)
+         G.hand:change_size(-card.ability.extra.h_size)
+      end,
    },
    {
       name = "gmax_charizard",
       pos = { x = 1, y = 0 },
       soul_pos = { x = 1, y = 3 },
-      config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
-         return { vars = {} }
+      config = { extra = { Xmult_no_energy = 0.5, d_size = 4, } },
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
+         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.d_size } }
       end,
       ptype = "Fire",
-      blueprint_compat = true,
+      blueprint_compat = false,
+      add_to_deck = function(self, card, from_debuff)
+         G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.d_size
+         ease_discard(card.ability.extra.d_size)
+      end,
+      remove_from_deck = function(self, card, from_debuff)
+         G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.d_size
+         ease_discard(-card.ability.extra.d_size)
+      end
    },
    {
       name = "gmax_blastoise",
       pos = { x = 2, y = 0 },
       soul_pos = { x = 2, y = 3 },
-      config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
-         return { vars = {} }
+      config = { extra = { Xmult_no_energy = 0.5, hands = 3, } },
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
+         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.hands } }
       end,
       ptype = "Water",
-      blueprint_compat = true,
+      blueprint_compat = false,
+      add_to_deck = function(self, card, from_debuff)
+         G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+         ease_hands_played(card.ability.extra.hands)
+      end,
+      remove_from_deck = function(self, card, from_debuff)
+         G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+         local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
+         if to_decrease > 0 then
+            ease_hands_played(-to_decrease)
+         end
+      end,
    },
    {
       name = "gmax_butterfree",
       pos = { x = 3, y = 0 },
       soul_pos = { x = 3, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Grass",
@@ -76,8 +101,8 @@ local gmax_list = {
       pos = { x = 4, y = 0 },
       soul_pos = { x = 4, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Lightning",
@@ -88,8 +113,8 @@ local gmax_list = {
       pos = { x = 5, y = 0 },
       soul_pos = { x = 5, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Colorless",
@@ -100,8 +125,8 @@ local gmax_list = {
       pos = { x = 6, y = 0 },
       soul_pos = { x = 6, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fighting",
@@ -111,10 +136,10 @@ local gmax_list = {
       name = "gmax_gengar",
       pos = { x = 7, y = 0 },
       soul_pos = { x = 7, y = 3 },
-      config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
-         return { vars = {} }
+      config = { extra = { Xmult_no_energy = 0.5 } },
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
+         return { vars = { card.ability.extra.Xmult_no_energy } }
       end,
       ptype = "Psychic",
       blueprint_compat = true,
@@ -124,8 +149,8 @@ local gmax_list = {
       pos = { x = 8, y = 0 },
       soul_pos = { x = 8, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
@@ -136,8 +161,8 @@ local gmax_list = {
       pos = { x = 9, y = 0 },
       soul_pos = { x = 9, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
@@ -148,8 +173,8 @@ local gmax_list = {
       pos = { x = 10, y = 0 },
       soul_pos = { x = 10, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Colorless",
@@ -160,8 +185,8 @@ local gmax_list = {
       pos = { x = 11, y = 0 },
       soul_pos = { x = 11, y = 3 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Colorless",
@@ -172,8 +197,8 @@ local gmax_list = {
       pos = { x = 0, y = 1 },
       soul_pos = { x = 0, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dark",
@@ -184,8 +209,8 @@ local gmax_list = {
       pos = { x = 1, y = 1 },
       soul_pos = { x = 1, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Metal",
@@ -196,8 +221,8 @@ local gmax_list = {
       pos = { x = 2, y = 1 },
       soul_pos = { x = 2, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Grass",
@@ -208,8 +233,8 @@ local gmax_list = {
       pos = { x = 3, y = 1 },
       soul_pos = { x = 3, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fire",
@@ -220,8 +245,8 @@ local gmax_list = {
       pos = { x = 4, y = 1 },
       soul_pos = { x = 4, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
@@ -232,8 +257,8 @@ local gmax_list = {
       pos = { x = 5, y = 1 },
       soul_pos = { x = 5, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Metal",
@@ -244,8 +269,8 @@ local gmax_list = {
       pos = { x = 6, y = 1 },
       soul_pos = { x = 6, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Psychic",
@@ -256,8 +281,8 @@ local gmax_list = {
       pos = { x = 7, y = 1 },
       soul_pos = { x = 7, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
@@ -268,8 +293,8 @@ local gmax_list = {
       pos = { x = 8, y = 1 },
       soul_pos = { x = 8, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fire",
@@ -280,8 +305,8 @@ local gmax_list = {
       pos = { x = 9, y = 1 },
       soul_pos = { x = 9, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dragon",
@@ -292,8 +317,8 @@ local gmax_list = {
       pos = { x = 10, y = 1 },
       soul_pos = { x = 10, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dragon",
@@ -304,8 +329,8 @@ local gmax_list = {
       pos = { x = 11, y = 1 },
       soul_pos = { x = 11, y = 4 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Earth",
@@ -316,8 +341,8 @@ local gmax_list = {
       pos = { x = 0, y = 2 },
       soul_pos = { x = 0, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Lightning",
@@ -328,8 +353,8 @@ local gmax_list = {
       pos = { x = 1, y = 2 },
       soul_pos = { x = 1, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fire",
@@ -340,8 +365,8 @@ local gmax_list = {
       pos = { x = 2, y = 2 },
       soul_pos = { x = 2, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Psychic",
@@ -352,8 +377,8 @@ local gmax_list = {
       pos = { x = 3, y = 2 },
       soul_pos = { x = 3, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fairy",
@@ -364,8 +389,8 @@ local gmax_list = {
       pos = { x = 4, y = 2 },
       soul_pos = { x = 4, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Fairy",
@@ -376,8 +401,8 @@ local gmax_list = {
       pos = { x = 5, y = 2 },
       soul_pos = { x = 5, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Metal",
@@ -388,8 +413,8 @@ local gmax_list = {
       pos = { x = 6, y = 2 },
       soul_pos = { x = 6, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dragon",
@@ -400,8 +425,8 @@ local gmax_list = {
       pos = { x = 7, y = 2 },
       soul_pos = { x = 7, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dark",
@@ -412,8 +437,8 @@ local gmax_list = {
       pos = { x = 8, y = 2 },
       soul_pos = { x = 8, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Dark",
@@ -424,8 +449,8 @@ local gmax_list = {
       pos = { x = 9, y = 2 },
       soul_pos = { x = 9, y = 5 },
       config = { extra = {} },
-      loc_vars = function(self, info_queue, center)
-         type_tooltip(self, info_queue, center)
+      loc_vars = function(self, info_queue, card)
+         type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
