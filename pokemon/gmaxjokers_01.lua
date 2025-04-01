@@ -76,7 +76,7 @@ local gmax_list = {
          return { vars = {} }
       end,
       ptype = "Grass",
-      blueprint_compat = true,
+      blueprint_compat = false,
       -- no calculate needed
    },
    {
@@ -130,9 +130,9 @@ local gmax_list = {
          return { vars = { card.ability.extra.money, card.ability.extra.triggers_left, card.ability.extra.triggers_max } }
       end,
       ptype = "Colorless",
-      blueprint_compat = true,
+      blueprint_compat = false,
       calculate = function(self, card, context)
-         if context.cardarea == G.jokers and context.scoring_hand and context.final_final_scoring_step_v2 and card.ability.extra.triggers_left > 0 then
+         if not context.blueprint and context.cardarea == G.jokers and context.scoring_hand and context.final_final_scoring_step_v2 and card.ability.extra.triggers_left > 0 then
             card.ability.extra.triggers_left = card.ability.extra.triggers_left - 1
             mult = 0
             hand_chips = 0
@@ -163,7 +163,7 @@ local gmax_list = {
          return { vars = { card.ability.extra.hands, card.ability.extra.blind_mult } }
       end,
       ptype = "Fighting",
-      blueprint_compat = true,
+      blueprint_compat = false,
       add_to_deck = function(self, card, from_debuff)
          G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
          ease_hands_played(card.ability.extra.hands)
@@ -186,8 +186,39 @@ local gmax_list = {
          return { vars = { card.ability.extra.blind_mult } }
       end,
       ptype = "Psychic",
-      blueprint_compat = true,
+      blueprint_compat = false,
       calculate = function(self, card, context)
+         if context.end_of_round and context.cardarea == G.jokers and not context.individual and not context.blueprint then
+            local target = nil
+            local my_pos = -1
+            for k, v in ipairs(G.jokers.cards) do
+               if v == card then
+                  my_pos = k
+                  break
+               end
+               if not v.getting_sliced then
+                  target = v
+               end
+            end
+            if target == nil or my_pos == -1 then return end
+
+            target.getting_sliced = true
+            G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+            G.E_MANAGER:add_event(Event({
+               func = function()
+                  G.GAME.joker_buffer = 0
+                  card:juice_up(0.8, 0.8)
+                  target:start_dissolve({ HEX("a237cc") }, nil, 1.6)
+                  play_sound('magic_crumple3', 0.96 + math.random() * 0.08)
+                  add_tag(Tag('tag_negative'))
+                  return true
+               end
+            }))
+            return {
+               message = localize('k_eaten_ex'),
+               colour = G.C.RED,
+            }
+         end
       end,
    },
    {
@@ -554,9 +585,31 @@ for _, v in pairs(gmax_list) do
 
    v.poke_calculation = v.calculate
    v.calculate = function(self, card, context)
-      local ret = nil
       if can_evolve(self, card, context, self.pre_evo_name) then
-         ret = level_evo(self, card, context, self.pre_evo_name)
+         -- have to delay level up till after the context is completed "calculating"
+         G.E_MANAGER:add_event(Event({
+            func = function()
+               G.E_MANAGER:add_event(Event({
+                  func = function()
+                     G.E_MANAGER:add_event(Event({
+                        func = function()
+                           level_evo(self, card, context, self.pre_evo_name)
+                           -- immediately after the context is completed, the game is saved, so we need to save again to prevent save problems
+                           G.E_MANAGER:add_event(Event({
+                              func = function()
+                                 save_run()
+                                 return true
+                              end
+                           }))
+                           return true
+                        end
+                     }))
+                     return true
+                  end
+               }))
+               return true
+            end
+         }))
       end
       if card.ability.extra.blind_mult then
          if context.setting_blind and G.GAME.blind and G.GAME.blind.in_blind then
@@ -570,13 +623,8 @@ for _, v in pairs(gmax_list) do
          end
       end
       if type(self.poke_calculation) == "function" then
-         local calc = self:poke_calculation(card, context)
-         if calc then
-            calc.extra = ret
-            ret = calc
-         end
+         return self:poke_calculation(card, context)
       end
-      return ret
    end
 end
 
