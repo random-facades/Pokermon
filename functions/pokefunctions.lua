@@ -456,19 +456,25 @@ level_evo = function(self, card, context, forced_key)
     if card.debuff then return end
     if can_evolve(self, card, context, forced_key) then
       if card.ability.extra.rounds > 0 then
-        card.ability.extra.rounds = card.ability.extra.rounds - 1
+        card.ability.extra.rounds = card.ability.extra.rounds - 1 - #find_joker('gmax_butterfree')
       end
       if card.ability.extra.rounds <= 0 then
         return {
           message = evolve (self, card, context, forced_key)
         }
       elseif card.ability.extra.rounds > 0 then
-        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        local messages = 1 + #find_joker('gmax_butterfree')
+        for i = 1, messages do
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        end
       end
     elseif can_evolve(self, card, context, forced_key, nil, true) then
       if card.ability.extra.rounds > 0 then
-        card.ability.extra.rounds = card.ability.extra.rounds - 1
-        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        card.ability.extra.rounds = card.ability.extra.rounds - 1 - #find_joker('gmax_butterfree')
+        local messages = 1 + #find_joker('gmax_butterfree')
+        for i = 1, messages do
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        end
       end
     end
     if can_evolve(self, card, context, forced_key, true) and card.ability.extra.rounds <= 1 and not card.ability.extra.juiced then
