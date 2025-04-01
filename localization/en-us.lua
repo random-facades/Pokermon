@@ -3581,16 +3581,16 @@ return {
             j_poke_gmax_meowth = {
                 name = "Meowth",
                 text = {
-                    "Your first {C:attention}2{} hands will not",
+                    "Your first {C:attention}#3#{C:inactive} [#2#]{} hands will not",
                     "count towards {C:attention}Blind Requirement",
-                    "Earn {C:money}$10{} instead"
+                    "Earn {C:money}$#1#{} instead"
                 },
             },
             j_poke_gmax_machamp = {
                 name = "Machamp",
                 text = {
-                    "{C:blue}+8{} Hands",
-                    "{X:attention,C:white}X10{} Blind requirement"
+                    "{C:blue}+#1#{} Hands",
+                    "{X:attention,C:white}X#2#{} Blind requirement"
                 },
             },
             j_poke_gmax_gengar = {
