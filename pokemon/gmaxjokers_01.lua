@@ -12,6 +12,12 @@ local gmax_list = {
       blueprint_compat = false,
       add_to_deck = function(self, card, from_debuff)
          G.hand:change_size(card.ability.extra.h_size)
+         G.E_MANAGER:add_event(Event({
+            func = function()
+               G.FUNCS.draw_from_deck_to_hand()
+               return true
+            end
+         }))
       end,
       remove_from_deck = function(self, card, from_debuff)
          G.hand:change_size(-card.ability.extra.h_size)
@@ -537,9 +543,11 @@ for _, v in pairs(gmax_list) do
 
    v.poke_add_to_deck = v.add_to_deck
    v.add_to_deck = function(self, card, from_debuff)
-      v.poke_add_to_deck(self, card, from_debuff)
+      if type(self.poke_add_to_deck) == "function" then
+         self:poke_add_to_deck(card, from_debuff)
+      end
       -- if added to deck after blind exists, then increment blind
-      if card.config.extra.blind_mult and G.GAME.blind and G.GAME.blind.in_blind then
+      if card.ability.extra.blind_mult and G.GAME.blind and G.GAME.blind.in_blind then
          self:calculate(card, { setting_blind = true })
       end
    end
@@ -550,7 +558,7 @@ for _, v in pairs(gmax_list) do
       if can_evolve(self, card, context, self.pre_evo_name) then
          ret = level_evo(self, card, context, self.pre_evo_name)
       end
-      if card.config.extra.blind_mult then
+      if card.ability.extra.blind_mult then
          if context.setting_blind and G.GAME.blind and G.GAME.blind.in_blind then
             G.E_MANAGER:add_event(Event({
                func = function()
@@ -561,7 +569,7 @@ for _, v in pairs(gmax_list) do
             }))
          end
       end
-      if self.poke_calculation then
+      if type(self.poke_calculation) == "function" then
          local calc = self:poke_calculation(card, context)
          if calc then
             calc.extra = ret
