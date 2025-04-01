@@ -3545,22 +3545,22 @@ return {
             j_poke_gmax_venusaur = {
                 name = "Venusaur",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult",
                     "{C:attention}+#2#{} hand size",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
                 },
             },
             j_poke_gmax_charizard = {
                 name = "Charizard",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult",
                     "{C:red}+#2#{} discards",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
                 },
             },
             j_poke_gmax_blastoise = {
                 name = "Blastoise",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult",
                     "{C:blue}+#2#{} hands",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
                 },
             },
             j_poke_gmax_butterfree = {
@@ -3596,7 +3596,7 @@ return {
             j_poke_gmax_gengar = {
                 name = "Gengar",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
                     "At end of round,",
                     "consume {C:attention}Joker{} to the left",
                     "and create a {C:dark_edition}Negative{} Tag",

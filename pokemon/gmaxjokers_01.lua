@@ -1,36 +1,12 @@
-local GMAX_SCALE = 6 / 3
-
-local gmax_pre_draw = function(self, card, drawStep)
-   local center = card.children.center
-   -- trigger on shadow or first draw
-   if drawStep.order <= -999 then
-   elseif drawStep.key == 'seal' then
-      center.T.w = center.T.w / GMAX_SCALE
-      center.T.h = center.T.h / GMAX_SCALE
-      center.VT.x = center.VT.x - (GMAX_SCALE - 1) * 0.29
-   elseif drawStep.key == 'soul' then
-      center.VT.x = center.T.x
-   elseif drawStep.key == 'floating_sprite' then
-   elseif drawStep.key == 'debuff' then
-      center.T.w = center.T.w * GMAX_SCALE
-      center.T.h = center.T.h * GMAX_SCALE
-   end
-end
-
-local gmax_set_sprites = function(self, card, front)
-   card.T.w = card.T.w * GMAX_SCALE
-   card.T.h = card.T.h * GMAX_SCALE
-end
-
 local gmax_list = {
    {
       name = "gmax_venusaur",
       pos = { x = 0, y = 0 },
       soul_pos = { x = 0, y = 3 },
-      config = { extra = { Xmult_no_energy = 0.5, h_size = 5, } },
+      config = { extra = { blind_mult = 2, h_size = 5, } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.h_size } }
+         return { vars = { card.ability.extra.blind_mult, card.ability.extra.h_size } }
       end,
       ptype = "Grass",
       blueprint_compat = false,
@@ -40,26 +16,15 @@ local gmax_list = {
       remove_from_deck = function(self, card, from_debuff)
          G.hand:change_size(-card.ability.extra.h_size)
       end,
-      calculate = function(self, card, context)
-         if context.cardarea == G.jokers and context.scoring_hand then
-            if context.joker_main then
-               return {
-                  message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult_no_energy } },
-                  colour = G.C.XMULT,
-                  Xmult_mod = card.ability.extra.Xmult_no_energy
-               }
-            end
-         end
-      end,
    },
    {
       name = "gmax_charizard",
       pos = { x = 1, y = 0 },
       soul_pos = { x = 1, y = 3 },
-      config = { extra = { Xmult_no_energy = 0.5, d_size = 4, } },
+      config = { extra = { blind_mult = 2, d_size = 4, } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.d_size } }
+         return { vars = { card.ability.extra.blind_mult, card.ability.extra.d_size } }
       end,
       ptype = "Fire",
       blueprint_compat = false,
@@ -71,26 +36,15 @@ local gmax_list = {
          G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.d_size
          ease_discard(-card.ability.extra.d_size)
       end,
-      calculate = function(self, card, context)
-         if context.cardarea == G.jokers and context.scoring_hand then
-            if context.joker_main then
-               return {
-                  message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult_no_energy } },
-                  colour = G.C.XMULT,
-                  Xmult_mod = card.ability.extra.Xmult_no_energy
-               }
-            end
-         end
-      end,
    },
    {
       name = "gmax_blastoise",
       pos = { x = 2, y = 0 },
       soul_pos = { x = 2, y = 3 },
-      config = { extra = { Xmult_no_energy = 0.5, hands = 3, } },
+      config = { extra = { blind_mult = 2, hands = 3, } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = { card.ability.extra.Xmult_no_energy, card.ability.extra.hands } }
+         return { vars = { card.ability.extra.blind_mult, card.ability.extra.hands } }
       end,
       ptype = "Water",
       blueprint_compat = false,
@@ -103,17 +57,6 @@ local gmax_list = {
          local to_decrease = math.min(G.GAME.current_round.hands_left - 1, card.ability.extra.hands)
          if to_decrease > 0 then
             ease_hands_played(-to_decrease)
-         end
-      end,
-      calculate = function(self, card, context)
-         if context.cardarea == G.jokers and context.scoring_hand then
-            if context.joker_main then
-               return {
-                  message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult_no_energy } },
-                  colour = G.C.XMULT,
-                  Xmult_mod = card.ability.extra.Xmult_no_energy
-               }
-            end
          end
       end,
    },
@@ -218,7 +161,6 @@ local gmax_list = {
       add_to_deck = function(self, card, from_debuff)
          G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
          ease_hands_played(card.ability.extra.hands)
-         self:calculate(card, {setting_blind = true})
       end,
       remove_from_deck = function(self, card, from_debuff)
          G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
@@ -227,39 +169,19 @@ local gmax_list = {
             ease_hands_played(-to_decrease)
          end
       end,
-      calculate = function(self, card, context)
-         if context.setting_blind and G.GAME.blind and G.GAME.blind.in_blind then
-            G.E_MANAGER:add_event(Event({
-               func = function()
-                  G.GAME.blind.chips = G.GAME.blind.chips * card.ability.extra.blind_mult
-                  G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-                  return true
-               end
-            }))
-         end
-      end,
    },
    {
       name = "gmax_gengar",
       pos = { x = 7, y = 0 },
       soul_pos = { x = 7, y = 3 },
-      config = { extra = { Xmult_no_energy = 0.5 } },
+      config = { extra = { blind_mult = 2 } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = { card.ability.extra.Xmult_no_energy } }
+         return { vars = { card.ability.extra.blind_mult } }
       end,
       ptype = "Psychic",
       blueprint_compat = true,
       calculate = function(self, card, context)
-         if context.cardarea == G.jokers and context.scoring_hand then
-            if context.joker_main then
-               return {
-                  message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult_no_energy } },
-                  colour = G.C.XMULT,
-                  Xmult_mod = card.ability.extra.Xmult_no_energy
-               }
-            end
-         end
       end,
    },
    {
@@ -576,6 +498,29 @@ local gmax_list = {
    },
 }
 
+local GMAX_SCALE = 6 / 3
+
+local gmax_pre_draw = function(self, card, drawStep)
+   local center = card.children.center
+   -- trigger on shadow or first draw
+   if drawStep.order <= -999 then
+   elseif drawStep.key == 'seal' then
+      center.T.w = center.T.w / GMAX_SCALE
+      center.T.h = center.T.h / GMAX_SCALE
+      center.VT.x = center.VT.x - (GMAX_SCALE - 1) * 0.29
+   elseif drawStep.key == 'soul' then
+      center.VT.x = center.T.x
+   elseif drawStep.key == 'floating_sprite' then
+   elseif drawStep.key == 'debuff' then
+      center.T.w = center.T.w * GMAX_SCALE
+      center.T.h = center.T.h * GMAX_SCALE
+   end
+end
+
+local gmax_set_sprites = function(self, card, front)
+   card.T.w = card.T.w * GMAX_SCALE
+   card.T.h = card.T.h * GMAX_SCALE
+end
 
 for _, v in pairs(gmax_list) do
    v.rarity = "poke_giga"
@@ -590,11 +535,31 @@ for _, v in pairs(gmax_list) do
    v.config.extra = v.config.extra or {}
    v.config.extra.rounds = 1
 
+   v.poke_add_to_deck = v.add_to_deck
+   v.add_to_deck = function(self, card, from_debuff)
+      v.poke_add_to_deck(self, card, from_debuff)
+      -- if added to deck after blind exists, then increment blind
+      if card.config.extra.blind_mult and G.GAME.blind and G.GAME.blind.in_blind then
+         self:calculate(card, { setting_blind = true })
+      end
+   end
+
    v.poke_calculation = v.calculate
    v.calculate = function(self, card, context)
       local ret = nil
       if can_evolve(self, card, context, self.pre_evo_name) then
          ret = level_evo(self, card, context, self.pre_evo_name)
+      end
+      if card.config.extra.blind_mult then
+         if context.setting_blind and G.GAME.blind and G.GAME.blind.in_blind then
+            G.E_MANAGER:add_event(Event({
+               func = function()
+                  G.GAME.blind.chips = G.GAME.blind.chips * card.ability.extra.blind_mult
+                  G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+                  return true
+               end
+            }))
+         end
       end
       if self.poke_calculation then
          local calc = self:poke_calculation(card, context)
