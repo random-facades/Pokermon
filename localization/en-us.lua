@@ -3878,6 +3878,15 @@ return {
                     "{C:dark_edition}Wish to summon a Legendary Pokermon!",
                 }
             },
+            c_poke_dynamax_band = {
+                name = "Dynamax Band",
+                text = {
+                    "{C:attention}Reusable {C:inactive,s:0.8}(once per round)",
+                    "Gives {}+1{} {C:pink}Energy{} to",
+                    "leftmost or selected Joker",
+                    "{C:dark_edition}Gigantamax Evolution{}",
+                },
+            },
         },
         Tag = {
             tag_poke_pocket_tag = {
@@ -4171,6 +4180,28 @@ return {
                 text = {
                     "View top cards",
                     "of your deck"
+                }
+            },
+            gmax_evolution = {
+                name = "Gigantamax Evolution",
+                text = {
+                    "Evolve a capable {C:attention}Pokemon",
+                    "into its {C:dark_edition}Gigantamax Form",
+                    "until end of round",
+                }
+            },
+            gmax_poke = {
+                name = "Gigantamax Evolution",
+                text = {
+                    "Can {C:dark_edition}Gigantamax Evolve{}",
+                    "with a {C:attention}Dynamax Band{}"
+                }
+            },
+            gmax_and_mega_poke = {
+                name = "Evolution Ability",
+                text = {
+                    "Capable of {C:dark_edition}Gigantamax{}",
+                    "and {C:attention}Mega{} Evolution",
                 }
             },
             mega_rule = {

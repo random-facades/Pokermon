@@ -137,7 +137,7 @@ local gengar={
     if not center.edition or (center.edition and not center.edition.negative) then
       info_queue[#info_queue+1] = G.P_CENTERS.e_negative
     end
-    info_queue[#info_queue+1] = {set = 'Other', key = 'mega_poke'}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_and_mega_poke'}
     info_queue[#info_queue+1] = {key = 'percent_chance', set = 'Other', specific_vars = {20}}
     return {vars = {1, center.ability.extra.odds}}
   end,
@@ -357,6 +357,7 @@ local kingler={
   config = {extra = {chips = 20}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
     info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
     return {vars = {center.ability.extra.chips}}
   end,

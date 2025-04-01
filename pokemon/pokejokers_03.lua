@@ -383,6 +383,7 @@ local machamp={
   config = {extra = {hands = 4, discards = 4, mult = 24}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
 		return {vars = {center.ability.extra.hands, center.ability.extra.discards, center.ability.extra.mult}}
   end,
   rarity = "poke_safari", 

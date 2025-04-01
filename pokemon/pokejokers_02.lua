@@ -838,6 +838,7 @@ local meowth={
   config = {extra = {money = 3, rounds = 5}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
 		return {vars = {center.ability.extra.money, center.ability.extra.rounds}}
   end,
   rarity = 1, 

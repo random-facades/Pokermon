@@ -458,6 +458,7 @@ local lapras={
   config = {extra = {chips = 0, chip_mod = 80}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
     return {vars = {center.ability.extra.chips, center.ability.extra.chip_mod}}
   end,
   rarity = 2, 
@@ -549,6 +550,7 @@ local eevee={
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
     info_queue[#info_queue+1] = {set = 'Other', key = 'eeveelution'}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
     return {vars = {center.ability.extra.money_mod, center.ability.extra.limit, center.ability.extra.max}}
   end,
   rarity = 2, 
@@ -1161,6 +1163,7 @@ local snorlax={
   config = {extra = {Xmult_mod = 0.2, Xmult = 1}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
     info_queue[#info_queue+1] = {set = 'Other', key = 'holding', vars = {"Leftovers"}}
     info_queue[#info_queue+1] = G.P_CENTERS.c_poke_leftovers
     return {vars = {center.ability.extra.Xmult_mod, center.ability.extra.Xmult}}
