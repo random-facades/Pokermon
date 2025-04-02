@@ -231,7 +231,7 @@ local gmax_list = {
          return { vars = {} }
       end,
       ptype = "Water",
-      blueprint_compat = true,
+      blueprint_compat = false,
       calculate = function(self, card, context)
          if context.after and context.cardarea == G.jokers and not context.blueprint then
             local to_convert = {}
@@ -260,25 +260,81 @@ local gmax_list = {
       name = "gmax_lapras",
       pos = { x = 9, y = 0 },
       soul_pos = { x = 9, y = 3 },
-      config = { extra = {} },
+      config = { extra = { previous_round = -1 } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
          return { vars = {} }
       end,
       ptype = "Water",
-      blueprint_compat = true,
+      blueprint_compat = false,
+      calculate = function(self, card, context)
+         if context.end_of_round and context.cardarea == G.jokers and not context.individual and not context.blueprint and card.ability.extra.previous_round ~= G.GAME.round then
+            card.ability.extra.previous_round = G.GAME.round
+            add_tag(Tag(get_next_tag_key('gmax_lapras')))
+            SMODS.calculate_context({ skip_blind = true })
+         end
+      end,
    },
    {
       name = "gmax_eevee",
       pos = { x = 10, y = 0 },
       soul_pos = { x = 10, y = 3 },
-      config = { extra = {} },
+      config = { extra = { count = 10 } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = {} }
+         return { vars = { card.ability.extra.count } }
       end,
       ptype = "Colorless",
-      blueprint_compat = true,
+      blueprint_compat = false,
+      add_to_deck = function(self, card, from_debuff)
+         if not from_debuff and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            local evo_items = {}
+            local duplicate_checks = {}
+            for k, v in pairs(G.P_CENTERS) do
+               if v.evo_item and (type(v.in_pool) ~= "function" or v:in_pool()) then
+                  table.insert(evo_items, k)
+                  duplicate_checks[k] = 1
+               end
+            end
+
+            for k, v in pairs(G.jokers.cards) do
+               if v.config.center.item_req then
+                  if type(v.config.center.item_req) == "table" then
+                     for _, v2 in pairs(v.config.center.item_req) do
+                        table.insert(evo_items, "c_poke_" .. v2)
+                        duplicate_checks["c_poke_" .. v2] = 1
+                     end
+                  else
+                     table.insert(evo_items, "c_poke_" .. v.config.center.item_req)
+                     duplicate_checks["c_poke_" .. v.config.center.item_req] = 1
+                  end
+               end
+            end
+            local i = 1
+            while i <= card.ability.extra.count and (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) do
+               local item_key = pseudorandom_element(evo_items, pseudoseed('gmax_eevee_' .. tostring(i)))
+               local count = 0
+               while (duplicate_checks[item_key] * duplicate_checks[item_key]) > i + count do
+                  count = count + 0.1
+                  item_key = pseudorandom_element(evo_items, pseudoseed('gmax_eevee_' .. tostring(i + count)))
+               end
+               duplicate_checks[item_key] = duplicate_checks[item_key] + 1
+
+               G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+
+               poke_conversion_event_helper(function()
+                  local _card = create_card('Item', G.consumeables, nil, nil, nil, nil, item_key)
+                  _card:add_to_deck()
+                  G.consumeables:emplace(_card)
+                  card_eval_status_text(_card, 'extra', nil, nil, nil,
+                     { message = localize('poke_plus_pokeitem'), colour = G.C.FILTER, instant = true })
+                  G.GAME.consumeable_buffer = 0
+               end)
+               delay(0.4)
+               i = i + 1
+            end
+         end
+      end,
    },
    {
       name = "gmax_snorlax",

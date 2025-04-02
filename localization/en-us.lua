@@ -3622,7 +3622,7 @@ return {
             j_poke_gmax_eevee = {
                 name = "Eevee",
                 text = {
-                    "Gain {C:attention}10{} Evolution {C:gray}Items{}",
+                    "Gain {C:attention}#1#{} Evolution {C:gray}Items{}",
                     "{C:inactive}(Must have room)",
                 },
             },
