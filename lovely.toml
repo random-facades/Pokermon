@@ -199,7 +199,7 @@ if next(find_joker("tentacruel")) and self:get_id() == 10 then should_debuff = f
 '''
 match_indent = true
 
-#Gholdengo functionality
+#Gholdengo functionality & Gmax Kingler
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -214,6 +214,7 @@ end
 '''
 position = "before"
 payload = '''
+if next(find_joker("gmax_kingler")) then should_debuff = should_debuff or ((self.ability.set == "Default" or self.ability.set == "Enhanced") and not SMODS.has_enhancement(self, 'm_bonus')) end
 if self.ability.name == "gholdengo" then return end
 '''
 match_indent = true

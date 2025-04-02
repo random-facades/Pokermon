@@ -232,6 +232,32 @@ local gmax_list = {
       end,
       ptype = "Water",
       blueprint_compat = true,
+      calculate = function(self, card, context)
+         if context.after and context.cardarea == G.jokers and not context.blueprint then
+            local to_convert = {}
+            for _, v in ipairs(context.full_hand) do
+               if (not v:is_face() and v.base.id ~= 11 and v.base.id ~= 12 and v.base.id ~= 13) or v.config.center ~= G.P_CENTERS.m_bonus then
+                  table.insert(to_convert, v)
+               end
+            end
+
+            for _, v in ipairs(to_convert) do
+               poke_conversion_event_helper(function() v:flip() end)
+            end
+            for _, v in ipairs(to_convert) do
+               if v:is_face() or v.base.id == 11 or v.base.id == 12 or v.base.id == 13 then
+                  poke_conversion_event_helper(function() v:set_ability(G.P_CENTERS.m_bonus) end)
+               else
+                  local new_rank = pseudorandom_element({ 'Jack', 'Queen', 'King' }, pseudoseed('gmax_kingler'))
+                  poke_conversion_event_helper(function() SMODS.change_base(v, nil, new_rank) end)
+               end
+            end
+            for _, v in ipairs(to_convert) do
+               poke_conversion_event_helper(function() v:flip() end, 0.2)
+            end
+            delay(0.8)
+         end
+      end,
    },
    {
       name = "gmax_lapras",

@@ -3605,10 +3605,10 @@ return {
             j_poke_gmax_kingler = {
                 name = "Kingler",
                 text = {
-                    "All played cards become",
-                    "{C:chips}Bonus {C:attention}Kings{} after scoring",
+                    "After scoring, {C:attention}face{} cards become {C:chips}Bonus{}",
+                    "and others turn into a random {C:attention}face{} rank",
                     "{br:3.5}ERROR - CONTACT STEAK",
-                    "Debuff all cards except {C:chips}Bonus {C:attention}Kings{}",
+                    "Debuff all non-{C:chips}Bonus{} cards",
                 },
             },
             j_poke_gmax_lapras = {
