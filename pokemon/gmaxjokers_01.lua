@@ -236,26 +236,23 @@ local gmax_list = {
          if context.after and context.cardarea == G.jokers and not context.blueprint then
             local to_convert = {}
             for _, v in ipairs(context.full_hand) do
-               if (not v:is_face() and v.base.id ~= 11 and v.base.id ~= 12 and v.base.id ~= 13) or v.config.center ~= G.P_CENTERS.m_bonus then
+               if v.base.id ~= 13 or v.config.center ~= G.P_CENTERS.m_bonus then
                   table.insert(to_convert, v)
                end
             end
 
-            for _, v in ipairs(to_convert) do
-               poke_conversion_event_helper(function() v:flip() end)
-            end
-            for _, v in ipairs(to_convert) do
-               if v:is_face() or v.base.id == 11 or v.base.id == 12 or v.base.id == 13 then
-                  poke_conversion_event_helper(function() v:set_ability(G.P_CENTERS.m_bonus) end)
-               else
-                  local new_rank = pseudorandom_element({ 'Jack', 'Queen', 'King' }, pseudoseed('gmax_kingler'))
-                  poke_conversion_event_helper(function() SMODS.change_base(v, nil, new_rank) end)
+            if #to_convert > 0 then
+               local target = pseudorandom_element(to_convert, pseudoseed('gmax_kingler'))
+               poke_conversion_event_helper(function() target:flip() end)
+               if target.config.center ~= G.P_CENTERS.m_bonus then
+                  poke_conversion_event_helper(function() target:set_ability(G.P_CENTERS.m_bonus) end)
                end
+               if target.base.id ~= 13 then
+                  poke_conversion_event_helper(function() SMODS.change_base(target, nil, 'King') end)
+               end
+               poke_conversion_event_helper(function() target:flip() end, 0.2)
+               delay(0.8)
             end
-            for _, v in ipairs(to_convert) do
-               poke_conversion_event_helper(function() v:flip() end, 0.2)
-            end
-            delay(0.8)
          end
       end,
    },
