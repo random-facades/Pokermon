@@ -1,14 +1,14 @@
 family = {
-    {"bulbasaur","ivysaur","venusaur","mega_venusaur"},
-    {"charmander","charmeleon","charizard","mega_charizard_x","mega_charizard_y",},
-    {"squirtle","wartortle","blastoise","mega_blastoise"},
-    {"caterpie","metapod","butterfree"},
+    {"bulbasaur","ivysaur","venusaur","mega_venusaur","gmax_venusaur"},
+    {"charmander","charmeleon","charizard","mega_charizard_x","mega_charizard_y","gmax_charizard"},
+    {"squirtle","wartortle","blastoise","mega_blastoise","gmax_blastoise"},
+    {"caterpie","metapod","butterfree","gmax_butterfree"},
     {"weedle","kakuna","beedrill","mega_beedrill"},
     {"pidgey","pidgeotto","pidgeot","mega_pidgeot"},
     {"rattata","raticate"},
     {"spearow","fearow"},
     {"ekans","arbok"},
-    {"pichu", "pikachu","raichu"},
+    {"pichu", "pikachu","raichu","gmax_pikachu"},
     {"sandshrew","sandslash"},
     {"nidoranf","nidorina","nidoqueen"},
     {"nidoranm","nidorino","nidoking"},
@@ -20,13 +20,13 @@ family = {
     {"paras","parasect"},
     {"venonat","venomoth"},
     {"diglett","dugtrio"},
-    {"meowth","persian"},
+    {"meowth","persian","gmax_meowth"},
     {"psyduck","golduck"},
     {"mankey","primeape", "annihilape"},
     {"growlithe","arcanine"},
     {"poliwag","poliwhirl","poliwrath", "politoed"},
     {"abra","kadabra","alakazam","mega_alakazam"},
-    {"machop","machoke","machamp"},
+    {"machop","machoke","machamp","gmax_machamp"},
     {"bellsprout","weepinbell","victreebel"},
     {"tentacool","tentacruel"},
     {"geodude","graveler","golem"},
@@ -37,10 +37,10 @@ family = {
     {"seel","dewgong"},
     {"grimer","muk"},
     {"shellder","cloyster"},
-    {"gastly","haunter","gengar","mega_gengar",},
+    {"gastly","haunter","gengar","mega_gengar","gmax_gengar"},
     {"onix","steelix"},
     {"drowzee","hypno"},
-    {"krabby","kingler"},
+    {"krabby","kingler","gmax_kingler"},
     {"voltorb","electrode"},
     {"exeggcute","exeggutor"},
     {"cubone","marowak"},
@@ -59,12 +59,13 @@ family = {
     {"smoochum", "jynx"},
     {"pinsir", "mega_pinsir"},
     {"magikarp","gyarados", "mega_gyarados"},
-    {"munchlax", "snorlax"},
+    {"lapras","gmax_lapras"},
+    {"munchlax", "snorlax","gmax_snorlax"},
     {"aerodactyl", "mega_aerodactyl"},
     {"happiny", "chansey", "blissey"},
     {"lickitung", "lickilicky"},
     {"porygon", "porygon2", "porygonz"},
-    {"eevee", "vaporeon", "jolteon", "flareon", "espeon", "umbreon", "glaceon", "leafeon", "sylveon"},
+    {"eevee", "vaporeon", "jolteon", "flareon", "espeon", "umbreon", "glaceon", "leafeon", "sylveon","gmax_eevee"},
     {"omanyte","omastar"},
     {"kabuto","kabutops"},
     {"dratini","dragonair","dragonite"},
@@ -383,19 +384,25 @@ level_evo = function(self, card, context, forced_key)
     if card.debuff then return end
     if can_evolve(self, card, context, forced_key) then
       if card.ability.extra.rounds > 0 then
-        card.ability.extra.rounds = card.ability.extra.rounds - 1
+        card.ability.extra.rounds = card.ability.extra.rounds - 1 - #find_joker('gmax_butterfree')
       end
       if card.ability.extra.rounds <= 0 then
         return {
           message = poke_evolve(card, forced_key)
         }
       elseif card.ability.extra.rounds > 0 then
-        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        local messages = 1 + #find_joker('gmax_butterfree')
+        for i = 1, messages do
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        end
       end
     elseif can_evolve(self, card, context, forced_key, nil, true) then
       if card.ability.extra.rounds > 0 then
-        card.ability.extra.rounds = card.ability.extra.rounds - 1
-        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        card.ability.extra.rounds = card.ability.extra.rounds - 1 - #find_joker('gmax_butterfree')
+        local messages = 1 + #find_joker('gmax_butterfree')
+        for i = 1, messages do
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize("poke_evolve_level")})
+        end
       end
     end
     if can_evolve(self, card, context, forced_key, true) and card.ability.extra.rounds <= 1 and not card.ability.extra.juiced then
@@ -539,7 +546,7 @@ get_highest_evo = function(card)
   -- Check for max evo in family list, ignoring megas and aux pokermons
   local max = #found_family
   local max_evo_name = (type(found_family[max]) == "table" and found_family[max].key) or found_family[max]
-  while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or G.P_CENTERS["j_poke_"..max_evo_name].aux_poke) do
+  while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or string.sub(max_evo_name,1,5) == "gmax_" or G.P_CENTERS["j_poke_"..max_evo_name].aux_poke) do
     max = max - 1
     max_evo_name = (type(found_family[max]) == "table" and found_family[max].key) or found_family[max]
   end
@@ -585,7 +592,7 @@ get_previous_evo = function(card, full_key)
         local max_evo_name = (type(v[max]) == "table" and v[max].key) or v[max]
 
         if x > 1 then
-          while max > 0 and string.sub(max_evo_name,1,5) == "mega_" or max_evo_name == "slowking" do
+          while max > 0 and (string.sub(max_evo_name,1,5) == "mega_" or string.sub(max_evo_name,1,5) == "gmax_" or max_evo_name == "slowking") do
             max = max - 1
             if max > 0 then
               max_evo_name = (type(v[max]) == "table" and v[max].key) or v[max]

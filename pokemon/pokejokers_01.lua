@@ -109,7 +109,7 @@ local venusaur={
   config = {extra = {money_mod = 2, earned = 0, h_size = 1}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    info_queue[#info_queue + 1] = {set = 'Other', key = 'mega_poke'}
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'gmax_and_mega_poke'}
     return {vars = {center.ability.extra.money_mod, center.ability.extra.earned, center.ability.extra.h_size, localize(G.GAME.current_round.bulb1card and G.GAME.current_round.bulb1card.rank or "Ace", 'ranks')}}
   end,
   rarity = "poke_safari", 
@@ -283,7 +283,7 @@ local charizard={
   config = {extra = {mult = 36, Xmult = 1.5, d_remaining = 0, d_size = 1}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    info_queue[#info_queue+1] = {set = 'Other', key = 'mega_poke'}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_and_mega_poke'}
     if next(SMODS.find_card('c_poke_megastone')) then
       info_queue[#info_queue+1] = {set = 'Other', key = 'split_mega', vars = {"Mega Charizard X", "Mega Charizard Y"}}
     end
@@ -491,7 +491,7 @@ local blastoise={
   config = {extra = {chips = 72, chip_mod = 32, hands = 1}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
-    info_queue[#info_queue+1] = {set = 'Other', key = 'mega_poke'}
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_and_mega_poke'}
 		return {vars = {center.ability.extra.chips, center.ability.extra.chip_mod, center.ability.extra.hands}}
   end,
   rarity = "poke_safari", 
@@ -615,6 +615,7 @@ local butterfree={
   config = {extra = {mult = 10}},
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
 		return {vars = {center.ability.extra.mult}}
   end,
   rarity = 2, 
@@ -1190,6 +1191,7 @@ local pikachu={
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
     info_queue[#info_queue+1] = G.P_CENTERS.c_poke_thunderstone
+    info_queue[#info_queue+1] = {set = 'Other', key = 'gmax_poke'}
     return {vars = {center.ability.extra.money}}
   end,
   rarity = 2, 

@@ -782,8 +782,87 @@ local emergy = {
 	end,
 }
 
+function get_gmax_key_from_card(card)
+  if card and card.config and card.config.center then
+    local gmax_key = "j_poke_gmax_" .. tostring(card.config.center.name)
+    if G.P_CENTERS[gmax_key] then
+      return gmax_key
+    end
+  end
+  return nil
+end
+
+local dynamax_band = {
+  name = "dynamax_band",
+  key = "dynamax_band",
+  set = "Spectral",
+  config = { extra = { previous_round = nil } },
+  loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue + 1] = { set = 'Other', key = 'endless' }
+    info_queue[#info_queue + 1] = { set = 'Other', key = 'gmax_evolution' }
+  end,
+  pos = { x = 5, y = 5 },
+  atlas = "Mart",
+  cost = 4,
+  pokeball = true,
+  hidden = true,
+  soul_set = "Item",
+  soul_rate = .02,
+  unlocked = true,
+  discovered = true,
+  can_use = function(self, card)
+    if card.ability.extra.previous_round == G.GAME.round then return false end
+    if G.jokers.highlighted and #G.jokers.highlighted == 1 then
+      if can_increase_energy(G.jokers.highlighted[1]) then
+        return true
+      end
+      return get_gmax_key_from_card(G.jokers.highlighted[1]) ~= nil
+    end
+    local gmax_capable = nil
+    for k, v in pairs(G.jokers.cards) do
+      if can_increase_energy(v) then return true end
+      if v.config and v.config.center then
+        local gmax_key = "j_poke_gmax_" .. tostring(v.config.center.name)
+        if G.P_CENTERS[gmax_key] ~= nil then
+          return true
+        end
+      end
+    end
+    return false
+  end,
+  use = function(self, card, area, copier)
+    local target = G.jokers.highlighted and #G.jokers.highlighted == 1 and G.jokers.highlighted[1] or nil
+    local backup_target = nil
+    if not G.jokers.highlighted or #G.jokers.highlighted ~= 1 then
+      for k, v in pairs(G.jokers.cards) do
+        if can_increase_energy(v) then
+          target = v
+          break
+        end
+        if not backup_target and get_gmax_key_from_card(v) then
+          backup_target = v
+        end
+      end
+    end
+    target = target or backup_target
+    if target == nil then return end
+
+    card.ability.extra.previous_round = G.GAME.round
+    energy_increase(target, "Trans")
+
+    local gmax_key = get_gmax_key_from_card(target)
+    if gmax_key then
+      local context = {}
+      evolve(target, target, context, gmax_key)
+    end
+  end,
+  keep_on_use = function(self, card)
+    return true
+  end,
+}
+
 local list = {pokeball, greatball, ultraball, masterball, grass_energy, fire_energy, water_energy, lightning_energy, psychic_energy, fighting_energy, colorless_energy, darkness_energy, metal_energy,
-        fairy_energy, dragon_energy, earth_energy, transformation, obituary, nightmare, revenant, megastone}
+        fairy_energy, dragon_energy, earth_energy, transformation, obituary, nightmare, revenant, megastone, dynamax_band}
 
 if (SMODS.Mods["Cryptid"] or {}).can_load then
   table.insert(list, emergy)

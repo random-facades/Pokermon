@@ -3601,6 +3601,208 @@ return {
                     "Not to be put on a sandwich.",
                 }
             },--]]
+            j_poke_gmax_venusaur = {
+                name = "Venusaur",
+                text = {
+                    "{C:attention}+#2#{} hand size",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
+                },
+            },
+            j_poke_gmax_charizard = {
+                name = "Charizard",
+                text = {
+                    "{C:red}+#2#{} discards",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
+                },
+            },
+            j_poke_gmax_blastoise = {
+                name = "Blastoise",
+                text = {
+                    "{C:blue}+#2#{} hands",
+                    "{X:attention,C:white}X#1#{} Blind requirement",
+                },
+            },
+            j_poke_gmax_butterfree = {
+                name = "Butterfree",
+                text = {
+                    "At end of round,",
+                    "{C:attention}Pokemon{} level up twice",
+                },
+            },
+            j_poke_gmax_pikachu = {
+                name = "Pikachu",
+                text = {
+                    "After scoring,",
+                    "a card in your {C:attention}hand",
+                    "becomes a {C:money}Gold{} Card",
+                },
+            },
+            j_poke_gmax_meowth = {
+                name = "Meowth",
+                text = {
+                    "Your first {C:attention}#3#{C:inactive} [#2#]{} hands will not",
+                    "count towards {C:attention}Blind Requirement",
+                    "Earn {C:money}$#1#{} instead"
+                },
+            },
+            j_poke_gmax_machamp = {
+                name = "Machamp",
+                text = {
+                    "{C:blue}+#1#{} Hands",
+                    "{X:attention,C:white}X#2#{} Blind requirement"
+                },
+            },
+            j_poke_gmax_gengar = {
+                name = "Gengar",
+                text = {
+                    "{X:attention,C:white}X#1#{} Blind requirement",
+                    "At end of round,",
+                    "consume {C:attention}Joker{} to the left",
+                    "and create a {C:dark_edition}Negative{} Tag",
+                },
+            },
+            j_poke_gmax_kingler = {
+                name = "Kingler",
+                text = {
+                    "After scoring, a played card",
+                    "becomes a {C:chips}Bonus {C:attention}King{}",
+                    "{br:3.5}ERROR - CONTACT STEAK",
+                    "Debuff all non-{C:chips}Bonus{} cards",
+                },
+            },
+            j_poke_gmax_lapras = {
+                name = "Lapras",
+                text = {
+                    "At end of round, gain a Tag",
+                    "and trigger all {C:attention}Blind Skip{} effects",
+                    "{C:inactive}(Will increase Lapras's chips)",
+                },
+            },
+            j_poke_gmax_eevee = {
+                name = "Eevee",
+                text = {
+                    "Gain {C:attention}#1#{} Evolution {C:gray}Items{}",
+                    "{C:inactive}(Must have room)",
+                },
+            },
+            j_poke_gmax_snorlax = {
+                name = "Snorlax",
+                text = {
+                    "Gain a {C:attention}Leftovers",
+                    "{C:green}1 in 4{} chance to be {C:dark_edition}Negative",
+                    "{C:inactive}(Must have room, unless Negative)",
+                },
+            },
+            j_poke_gmax_garbodor = {
+                name = "Garbodor",
+                text = {
+                },
+            },
+            j_poke_gmax_melmetal = {
+                name = "Melmetal",
+                text = {
+                },
+            },
+            j_poke_gmax_rillaboom = {
+                name = "Rillaboom",
+                text = {
+                },
+            },
+            j_poke_gmax_cinderace = {
+                name = "Cinderace",
+                text = {
+                },
+            },
+            j_poke_gmax_inteleon = {
+                name = "Inteleon",
+                text = {
+                },
+            },
+            j_poke_gmax_corviknight = {
+                name = "Corviknight",
+                text = {
+                },
+            },
+            j_poke_gmax_orbeetle = {
+                name = "Orbeetle",
+                text = {
+                },
+            },
+            j_poke_gmax_drednaw = {
+                name = "Drednaw",
+                text = {
+                },
+            },
+            j_poke_gmax_coalossal = {
+                name = "Coalossal",
+                text = {
+                },
+            },
+            j_poke_gmax_flapple = {
+                name = "Flapple",
+                text = {
+                },
+            },
+            j_poke_gmax_appletun = {
+                name = "Appletun",
+                text = {
+                },
+            },
+            j_poke_gmax_sandaconda = {
+                name = "Sandaconda",
+                text = {
+                },
+            },
+            j_poke_gmax_toxtricity = {
+                name = "Toxtricity",
+                text = {
+                },
+            },
+            j_poke_gmax_centiskorch = {
+                name = "Centiskorch",
+                text = {
+                },
+            },
+            j_poke_gmax_hatterene = {
+                name = "Hatterene",
+                text = {
+                },
+            },
+            j_poke_gmax_grimmsnarl = {
+                name = "Grimmsnarl",
+                text = {
+                },
+            },
+            j_poke_gmax_alcremie = {
+                name = "Alcremie",
+                text = {
+                },
+            },
+            j_poke_gmax_copperajah = {
+                name = "Copperajah",
+                text = {
+                },
+            },
+            j_poke_gmax_duraludon = {
+                name = "Duraludon",
+                text = {
+                },
+            },
+            j_poke_gmax_eternatus = {
+                name = "Eternatus",
+                text = {
+                },
+            },
+            j_poke_gmax_urshifu_dark = {
+                name = "Urshifu",
+                text = {
+                },
+            },
+            j_poke_gmax_urshifu_water = {
+                name = "Urshifu",
+                text = {
+                },
+            },
         },
         Planet = {
            --I wonder what a Pokémon planet would do?
@@ -3734,6 +3936,15 @@ return {
                 text = {
                     "{C:dark_edition}Wish to summon a Legendary Pokermon!",
                 }
+            },
+            c_poke_dynamax_band = {
+                name = "Dynamax Band",
+                text = {
+                    "{C:attention}Reusable {C:inactive,s:0.8}(once per round)",
+                    "Gives {}+1{} {C:pink}Energy{} to",
+                    "leftmost or selected Joker",
+                    "{C:dark_edition}Gigantamax Evolution{}",
+                },
             },
         },
         Tag = {
@@ -4028,6 +4239,28 @@ return {
                 text = {
                     "View top cards",
                     "of your deck"
+                }
+            },
+            gmax_evolution = {
+                name = "Gigantamax Evolution",
+                text = {
+                    "Evolve a capable {C:attention}Pokemon",
+                    "into its {C:dark_edition}Gigantamax Form",
+                    "until end of round",
+                }
+            },
+            gmax_poke = {
+                name = "Gigantamax Evolution",
+                text = {
+                    "Can {C:dark_edition}Gigantamax Evolve{}",
+                    "with a {C:attention}Dynamax Band{}"
+                }
+            },
+            gmax_and_mega_poke = {
+                name = "Evolution Ability",
+                text = {
+                    "Capable of {C:dark_edition}Gigantamax{}",
+                    "and {C:attention}Mega{} Evolution",
                 }
             },
             mega_rule = {
@@ -4458,6 +4691,7 @@ return {
 
             k_poke_safari = "Safari",
             k_poke_mega = "Mega",
+            k_poke_giga = "Gigantamax",
 
             b_save = "SAVE",
             b_energy_cards = "Energy Cards",

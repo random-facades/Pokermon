@@ -199,7 +199,7 @@ if next(find_joker("tentacruel")) and self:get_id() == 10 then should_debuff = f
 '''
 match_indent = true
 
-#Gholdengo functionality
+#Gholdengo functionality & Gmax Kingler
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -214,6 +214,7 @@ end
 '''
 position = "before"
 payload = '''
+if next(find_joker("gmax_kingler")) then should_debuff = should_debuff or ((self.ability.set == "Default" or self.ability.set == "Enhanced") and not SMODS.has_enhancement(self, 'm_bonus')) end
 if self.ability.name == "gholdengo" then return end
 '''
 match_indent = true
@@ -784,6 +785,39 @@ end
 '''
 match_indent = true
 
+
+# Add pre_draw options for DrawSteps
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/card_draw.lua"]'
+pattern = '''
+for _, k in ipairs(SMODS.DrawStep.obj_buffer) do
+    if SMODS.DrawSteps[k]:check_conditions(self, layer) then SMODS.DrawSteps[k].func(self, layer) end
+'''
+position = "at"
+payload = '''
+for _, k in ipairs(SMODS.DrawStep.obj_buffer) do
+    if SMODS.DrawSteps[k]:check_conditions(self, layer) then 
+        local center = self.config.center
+        if center.pre_draw and type(center.pre_draw) == 'function' then
+            center:pre_draw(self, SMODS.DrawSteps[k])
+        end
+        SMODS.DrawSteps[k].func(self, layer) 
+    end
+'''
+match_indent = true
+overwrite = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "-- TARGET: effects when cards are removed"
+position = "after"
+payload = "SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, final_final_scoring_step_v2 = true})"
+match_indent = true
+
+
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -834,3 +868,4 @@ if other.config.center.name == "smeargle" then
 end
 '''
 match_indent = true
+
