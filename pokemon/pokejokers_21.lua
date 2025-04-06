@@ -339,13 +339,13 @@ local golett={
   ptype = "Psychic",
   atlas = "Pokedex5",
   perishable_compat = true,
-  blueprint_compat = false,
+  blueprint_compat = true,
   eternal_compat = true,
   calculate = function(self, card, context)
     if context.setting_blind then
       poke_add_hazards(card.ability.extra.hazard_ratio)
     end
-    if context.individual and not context.end_of_round and context.cardarea == G.hand and #G.hand.cards > card.ability.extra.interval then
+    if context.individual and not context.end_of_round and context.cardarea == G.hand and #G.hand.cards >= card.ability.extra.interval then
       local score = nil
       for i = card.ability.extra.interval, #G.hand.cards, card.ability.extra.interval do
         if G.hand.cards[i] == context.other_card then
@@ -408,7 +408,7 @@ local golurk={
     if context.setting_blind then
       poke_add_hazards(card.ability.extra.hazard_ratio)
     end
-    if context.individual and not context.end_of_round and context.cardarea == G.hand and #G.hand.cards > card.ability.extra.interval then
+    if context.individual and not context.end_of_round and context.cardarea == G.hand and #G.hand.cards >= card.ability.extra.interval then
       local score = nil
       for i = card.ability.extra.interval, #G.hand.cards, card.ability.extra.interval do
         if G.hand.cards[i] == context.other_card then

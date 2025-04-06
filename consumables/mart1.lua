@@ -527,7 +527,7 @@ local transformation = {
       local prefix = choice.config.center.poke_custom_prefix or "poke"
       local forced_key = "j_"..prefix.."_"..highest
       local context = {}
-      evolve(choice, choice, context, forced_key)
+      poke_evolve(choice, forced_key)
     end
   end
 }
@@ -535,7 +535,7 @@ local megastone = {
   name = "megastone",
   key = "megastone",
   set = "Spectral",
-  config = {extra = {previous_round = 0, used_on = nil}},
+  config = {extra = {usable = true, used_on = nil}},
   loc_vars = function(self, info_queue, center)
     info_queue[#info_queue + 1] = { set = 'Other', key = 'endless' }
     info_queue[#info_queue+1] = {set = 'Other', key = 'mega_rule'}
@@ -557,7 +557,7 @@ local megastone = {
     if card.area == G.shop_jokers then return false end
     if not (G.jokers and G.jokers.cards) then return false end
     if #G.jokers.cards == 0 then return false end
-    if G.GAME.round <= card.ability.extra.previous_round then return false end
+    if not card.ability.extra.usable then return false end
     local target = nil
     if G.jokers.highlighted and #G.jokers.highlighted == 1 and (G.jokers.highlighted[1].config.center.megas or G.jokers.highlighted[1].config.center.rarity == "poke_mega") and 
        not G.jokers.highlighted[1].debuff then
@@ -606,9 +606,15 @@ local megastone = {
       card.ability.extra.used_on = nil
     end
     local context = {}
-    card.ability.extra.previous_round = G.GAME.round
+    card.ability.extra.usable = false
      
-    evolve(target, target, context, forced_key)
+    poke_evolve(target, forced_key)
+  end,
+  calculate = function(self, card, context)
+    if context.end_of_round and not card.ability.extra.usable then
+      card.ability.extra.usable = true
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset')})
+    end
   end,
   keep_on_use = function(self, card)
     return true
@@ -628,9 +634,8 @@ local megastone = {
     if card.ability.extra.used_on and next(SMODS.find_card(card.ability.extra.used_on)) then
       for k, v in ipairs(G.jokers.cards) do
         if v.config.center.key == card.ability.extra.used_on then
-          local context = {}
           local forced_key = get_previous_evo(v, true)
-          evolve(v, v, context, forced_key)
+          poke_evolve(v, forced_key)
           break
         end
       end

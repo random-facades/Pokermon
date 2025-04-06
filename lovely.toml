@@ -242,6 +242,49 @@ end
 '''
 match_indent = true
 
+# Replace start menu logo with Pokermon
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+G.SPLASH_LOGO = Sprite(0, 0, 
+    13*SC_scale, 
+    13*SC_scale*(G.ASSET_ATLAS["balatro"].py/G.ASSET_ATLAS["balatro"].px),
+    G.ASSET_ATLAS["balatro"], {x=0,y=0})
+'''
+position = "at"
+payload = '''
+    local poke_logo = pokermon_config.pokemon_aprilfools and "poke_smeargle_logo" or "poke_logo"
+    G.SPLASH_LOGO = Sprite(0, 0, 
+        13/333*389*SC_scale, 
+        13/333*389*SC_scale*(G.ASSET_ATLAS[poke_logo].py/G.ASSET_ATLAS[poke_logo].px),
+        G.ASSET_ATLAS[poke_logo], {x=0.0,y=0})
+'''
+match_indent = true
+overwrite = true
+
+
+# Replace start menu card with wobbuffet
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+local replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)
+'''
+position = "at"
+payload = '''
+local replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.empty, G.P_CENTERS.j_poke_wobbuffet)
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "replace_card.states.visible = false"
+position = "after"
+payload = "replace_card.seal = nil"
+match_indent = true
+
 # Description functionality, a little hacky but it works
 [[patches]]
 [patches.pattern]
@@ -265,7 +308,7 @@ match_indent = true
 target = 'functions/misc_functions.lua'
 pattern = '''function find_joker(name, non_debuff)'''
 position = 'after'
-payload = '''  
+payload = '''
 if name == "Shortcut" then
   local asdf = find_joker("poke_Shortcut")
   local dsaf = find_joker("pansage")
@@ -281,12 +324,18 @@ elseif name == "Four Fingers" then
   local dsaf = find_joker("pansear")
   local safd = find_joker("simisear")
   return (next(asdf) and asdf) or (next(dsaf) and dsaf) or (next(safd) and safd) or {}
+elseif name == "Smeared Joker" then
+  local smeared = find_joker("poke_Smeared_Joker")
+  local smeargle = find_joker("smeargle")
+  return (next(smeared) and smeared) or (next(smeargle) and smeargle) or {}
 elseif name == "poke_Shortcut" then
   name = "Shortcut"
 elseif name == "poke_Pareidolia" then
   name = "Pareidolia"
 elseif name == "poke_Four_Fingers" then
   name = "Four Fingers"
+elseif name == "poke_Smeared_Joker" then
+  name = "Smeared Joker"
 end
 '''
 match_indent = true
@@ -711,7 +760,7 @@ match_indent = true
 target = "functions/state_events.lua"
 pattern = "limit = limit - 1 + (not card.debuff and card.edition and card.edition.card_limit or 0)"
 position = "at"
-payload = """limit = limit - 1 + (not card.debuff and card.edition and card.edition.card_limit or card.ability and card.ability.card_limit or 0)"""
+payload = """limit = limit - 1 + (not card.debuff and (card.edition and card.edition.card_limit or card.ability and card.ability.card_limit) or 0)"""
 match_indent = true
 
 [[patches]]
@@ -724,8 +773,8 @@ end
 '''
 position = "after"
 payload = '''
-if self.ability and old_center and old_center.config.card_limit and not self.debuff then
-    if self.area == G.hand then
+if self.ability and old_center and old_center.config.card_limit then
+    if self.area == G.hand and not self.debuff then
       if G.hand.config.real_card_limit then
         G.hand.config.real_card_limit = G.hand.config.real_card_limit - self.ability.card_limit
       end
@@ -735,6 +784,7 @@ if self.ability and old_center and old_center.config.card_limit and not self.deb
 end
 '''
 match_indent = true
+
 
 # Add pre_draw options for DrawSteps
 [[patches]]
@@ -759,12 +809,63 @@ match_indent = true
 overwrite = true
 
 
-
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = "-- TARGET: effects when cards are removed"
 position = "after"
 payload = "SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, final_final_scoring_step_v2 = true})"
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.perishable and self.ability.perish_tally <= 0 then 
+    if not self.debuff then
+        self.debuff = true
+        if self.area == G.jokers then self:remove_from_deck(true) end
+    end
+    return
+end
+'''
+position = "after"
+payload = '''
+if not should_debuff and self.area == G.hand and self.ability and self.ability.card_limit and self.debuff then
+  if G.hand.config.real_card_limit then
+    G.hand.config.real_card_limit = G.hand.config.real_card_limit + self.ability.card_limit
+  end
+  G.hand.config.card_limit = G.hand.config.card_limit + self.ability.card_limit
+  draw_card(G.deck,G.hand, nil,'up', true)
+end
+'''
+match_indent = true
+
+#Smeargle Tooltip loc_vars fix
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if vars_only then return loc_vars, main_start, main_end end"
+position = "before"
+payload = '''
+if vars_only and type(self.ability.loc_vars_replacement) == "table" then
+  loc_vars = self.ability.loc_vars_replacement
+end
+'''
+match_indent = true
+
+# Smeargle fix with copy effects
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "new_card:set_base(other.config.card)"
+position = "after"
+payload = '''
+if other.config.center.name == "smeargle" then
+  other.ability.extra.copy_joker = nil
+  other.ability.extra.copy_pos = 0
+end
+'''
 match_indent = true
 

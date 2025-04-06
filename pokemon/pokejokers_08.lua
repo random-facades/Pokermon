@@ -673,6 +673,120 @@ local stantler={
   end
 }
 -- Smeargle 235
+local smeargle={
+  name = "smeargle",
+  pos = {x = 3, y = 8},
+  config = {extra = {copy_joker = nil, copy_pos = 0}},
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    info_queue[#info_queue + 1] = { set = 'Joker', key = 'j_smeared', config = {} }
+    info_queue[#info_queue+1] = {set = 'Other', key = 'sketch', vars = {}}
+    return {vars = {}}
+  end,
+  rarity = 3,
+  cost = 8,
+  stage = "Basic",
+  ptype = "Colorless",
+  atlas = "Pokedex2",
+  perishable_compat = true,
+  blueprint_compat = false,
+  eternal_compat = true,
+  calculate = function(self, card, context)
+    if context.setting_blind and card.ability.blueprint_compat == 'compatible' and G.jokers.cards[#G.jokers.cards] ~= card and not card.getting_sliced then
+      local found_pos = 0
+      for i = 1, #G.jokers.cards do
+        if G.jokers.cards[i] == card then found_pos = i + 1 end
+      end
+      if G.jokers.cards[found_pos] then
+        card.ability.extra.copy_joker = G.jokers.cards[found_pos] 
+        card.ability.extra.copy_pos = found_pos
+      end
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
+    end
+
+    local other_joker = G.jokers.cards[card.ability.extra.copy_pos]
+    if other_joker and other_joker ~= card and not context.no_blueprint then
+      context.blueprint = (context.blueprint or 0) + 1
+      context.blueprint_card = context.blueprint_card or card
+      if context.blueprint > #G.jokers.cards + 1 then return end
+      local other_joker_ret = other_joker:calculate_joker(context)
+      context.blueprint = nil
+      local eff_card = context.blueprint_card or card
+      context.blueprint_card = nil
+      if other_joker_ret then 
+        other_joker_ret.card = eff_card
+        other_joker_ret.colour = G.C.BLACK
+        return other_joker_ret
+      end
+    end
+  end,
+  generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+    info_queue[#info_queue + 1] = { set = 'Joker', key = 'j_smeared', config = {} }
+    info_queue[#info_queue+1] = {set = 'Other', key = 'sketch', vars = {}}
+    type_tooltip(self, info_queue, card)
+    if card and card.ability and card.ability.extra.copy_joker then
+      local other_center = card.ability.extra.copy_joker.config.center
+      local new_config = copy_table(card.ability.extra.copy_joker.ability)
+      if type(other_center.loc_vars) == "function" then
+        local other_queue = {}
+        local other_vars = other_center:loc_vars(other_queue, card.ability.extra.copy_joker)
+        if other_vars and other_vars.vars then
+          new_config.loc_vars_replacement = other_vars.vars
+        end
+        if other_queue and #other_queue > 0 then
+          -- Can filter sub-tooltips for any "needed" tooltips
+        end
+      end
+      info_queue[#info_queue + 1] = { set = 'Joker', key = other_center.key, name = other_center.name, config = new_config }
+    end
+    local _c = card and card.config.center or card
+    if not full_UI_table.name then
+      full_UI_table.name = localize({ type = "name", set = _c.set, key = _c.key, nodes = full_UI_table.name })
+    end
+    card.ability.blueprint_compat_ui = card.ability.blueprint_compat_ui or ''
+    card.ability.blueprint_compat_check = nil
+    local main_end = (card.area and card.area == G.jokers) and {
+      {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
+        {n=G.UIT.C, config={ref_table = card, align = "m", colour = G.C.JOKER_GREY, r = 0.05, padding = 0.06, func = 'blueprint_compat'}, nodes={
+          {n=G.UIT.T, config={ref_table = card.ability, ref_value = 'blueprint_compat_ui',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.8}},
+        }}
+      }}
+    } or nil
+    localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes}
+    desc_nodes[#desc_nodes+1] = main_end
+  end,
+  load = function(self, card, card_table, other_card)
+    card.has_loaded = true
+  end,
+  update = function(self, card, dt)
+    if card.has_loaded then
+      card.ability.extra.copy_joker = G.jokers.cards[card.ability.extra.copy_pos]
+      card.has_loaded = false
+    end
+    if card.ability.extra.copy_joker and card.ability.extra.copy_joker ~= G.jokers.cards[card.ability.extra.copy_pos] then
+      local found = nil
+      for i=1, #G.jokers.cards do
+        if card.ability.extra.copy_joker == G.jokers.cards[i] then
+          card.ability.extra.copy_pos = i
+          found = true
+          break
+        end
+      end
+      if not found then
+        card.ability.extra.copy_joker = nil
+        card.ability.extra.copy_pos = 0
+      end
+    end
+    if G.STAGE == G.STAGES.RUN and card.area == G.jokers then
+      local found_pos = 0
+      for i = 1, #G.jokers.cards do
+        if G.jokers.cards[i] == card then found_pos = i + 1 end
+      end
+      local right_joker = G.jokers.cards[found_pos]
+      card.ability.blueprint_compat = ( right_joker and right_joker ~= card and not right_joker.debuff and right_joker.config.center.blueprint_compat and 'compatible') or 'incompatible'
+    end
+  end
+}
 -- Tyrogue 236
 local tyrogue={
   name = "tyrogue",
@@ -913,5 +1027,5 @@ local magby={
   end
 }
 return {name = "Pokemon Jokers 211-240", 
-        list = {qwilfish, scizor, corsola, remoraid, octillery, delibird, mantine, skarmory, kingdra, phanpy, donphan, porygon2, stantler, tyrogue, hitmontop, smoochum, elekid, magby},
+        list = {qwilfish, scizor, corsola, remoraid, octillery, delibird, mantine, skarmory, kingdra, phanpy, donphan, porygon2, stantler, smeargle, tyrogue, hitmontop, smoochum, elekid, magby},
 }

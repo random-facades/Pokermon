@@ -92,12 +92,14 @@ family = {
     {"bonsly", "sudowoodo"},
     {"hoppip", "skiploom", "jumpluff"},
     {"misdreavus", "mismagius"},
+    {"wynaut", "wobbuffet"},
     {"pineco", "forretress"},
     {"dunsparce", {key = "dudunsparce", form = 0}, {key = "dudunsparce", form = 1}},
     {"mantyke", "mantine"},
     {"treecko", "grovyle", "sceptile"},
     {"torchic", "combusken", "blaziken"},
     {"mudkip", "marshtomp", "swampert"},
+    {"zigzagoon", "linoone"},
     {"shroomish", "breloom"},
     {"aron","lairon","aggron"},
     {"buizel", "floatzel"},
@@ -232,212 +234,138 @@ remove = function(self, card, context, check_shiny)
   return true
 end
 
-evolve = function(self, card, context, forced_key)
-  if not context.retrigger_joker then
-    local previous_position = nil
-    local poketype_list = nil
-    local previous_edition = nil
-    local previous_perishable = nil
-    local previous_perish_tally = nil
-    local previous_eternal = nil
-    local previous_rental = nil
-    local previous_energy_count = nil
-    local previous_c_energy_count = nil
-    local shiny = nil
-    local type_sticker = nil
-    local scaled_values = nil
-    local reset_apply_type = nil
-    local previous_extra_value = nil
-    local previous_targets = nil
-    local previous_rank = nil
-    local previous_id = nil
-    local previous_cards_scored = nil
-    local previous_hazards_drawn = nil
-    local previous_upgrade = nil
-    local previous_mega = nil
-    
-    for i = 1, #G.jokers.cards do
-      if G.jokers.cards[i] == card then
-        previous_position = i
-        break
+poke_evolve = function(card, to_key, immediate)
+  if immediate then
+    poke_backend_evolve(card, to_key)
+  else
+    G.E_MANAGER:add_event(Event({
+      func = function()
+        if card.evolution_timer or G.P_CENTERS[to_key] == card.config.center then return true end
+        card.evolution_timer = 0
+        G.E_MANAGER:add_event(Event({
+            trigger = 'ease',
+            ref_table = card,
+            ref_value = 'evolution_timer',
+            ease_to = 1.5,
+            delay = 2.0,
+            func = (function(t) return t end)
+        }))
+        G.E_MANAGER:add_event(Event({
+          func = function()
+            poke_backend_evolve(card, to_key)
+            return true
+          end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'ease',
+            ref_table = card,
+            ref_value = 'evolution_timer',
+            ease_to = 2.25,
+            delay = 1.0,
+            func = (function(t) return t end)
+        }))
+        G.E_MANAGER:add_event(Event({
+          func = function()
+            card.evolution_timer = nil
+            play_sound('tarot1')
+            card_eval_status_text(card, 'extra', nil, nil, nil, { message = localize("poke_evolve_success"), colour = G.C.FILTER, instant = true})
+            return true
+          end
+        }))
+        return true
       end
-    end
-    
-    if card.edition then
-      previous_edition = card.edition
-      if card.edition.poke_shiny then
-        shiny = true
-      end
-    end
-    
-    if card.ability.perishable then
-      previous_perishable = card.ability.perishable
-      previous_perish_tally = card.ability.perish_tally
-    end
-      
-    if card.ability.eternal then
-      previous_eternal = card.ability.eternal
-    end
+    }))
+  end
+end
 
-    if card.ability.rental then
-      previous_rental = card.ability.rental
-    end
-    
-    if card.ability.extra and card.ability.extra.energy_count then
-      previous_energy_count  = card.ability.extra.energy_count
-    end
-      
-    if card.ability.extra and card.ability.extra.c_energy_count then
-      previous_c_energy_count  = card.ability.extra.c_energy_count
-    end 
-    
-    scaled_values = copy_scaled_values(card)
+-- Stolen from Cardsauce
+-- Based on code from Ortalab
+poke_backend_evolve = function(card, to_key)
+  local new_card = G.P_CENTERS[to_key]
+  if card.config.center == new_card then return end
 
-    if type_sticker_applied then
-      poketype_list = {"grass", "fire", "water", "lightning", "psychic", "fighting", "colorless", "dark", "metal", "fairy", "dragon", "earth"}
-      for l, v in pairs(poketype_list) do
-        if card.ability[v.."_sticker"] then
-          type_sticker = v
-          break
+  local old_key = card.config.center.key
+
+  -- if it's not a mega and not a devolution and still has rounds left, reset perish tally
+  if card.ability.perishable and card.config.center.rarity ~= "poke_mega" and not card.ability.extra.devolved and card.ability.perish_tally > 0 then
+    card.ability.perish_tally = G.GAME.perishable_rounds
+  end
+
+  local names_to_keep = {"targets", "rank", "id", "cards_scored", "upgrade", "hazards_drawn", "energy_count", "c_energy_count"}
+  local values_to_keep = copy_scaled_values(card)
+  if type(card.ability.extra) == "table" then
+    for _, k in pairs(names_to_keep) do
+      values_to_keep[k] = card.ability.extra[k]
+    end
+  end
+
+  -- value filtering
+  if values_to_keep.hazards_drawn then
+    values_to_keep.hazards_drawn = values_to_keep.hazards_drawn % 2
+  end
+
+  if values_to_keep.cards_scored and values_to_keep.cards_scored >= 15 then
+    values_to_keep.upgrade = true
+    values_to_keep.cards_scored = values_to_keep.cards_scored - 15
+  end
+
+  card.children.center = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS[new_card.atlas], new_card.pos)
+  card.children.center.states.hover = card.states.hover
+  card.children.center.states.click = card.states.click
+  card.children.center.states.drag = card.states.drag
+  card.children.center.states.collide.can = false
+  card.children.center:set_role({major = card, role_type = 'Glued', draw_major = card})
+  card:set_ability(new_card)
+  card:set_cost()
+
+  if type(card.ability.extra) == "table" then
+    for k,v in pairs(values_to_keep) do
+      if card.ability.extra[k] or k == "energy_count" or k == "c_energy_count" then
+        if type(card.ability.extra[k]) ~= "number" or (type(v) == "number" and v > card.ability.extra[k]) then
+          card.ability.extra[k] = v
         end
       end
     end
-    
-    if card.ability.extra_value then
-      previous_extra_value = card.ability.extra_value
+    if card.ability.extra.energy_count or card.ability.extra.c_energy_count then
+      energize(card, nil, true, true)
     end
-    
-    if card.ability.extra and card.ability.extra.targets then
-      previous_targets = card.ability.extra.targets
-    end
-    
-    if card.ability.name == "fidough" then
-      previous_rank = card.ability.extra.rank
-      previous_id = card.ability.extra.id
-    end
-    
-    if card.ability.name == "spearow" then
-      previous_cards_scored = card.ability.extra.cards_scored
-      previous_upgrade = card.ability.extra.upgrade
-    end
-    
-    if card.ability.name == "tarountula" then
-      previous_hazards_drawn = card.ability.extra.hazards_drawn
-    end
-    
-    
-    if card.config.center.rarity == "poke_mega" then
-      previous_mega = true
-    end
-    
-    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.1, func = function()
-      remove(self, card, context)
-    return true end }))
-    
-    if G.GAME.modifiers.apply_type then
-      G.GAME.modifiers.apply_type = false
-      reset_apply_type = true
-    end
-    
-    local temp_card = {set = "Joker", area = G.jokers, key = forced_key, no_edition = true}
-    local new_card = SMODS.create_card(temp_card)
-    
-    new_card.states.visible = false
-    
-    if reset_apply_type then
-      G.GAME.modifiers.apply_type = true
-    end
-    
-    if previous_edition then
-      if shiny then
-        local edition = {poke_shiny = true}
-         new_card:set_edition(edition, true)
-         new_card.config.shiny_on_add = true
-         SMODS.change_booster_limit(-1)
-      else
-        new_card:set_edition(previous_edition, true)
-      end
-    end
-    
-    if previous_perishable then
-       new_card.ability.perishable = previous_perishable
-       if previous_mega or card.ability.extra.devolved or card.ability.perish_tally <= 0 then
-        new_card.ability.extra.devolved = true
-        new_card.ability.perish_tally = previous_perish_tally
-       else
-         new_card.ability.perish_tally = G.GAME.perishable_rounds
-       end
-    end
+  end
 
-    if previous_eternal then
-      new_card.ability.eternal = previous_eternal
-    end
+  if new_card.soul_pos then
+    card.children.floating_sprite = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS[new_card.atlas], new_card.soul_pos)
+    card.children.floating_sprite.role.draw_major = card
+    card.children.floating_sprite.states.hover.can = false
+    card.children.floating_sprite.states.click.can = false
+  elseif card.children.floating_sprite then
+    card.children.floating_sprite:remove()
+    card.children.floating_sprite = nil
+  end
 
-    if previous_rental then
-      new_card.ability.rental = previous_rental
+  if not card.edition then
+    card:juice_up()
+    play_sound('generic1')
+  else
+    card:juice_up(1, 0.5)
+    if card.edition.foil then play_sound('foil1', 1.2, 0.4) end
+    if card.edition.holo then play_sound('holo1', 1.2*1.58, 0.4) end
+    if card.edition.polychrome then play_sound('polychrome1', 1.2, 0.7) end
+    if card.edition.negative then play_sound('negative', 1.5, 0.4) end
+    if card.edition.poke_shiny then
+      play_sound('poke_e_shiny', 1, 0.2)
+      G.P_CENTERS.e_poke_shiny.on_load(card)
     end
-    
-    if new_card.ability and new_card.ability.extra and previous_energy_count then
-      new_card.ability.extra.energy_count = previous_energy_count
-    end
-    
-    if new_card.ability and new_card.ability.extra and previous_c_energy_count then
-      new_card.ability.extra.c_energy_count = previous_c_energy_count
-    end
-    
-    if new_card.ability and new_card.ability.extra and (new_card.ability.extra.energy_count or new_card.ability.extra.c_energy_count) then
-      energize(new_card, nil, true)
-    end
-    
-    if scaled_values then
-      for l, v in pairs(scaled_values) do
-        if v and v > 0 and new_card.ability and new_card.ability.extra and type(new_card.ability.extra) == "table" and new_card.ability.extra[l] and v > new_card.ability.extra[l] then
-          new_card.ability.extra[l] = v
-        end
-      end
-    end
-    
-    if type_sticker then
-      apply_type_sticker(new_card, type_sticker)
-    end
-    
-    if previous_extra_value then
-      new_card.ability.extra_value = previous_extra_value
-      new_card:set_cost()
-    end
-    
-    if previous_targets then
-      new_card.ability.extra.targets = previous_targets
-    end
-    
-    if previous_rank and previous_id then
-      new_card.ability.extra.rank = previous_rank
-      new_card.ability.extra.id = previous_id
-    end
-    
-    if previous_cards_scored then
-      if previous_cards_scored >= 15 then
-        previous_upgrade = true
-        previous_cards_scored = previous_cards_scored - 15
-      end
-      new_card.ability.extra.cards_scored = previous_cards_scored
-      new_card.ability.extra.upgrade = previous_upgrade
-    end
-    
-    if previous_hazards_drawn then
-      if previous_hazards_drawn > 1 then
-        previous_hazards_drawn = previous_hazards_drawn % 2
-      end
-      new_card.ability.extra.hazards_drawn = previous_hazards_drawn
-    end
-    
-    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.1, func = function()
-        new_card:add_to_deck()
-        G.jokers:emplace(new_card, previous_position)
-        new_card.states.visible = true
-    return true end }))
+  end
 
-    return localize("poke_evolve_success")
+  -- can be removed once this PR has been merged:
+  --    https://github.com/Steamodded/smods/pull/611
+  local to_fix = {}
+  for k,_ in pairs(G.GAME.used_jokers) do
+    if not next(SMODS.find_card(k, true)) then
+      table.insert(to_fix, k)
+    end
+  end
+  for _,k in pairs(to_fix) do
+    G.GAME.used_jokers[k] = nil
   end
 end
 
@@ -460,7 +388,7 @@ level_evo = function(self, card, context, forced_key)
       end
       if card.ability.extra.rounds <= 0 then
         return {
-          message = evolve (self, card, context, forced_key)
+          message = poke_evolve(card, forced_key)
         }
       elseif card.ability.extra.rounds > 0 then
         local messages = 1 + #find_joker('gmax_butterfree')
@@ -479,7 +407,7 @@ level_evo = function(self, card, context, forced_key)
     end
     if can_evolve(self, card, context, forced_key, true) and card.ability.extra.rounds <= 1 and not card.ability.extra.juiced then
       card.ability.extra.juiced = true
-      local eval = function(card) return card.ability.extra.rounds <= 1 and not next(find_joker("everstone")) and not card.REMOVED end
+      local eval = function(card) return card.ability.extra.rounds and card.ability.extra.rounds <= 1 and not next(find_joker("everstone")) and not card.REMOVED end
       juice_card_until(card, eval, true)
     end
 end
@@ -490,8 +418,9 @@ item_evo = function(self, card, context, forced_key)
         forced_key = card.ability.extra.evo_list[card.ability.extra.evolve]
       end
       if forced_key and can_evolve(self, card, context, forced_key) then
+        card.ability.extra.evolve = nil
         return {
-          message = evolve (self, card, context, forced_key)
+          message = poke_evolve(card, forced_key)
         }
       end
 
@@ -513,7 +442,7 @@ scaling_evo = function (self, card, context, forced_key, current, target)
   end
   if can_evolve(self, card, context, forced_key) and current >= target then
     return {
-      message = evolve (self, card, context, forced_key)
+      message = poke_evolve(card, forced_key)
     }
   end
   if can_evolve(self, card, context, forced_key, true) and current >= target then
@@ -528,7 +457,7 @@ end
 type_evo = function (self, card, context, forced_key, type_req)
   if can_evolve(self, card, context, forced_key) and card.ability[type_req.."_sticker"] then
     return {
-      message = evolve (self, card, context, forced_key)
+      message = poke_evolve(card, forced_key)
     }
   elseif can_evolve(self, card, context, forced_key, true) and card.ability[type_req.."_sticker"] then
     if not card.ability.extra.juiced then
@@ -547,7 +476,7 @@ deck_suit_evo = function (self, card, context, forced_key, suit, percentage)
     end
     if suit_count/#G.playing_cards >= percentage then
       return {
-        message = evolve (self, card, context, forced_key)
+        message = poke_evolve(card, forced_key)
       }
     end
   end
@@ -561,11 +490,11 @@ deck_enhance_evo = function (self, card, context, forced_key, enhancement, perce
     end
     if percentage and (enhance_count/#G.playing_cards >= percentage) then
       return {
-        message = evolve (self, card, context, forced_key)
+        message = poke_evolve(card, forced_key)
       }
     elseif flat and (enhance_count >= flat) then
       return {
-        message = evolve (self, card, context, forced_key)
+        message = poke_evolve(card, forced_key)
       }
     end
   end
@@ -583,11 +512,11 @@ deck_seal_evo = function (self, card, context, forced_key, seal, percentage, fla
     end
     if percentage and (seal_count/#G.playing_cards >= percentage) then
       return {
-        message = evolve (self, card, context, forced_key)
+        message = poke_evolve(card, forced_key)
       }
     elseif flat and (seal_count >= flat) then
       return {
-        message = evolve (self, card, context, forced_key)
+        message = poke_evolve(card, forced_key)
       }
     end
   end
@@ -682,7 +611,7 @@ get_previous_evo = function(card, full_key)
   return prev
 end
 
-get_family_keys = function(cardname, custom_prefix)
+get_family_keys = function(cardname, custom_prefix, card)
   local keys = {}
   local line = nil
   local extra = nil
@@ -731,6 +660,11 @@ get_family_keys = function(cardname, custom_prefix)
       else
         table.insert(keys, custom_prefix..extra[i])
       end
+    end
+  end
+  if cardname == "smeargle" then
+    if card.ability.extra.copy_joker then
+      table.insert(keys, card.ability.extra.copy_joker.config.center_key)
     end
   end
   return keys
@@ -796,7 +730,7 @@ evo_item_use = function(self, card, area, copier)
         if evolve then
           v.ability.extra.evolve = evolve
           applied = true
-          local eval = function(v) return not v.REMOVED end
+          local eval = function(v) return v.ability.extra.evolve end
           juice_card_until(v, eval, true)
         end
       end
@@ -821,7 +755,7 @@ highlighted_evo_item = function(self, card, area, copier)
     
     if evolve then
       choice.ability.extra.evolve = evolve
-      local eval = function(choice) return not choice.REMOVED end
+      local eval = function(choice) return choice.ability.extra.evolve end
       juice_card_until(choice, eval, true)
     end
     return evolve
@@ -1274,3 +1208,164 @@ poke_draw_one = function()
     end
   }))
 end
+
+--[[ Putting this here for later use
+{C:inactive,s:0.8}(Copy effect ends if copied Joker removed){}
+-- Zorua 570
+local zorua = {
+  name = "zorua", 
+  pos = { x = 6, y = 5 },
+  soul_pos = { x = 8, y = 12 },
+  config = {extra = {hidden_key = nil, rounds = 5, copy_joker = nil, copy_pos = 0}},
+  rarity = 3,
+  cost = 8,
+  stage = "Basic",
+  ptype = "Dark",
+  atlas = "Pokedex5",
+  blueprint_compat = true,
+  rental_compat = false,
+  calculate = function(self, card, context)
+    if context.first_hand_drawn then
+      card.ability.extra.once = true
+    end
+    if context.setting_blind and G.jokers.cards[#G.jokers.cards] ~= card and not card.getting_sliced then
+      card.ability.extra.copy_joker = G.jokers.cards[#G.jokers.cards]
+      card.ability.extra.copy_pos = #G.jokers.cards
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
+    end
+
+    local other_joker = G.jokers.cards[card.ability.extra.copy_pos]
+    if other_joker and other_joker ~= card and not context.no_blueprint then
+      context.blueprint = (context.blueprint or 0) + 1
+      context.blueprint_card = context.blueprint_card or card
+      if context.blueprint > #G.jokers.cards + 1 then return end
+      local other_joker_ret = other_joker:calculate_joker(context)
+      context.blueprint = nil
+      local eff_card = context.blueprint_card or card
+      context.blueprint_card = nil
+      if other_joker_ret then 
+        other_joker_ret.card = eff_card
+        other_joker_ret.colour = G.C.BLACK
+        return other_joker_ret
+      end
+    end
+    return level_evo(self, card, context, "j_poke_zoroark")
+  end,
+  set_card_type_badge = function(self, card, badges)
+    local card_type = SMODS.Rarity:get_rarity_badge(card.config.center.rarity)
+    local card_type_colour = get_type_colour(card.config.center or card.config, card)
+    if card.area and card.area ~= G.jokers and not poke_is_in_collection(card) then
+      local _o = G.P_CENTERS[card.ability.extra.hidden_key]
+      card_type = SMODS.Rarity:get_rarity_badge(_o.rarity)
+      card_type_colour = get_type_colour(_o, card)
+    end
+    badges[#badges + 1] = create_badge(card_type, card_type_colour, nil, 1.2)
+  end,
+  set_sprites = function(self, card, front)
+    if card.ability and card.ability.extra and card.ability.extra.hidden_key then
+      self:set_ability(card)
+    end
+  end,
+  set_ability = function(self, card, initial, delay_sprites)
+    if not type_sticker_applied(card) then
+      apply_type_sticker(card, "Dark")
+    end
+    if card.area ~= G.jokers and not poke_is_in_collection(card) and not G.SETTINGS.paused then
+      card.ability.extra.hidden_key = card.ability.extra.hidden_key or get_random_poke_key('zorua', nil, 1)
+      local _o = G.P_CENTERS[card.ability.extra.hidden_key]
+      card.children.center.atlas = G.ASSET_ATLAS[_o.atlas]
+      card.children.center:set_sprite_pos(_o.pos)
+    else
+      card.children.center.atlas = G.ASSET_ATLAS[self.atlas]
+      card.children.center:set_sprite_pos(self.pos)
+    end
+  end,
+  generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+    local _c = card and card.config.center or card
+    card.ability.extra.hidden_key = card.ability.extra.hidden_key or get_random_poke_key('zorua', nil, 1)
+    local _o = G.P_CENTERS[card.ability.extra.hidden_key]
+    if card.area ~= G.jokers and not poke_is_in_collection(card) then
+      local temp_ability = card.ability
+      card.ability = _o.config
+      _o:generate_ui(info_queue, card, desc_nodes, specific_vars, full_UI_table)
+      full_UI_table.name = localize({ type = "name", set = _o.set, key = _o.key, nodes = full_UI_table.name })
+      card.ability = temp_ability
+      local textDyna = full_UI_table.name[1].nodes[1].config.object
+      textDyna.string = textDyna.string .. localize("poke_illusion")
+      textDyna.config.string = {textDyna.string}
+      textDyna.strings = {}
+      textDyna:update_text(true)
+      card.children.center.atlas = G.ASSET_ATLAS[_o.atlas]
+      card.children.center:set_sprite_pos(_o.pos)
+      local poketype_list = {Grass = true, Fire = true, Water = true, Lightning = true, Psychic = true, Fighting = true, Colorless = true, Dark = true, Metal = true, Fairy = true, Dragon = true, Earth = true}
+      for i = #info_queue, 1, -1 do
+        if info_queue[i].set == "Other" and info_queue[i].key and poketype_list[info_queue[i].key] then
+          table.remove(info_queue, i)
+        end
+      end
+    else
+      if not full_UI_table.name then
+        full_UI_table.name = localize({ type = "name", set = _c.set, key = _c.key, nodes = full_UI_table.name })
+      end
+      card.ability.blueprint_compat_ui = card.ability.blueprint_compat_ui or ''
+      card.ability.blueprint_compat_check = nil
+      local main_end = (card.area and card.area == G.jokers) and {
+        {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
+          {n=G.UIT.C, config={ref_table = card, align = "m", colour = G.C.JOKER_GREY, r = 0.05, padding = 0.06, func = 'blueprint_compat'}, nodes={
+            {n=G.UIT.T, config={ref_table = card.ability, ref_value = 'blueprint_compat_ui',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.8}},
+          }}
+        }}
+      } or nil
+      localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = {card.ability.extra.rounds}}
+      desc_nodes[#desc_nodes+1] = main_end
+    end
+  end,
+  load = function(self, card, card_table, other_card)
+    card.has_loaded = true
+  end,
+  update = function(self, card, dt)
+    if card.has_loaded then
+      card.ability.extra.copy_joker = G.jokers.cards[card.ability.extra.copy_pos]
+      card.has_loaded = false
+    end
+    if card.ability.extra.copy_joker and card.ability.extra.copy_joker ~= G.jokers.cards[card.ability.extra.copy_pos] then
+      local found = nil
+      for i=1, #G.jokers.cards do
+        if card.ability.extra.copy_joker == G.jokers.cards[i] then
+          card.ability.extra.copy_pos = i
+          found = true
+          break
+        end
+      end
+      if not found then
+        card.ability.extra.copy_joker = nil
+        card.ability.extra.copy_pos = 0
+      end
+    end
+    if G.STAGE == G.STAGES.RUN and card.area == G.jokers then
+      local other_joker = G.jokers.cards[card.ability.extra.copy_pos]
+      local copy_compatible = other_joker and other_joker ~= card and not other_joker.debuff and other_joker.config.center.blueprint_compat
+      local right_joker = G.jokers.cards[#G.jokers.cards]
+      card.ability.blueprint_compat = ( right_joker and right_joker ~= card and not right_joker.debuff and right_joker.config.center.blueprint_compat and 'compatible') or 'incompatible'
+      if copy_compatible and not card.debuff then
+        card.children.center.atlas = other_joker.children.center.atlas
+        card.children.center:set_sprite_pos(other_joker.children.center.sprite_pos)
+        if other_joker.children.floating_sprite then
+          card.children.floating_sprite.atlas = other_joker.children.floating_sprite.atlas
+          card.children.floating_sprite:set_sprite_pos(other_joker.children.floating_sprite.sprite_pos)
+        else
+          card.children.floating_sprite.atlas = G.ASSET_ATLAS[self.atlas]
+          card.children.floating_sprite:set_sprite_pos(self.soul_pos)
+        end
+      else
+        card.children.center.atlas = G.ASSET_ATLAS[self.atlas]
+        card.children.center:set_sprite_pos(self.pos)
+        card.children.floating_sprite.atlas = G.ASSET_ATLAS[self.atlas]
+        card.children.floating_sprite:set_sprite_pos(self.soul_pos)
+      end
+    elseif poke_is_in_collection(card) and card.children.center.sprite_pos ~= self.pos and card.children.center.atlas.name ~= self.atlas then
+      self:set_ability(card)
+    end
+  end,
+}
+]]--

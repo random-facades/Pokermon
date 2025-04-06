@@ -171,8 +171,8 @@ return {
                     "{C:attention}Reusable{}",
                     "{C:green}#1# in #2#{} chance to add",
                     "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
-                    "{C:dark_edition}Polychrome{} edition to self",
-                    "{C:green}#1# in #3#{} chance to {S:1.1,C:red,E:2}self destruct{}",
+                    "{C:dark_edition}Polychrome{} to self",
+                    "remove {C:attention}Edition{} at end of round",
                     "{C:inactive}(Useable once per round)",
                 }
             },
@@ -224,7 +224,7 @@ return {
                 name = "Upgrade",
                 text = {
                     "Gives {C:attention}#1#{} selected cards",
-                    "a random {C:attention}Enhancement{}",
+                    "a random {C:attention}non-Stone Enhancement{}",
                     "{C:attention}Evolution Card{}",
                 }
             },
@@ -2225,6 +2225,26 @@ return {
                     "{C:inactive,s:0.8}(Evolves with a {C:attention,s:0.8}Dusk Stone{C:inactive,s:0.8})",
                 }
             },
+            j_poke_wobbuffet = {
+              name = "Wobbuffet",
+              text = {
+                "Retrigger each played",
+                "{C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{} or {C:attention}10{}",
+                "{br:2}text needs to be here to work",
+                "{C:attention}Volatile Left{}",
+                "When blind is selected",
+                "add {C:attention}Eternal{} to rightmost Joker",
+              }
+            },
+            j_poke_girafarig = {
+              name = "Girafarig",
+              text = {
+                "First and last {C:attention}face{} card",
+                "give {X:mult,C:white}X#1#{} Mult when scored",
+                "if played hand contains a {C:attention}Two Pair{}",
+                "{C:inactive,s:0.8}(Evolves after using a {C:attention,s:0.8}Death{C:inactive,s:0.8} on {C:attention,s:0.8}2{C:inactive,s:0.8} face cards){}"
+              }
+            },
             j_poke_pineco = {
               name = "Pineco",
               text = {
@@ -2378,6 +2398,15 @@ return {
                   "Gives {C:chips}+#1#{} Chips times {C:attention}highest{} scoring",
                   "rank if played hand contains a {C:attention}Pair{}",
                   "Chips {C:attention}Doubled{} on {C:attention}final hand{} of round",
+                }
+            },
+            j_poke_smeargle = {
+                name = "Smeargle",
+                text = {
+                  "{C:attention}Sketch{} ability of {C:attention}Joker{} to the right",
+                  "when blind is selected",
+                  "{br:2}ERROR - CONTACT STEAK",
+                  "Applies {C:attention}Smeared Joker{}",
                 }
             },
             j_poke_tyrogue = {
@@ -2610,6 +2639,15 @@ return {
                 text = {
                   "Retrigger all played cards if",
                   "they all have the same {C:attention}suit{}",
+                }
+            },
+            j_poke_wynaut = {
+                name = 'Wynaut',
+                text = {
+                    "{C:attention}Baby{}, {X:red,C:white} X#1# {} Mult",
+                    "Create a {C:attention}Fool{} card with",
+                    "{C:dark_edition}Negative{} at end of round",
+                    "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#2#{C:inactive,s:0.8} rounds)",
                 }
             },
             j_poke_snorunt = {
@@ -2990,8 +3028,11 @@ return {
             j_poke_zorua = {
                 name = "Zorua",
                 text = {
-                    "Copies ability of rightmost {C:attention}Joker{}",
-                    "Illusion breaks after first hand",
+                    "{V:1}Copies ability of rightmost {C:attention}Joker{}",
+                    "{br:2.5}ERROR - CONTACT STEAK",
+                    "After scoring played hand while",
+                    "copying, remove copy effect",
+                    "until end of round",
                     "{C:inactive,s:0.8}(Evolves after {C:attention,s:0.8}#1#{C:inactive,s:0.8} rounds)",
                 }
             },
@@ -3412,6 +3453,15 @@ return {
                   "{C:attention}+#1#{} Voucher slot available in shop",
                 }
             },
+            j_poke_farigiraf = {
+              name = "Farigiraf",
+              text = {
+                "{C:attention}Holding{} {C:spectral}Cryptid{}",
+                "First and last {C:attention}face{} card",
+                "give {X:mult,C:white}X#1#{} Mult when scored",
+                "if played hand contains a {C:attention}Two Pair{}",
+              }
+            },
             j_poke_gimmighoul = {
                 name = "Gimmighoul (Chest)",
                 text = {
@@ -3470,11 +3520,10 @@ return {
             j_poke_tall_grass = {
                 name = 'Tall Grass',
                 text = {
-                    "{C:green}#1# in #2#{} chance to create a",
-                    "{C:chips}Common{} Pokemon {C:attention}Joker{}",
-                    "when hand is played",
-                    "Guaranteed if scoring hand",
-                    "contains a {C:attention}Wild{} card",
+                    "{C:green}#1# in #2#{} chance to create a {C:chips}Common{}",
+                    "Pokemon {C:attention}Joker{} when hand is played",
+                    "Guaranteed with a scoring {C:attention}Wild{} card",
+                    "{C:inactive}(Must have room){}",
                 } 
             },
             j_poke_jelly_donut = {
@@ -3526,6 +3575,16 @@ return {
                   "{C:attention}Baby{} Joker after {C:attention}#1#{} rounds",
                   "with {C:pink}+1{} Energy if applicable"
                 }
+            },
+            j_poke_billion_lions = {
+                name = 'A Billion Lions',
+                text = {
+                    "When blind is selected",
+                    "destroy each {C:pink}typed{} Joker you have",
+                    "then gain {X:mult,C:white}X#2#{} Mult for each",
+                    "{S:1.1,C:red,E:2}self destructs{} when out of lions",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult, {C:attention}#3#{C:inactive} lions)"
+                } 
             },
             --[[ Egg dynatext, not used right now
             j_poke_mystery_egg = {
@@ -4250,6 +4309,23 @@ return {
                     "{C:green}15%{} - {C:dark_edition}Polychrome{} {C:attention}Gift Card",
                 }
             },
+            pickup = {
+              name = "Pickup",
+              text = {
+                "{C:green}34%{} - {C:item}Item{} {C:attention}Card",
+                "{C:green}25%{} - {C:attention}Leftovers",
+                "{C:green}25%{} - {C:attention}Poke Ball",
+                "{C:green}15%{} - {C:attention}Great Ball",
+                "{C:green}1%{} - {C:attention}Ultra Ball",
+              }
+            },
+            pokeballs_group = {
+              name = "Pokeballs",
+              text = {
+                "Creates a random Joker",
+                "with a certain quality",
+              }
+            },
             percent_chance = {
                 name = "Percent Chance",
                 text = {
@@ -4323,6 +4399,16 @@ return {
                 "The following ability only triggers",
                 "when this is the rightmost Joker",
                 "{C:inactive}(Ignoring {C:attention}Volatile{C:inactive} Pokemon)"
+              }
+            },
+            sketch = {
+              name = "Sketch",
+              text = {
+                "Copies Joker until it is sold,",
+                "destroyed or you copy another ability",
+                "Copy appears as a tooltip",
+                "and in Pokedex menu",
+                "Sketch resets when Joker is copied"
               }
             },
             precise_energy_tooltip = {
@@ -4626,6 +4712,7 @@ return {
             poke_settings_pokemon_precise_energy = "Use Precise Energy Scaling?",
             poke_settings_pokemon_discovery = "! Discovery?",
             poke_settings_pokemon_altart = "Alt Art?",
+            poke_settings_pokemon_aprilfools = "April Fools Content?",
             poke_credits_actualcredits = "Credits",
             poke_credits_thanks = "Thanks to",
             poke_credits_lead = "Lead Developer: ",
@@ -4718,6 +4805,7 @@ return {
             poke_shake_ex = "Shake!",
             poke_closed_ex = "Closed!",
             poke_reload_ex = "Reload!",
+            poke_shadow_tag_ex = "Shadow Tag!"
         },
         --These are the Labels
         --You know how things like seals and editions have those badges at the bottom? That's what this is for!

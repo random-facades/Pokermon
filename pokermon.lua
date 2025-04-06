@@ -195,6 +195,7 @@ for _, file in ipairs(pfiles) do
           end
         end
         item.discovered = not pokermon_config.pokemon_discovery
+        if item.name == "wobbuffet" then item.discovered = true end
         local prev_load = item.load
         item.load = function(self, card, card_table, other_card)
           card_table.ability.extra.juiced = nil
@@ -485,6 +486,9 @@ function SMODS.find_card(key, count_debuffed)
     local ret = scuffed_af("j_poke_panpour")
     if #ret > 0 then return ret end
     ret = scuffed_af("j_poke_simipour")
+    if #ret > 0 then return ret end
+  elseif key == "j_smeared" then
+    local ret = scuffed_af("j_poke_smeargle")
     if #ret > 0 then return ret end
   end
 	return scuffed_af(key, count_debuffed)

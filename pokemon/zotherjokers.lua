@@ -314,42 +314,41 @@ local mystery_egg = {
       end
     end
   end,
-  add_to_deck = function(self, card, from_debuff)
-    if from_debuff then return end
-    if not card.ability or not card.ability.extra or not card.ability.extra.key then return end
-
-    local poke_keys = {}
-    for k, v in pairs(G.P_CENTERS) do
-      if string.sub(v.key,1,7) == "j_poke_" and get_gen_allowed(v.atlas) and not v.aux_poke and pokemon_in_pool(v) and v.stage and type(v.rarity) == "number" then
-        if ((v.stage == "Baby" or v.stage == "Basic") and v.rarity ~= 4) then
-          table.insert(poke_keys, {key = v.key, rarity = v.rarity})
+  set_ability = function(self, card, initial, delay_sprites)
+    if initial then
+      local poke_keys = {}
+      for k, v in pairs(G.P_CENTERS) do
+        if string.sub(v.key,1,7) == "j_poke_" and get_gen_allowed(v.atlas) and not v.aux_poke and pokemon_in_pool(v) and v.stage and type(v.rarity) == "number" then
+          if ((v.stage == "Baby" or v.stage == "Basic") and v.rarity ~= 4) then
+            table.insert(poke_keys, {key = v.key, rarity = v.rarity})
+          end
         end
       end
-    end
 
-    local poke_key = {key = "j_poke_rhyhorn", rarity = 2}
-    if #poke_keys > 0 then
-      poke_key = pseudorandom_element(poke_keys, pseudoseed('egg'))
-    end
-    -- common hatches in 2 turns
-    -- uncommon hatches in 2 or 3 turns
-    -- rare hatches in 3 turns
-
-    -- w/o fire = 2/3/3
-    -- w/1 fire = 2/2/3
-    -- w/2 fire = 2/2/2
-    if poke_key.rarity == 1 then
-      card.ability.extra.rounds = 2
-    elseif poke_key.rarity == 2 then
-      card.ability.extra.rounds = 2
-      if pseudorandom('regg') > .50 then
-        card.ability.extra.rounds = card.ability.extra.rounds + 1 
+      local poke_key = {key = "j_poke_rhyhorn", rarity = 2}
+      if #poke_keys > 0 then
+        poke_key = pseudorandom_element(poke_keys, pseudoseed('egg'))
       end
-    elseif poke_key.rarity == 3 then
-       card.ability.extra.rounds = 3
+      -- common hatches in 2 turns
+      -- uncommon hatches in 2 or 3 turns
+      -- rare hatches in 3 turns
+
+      -- w/o fire = 2/3/3
+      -- w/1 fire = 2/2/3
+      -- w/2 fire = 2/2/2
+      if poke_key.rarity == 1 then
+        card.ability.extra.rounds = 2
+      elseif poke_key.rarity == 2 then
+        card.ability.extra.rounds = 2
+        if pseudorandom('regg') > .50 then
+          card.ability.extra.rounds = card.ability.extra.rounds + 1 
+        end
+      elseif poke_key.rarity == 3 then
+         card.ability.extra.rounds = 3
+      end
+      card.ability.extra.key = poke_key.key
     end
-    card.ability.extra.key = poke_key.key
-  end,
+  end
   --[[ Function for dynatext, needs to be changed to put it as a tooltip
   generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
 
@@ -468,7 +467,61 @@ local rival = {
     end
   end
 }
-
-return {name = "Other Jokers",
-        list = {pokedex, everstone, tall_grass, jelly_donut, treasure_eatery, mystery_egg, rival}
+local billion_lions = {
+  name = "billion_lions",
+  pos = {x = 5, y = 12},
+  soul_pos = {x = 6, y = 12},
+  config = {extra= {Xmult = 1, Xmult_mod = 1, lions = 1000000000}},
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    return {vars = {center.ability.extra.Xmult, center.ability.extra.Xmult_mod, center.ability.extra.lions}}
+  end,
+  rarity = 4,
+  cost = 6,
+  stage = "Legendary",
+  atlas = "Pokedex9",
+  perishable_compat = true,
+  blueprint_compat = true,
+  eternal_compat = true,
+  no_collection = true,
+  calculate = function(self, card, context)
+    if context.setting_blind and not card.getting_sliced then
+      local destroyed = 0
+      for k, v in pairs(G.jokers.cards) do
+        if v ~= card and has_type(v) and not v.ability.eternal then
+          destroyed = destroyed + 1
+          v.getting_sliced = true
+          G.E_MANAGER:add_event(Event({func = function()
+              (context.blueprint_card or card):juice_up(0.8, 0.8)
+              v:start_dissolve({G.C.RED}, nil, 1.6)
+          return true end }))
+        end
+      end
+      card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod * destroyed
+      card.ability.extra.lions = card.ability.extra.lions - destroyed
+      if card.ability.extra.lions <= 0 then 
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = "They lose!", colour = G.C.RED})
+        card:start_dissolve({G.C.RED}, nil, 1.6) 
+      end
+    end
+    if context.cardarea == G.jokers and context.scoring_hand then
+      if context.joker_main then
+        return {
+          message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult}}, 
+          colour = G.C.XMULT,
+          Xmult_mod = card.ability.extra.Xmult
+        }
+      end
+    end
+  end
 }
+
+if pokermon_config.pokemon_aprilfools then
+  return {name = "Other Jokers",
+        list = {pokedex, everstone, tall_grass, jelly_donut, treasure_eatery, mystery_egg, rival, billion_lions}
+  }
+else
+  return {name = "Other Jokers",
+        list = {pokedex, everstone, tall_grass, jelly_donut, treasure_eatery, mystery_egg, rival}
+  }
+end

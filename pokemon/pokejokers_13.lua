@@ -338,7 +338,8 @@ local jirachi_copy = {
       else
         fake_card.ability.extra = other_joker.ability.extra
       end
-
+      --prevent evolution
+      other_joker.gone = true
       for i = 1, card.ability.extra.energy_buff do
         energize(fake_card, nil, nil, true)
       end
@@ -347,6 +348,7 @@ local jirachi_copy = {
       other_joker.ability = fake_card.ability
       local other_joker_ret = Card.calculate_joker(other_joker, context)
       other_joker.ability = true_ability
+      other_joker.gone = nil
 
 
       context.blueprint = nil
@@ -360,6 +362,7 @@ local jirachi_copy = {
     end
   end,
   generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
+    if not card then return end
     local _c = card and card.config.center or card
     if not full_UI_table.name then
 			full_UI_table.name = localize({ type = "name", set = _c.set, key = _c.key, nodes = full_UI_table.name })

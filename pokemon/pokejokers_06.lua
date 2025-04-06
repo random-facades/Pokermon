@@ -1,7 +1,7 @@
 --Code for pokemon jokers 151-180
 local mew ={
   name = "mew", 
-  pos = {x = 12, y = 11},
+  pos = {x = pokermon_config.pokemon_altart and 11 or 12, y = pokermon_config.pokemon_altart and 12 or 11},
   soul_pos = { x = 0, y = 12},
   config = {extra = {percent = 15}},
   loc_vars = function(self, info_queue, center)
@@ -833,7 +833,7 @@ local pichu={
   stage = "Baby", 
   ptype = "Lightning",
   atlas = "Pokedex2",
-  blueprint_compat = false,
+  blueprint_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.scoring_hand then
       if context.joker_main then
