@@ -418,3 +418,25 @@ ease_poke_dollars = function(card, seed, amt, calc_only)
   return earned
 end
 
+
+is_valid_energy_target = function(card)
+  if type(card.ability.extra) == "table" then
+    if (pokermon_config.unlimited_energy or ((card.ability.extra.energy_count or 0) + (card.ability.extra.c_energy_count or 0)) < energy_max + (G.GAME.energy_plus or 0)) then
+      for name, _ in pairs(energy_values) do
+        local data = card.ability.extra[name]
+        if type(data) == "number" then
+          return true
+        end
+      end
+    end
+  elseif type(card.ability.extra) == "number" then
+    if (pokermon_config.unlimited_energy) or (((card.ability.energy_count or 0) + (card.ability.c_energy_count or 0)) < energy_max + (G.GAME.energy_plus or 0)) then
+      return true
+    end
+  elseif (card.ability.mult and card.ability.mult > 0) or (card.ability.t_mult and card.ability.t_mult > 0) or (card.ability.t_chips and card.ability.t_chips > 0) then
+    if (pokermon_config.unlimited_energy) or (((card.ability.energy_count or 0) + (card.ability.c_energy_count or 0)) < energy_max + (G.GAME.energy_plus or 0)) then
+      return true
+    end
+  end
+  return false
+end
