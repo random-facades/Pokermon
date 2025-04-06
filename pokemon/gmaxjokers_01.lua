@@ -340,13 +340,39 @@ local gmax_list = {
       name = "gmax_snorlax",
       pos = { x = 11, y = 0 },
       soul_pos = { x = 11, y = 3 },
-      config = { extra = {} },
+      config = { extra = { odds = 5, } },
       loc_vars = function(self, info_queue, card)
          type_tooltip(self, info_queue, card)
-         return { vars = {} }
+         return { vars = { '' .. (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, } }
       end,
       ptype = "Colorless",
       blueprint_compat = true,
+      add_to_deck = function(self, card, from_debuff)
+         if not from_debuff then
+            local edition = nil
+            if pseudorandom('gmax_snorlax') < G.GAME.probabilities.normal / card.ability.extra.odds then
+               edition = { negative = true }
+            end
+
+            if edition and edition.negative or (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) then
+               G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+               poke_conversion_event_helper(function()
+                  local _card = create_card('Item', G.consumeables, nil, nil, nil, nil, 'c_poke_leftovers')
+                  if edition then _card:set_edition(edition, true) end
+                  _card:add_to_deck()
+                  G.consumeables:emplace(_card)
+                  card_eval_status_text(_card, 'extra', nil, nil, 'down',
+                     { message = localize('poke_plus_pokeitem'), colour = G.C.FILTER })
+                  G.GAME.consumeable_buffer = 0
+               end)
+            else
+               poke_conversion_event_helper(function()
+                  card_eval_status_text(card, 'extra', nil, nil, nil,
+                     { message = localize('k_no_room_ex'), colour = G.C.FILTER })
+               end, 1.0)
+            end
+         end
+      end,
    },
    {
       name = "gmax_garbodor",

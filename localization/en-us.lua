@@ -3689,7 +3689,7 @@ return {
                 name = "Snorlax",
                 text = {
                     "Gain a {C:attention}Leftovers",
-                    "{C:green}1 in 4{} chance to be {C:dark_edition}Negative",
+                    "{C:green}#1# in #2#{} chance to be {C:dark_edition}Negative",
                     "{C:inactive}(Must have room, unless Negative)",
                 },
             },
