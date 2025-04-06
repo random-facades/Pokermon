@@ -818,34 +818,23 @@ local dynamax_band = {
       end
       return get_gmax_key_from_card(G.jokers.highlighted[1]) ~= nil
     end
-    local gmax_capable = nil
     for k, v in pairs(G.jokers.cards) do
-      if can_increase_energy(v) then return true end
-      if v.config and v.config.center then
-        local gmax_key = "j_poke_gmax_" .. tostring(v.config.center.name)
-        if G.P_CENTERS[gmax_key] ~= nil then
-          return true
-        end
-      end
+      if is_valid_energy_target(v) then return true end
+      if get_gmax_key_from_card(v) then return true end
     end
     return false
   end,
   use = function(self, card, area, copier)
     local target = G.jokers.highlighted and #G.jokers.highlighted == 1 and G.jokers.highlighted[1] or nil
-    local backup_target = nil
     if not G.jokers.highlighted or #G.jokers.highlighted ~= 1 then
       for k, v in pairs(G.jokers.cards) do
-        if can_increase_energy(v) then
+        if is_valid_energy_target(v) or get_gmax_key_from_card(v) then
           target = v
           break
         end
-        if not backup_target and get_gmax_key_from_card(v) then
-          backup_target = v
-        end
       end
     end
-    target = target or backup_target
-    if target == nil then return end
+    if not target then return end
 
     card.ability.extra.previous_round = G.GAME.round
     energy_increase(target, "Trans")
@@ -853,7 +842,7 @@ local dynamax_band = {
     local gmax_key = get_gmax_key_from_card(target)
     if gmax_key then
       local context = {}
-      evolve(target, target, context, gmax_key)
+      poke_evolve(target, gmax_key)
     end
   end,
   keep_on_use = function(self, card)
